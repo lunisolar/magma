@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThrowing, Codomain<aChar>, Domain3<aChar, aChar, aChar> { // NOSONAR
+public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThrowing, Codomain<aChar>, Domain3<aChar, aChar, aChar> { //NOSONAR
 
 	String DESCRIPTION = "LCharTernaryOperator: char applyAsChar(char a1,char a2,char a3)";
 
-	// char applyAsChar(char a1,char a2,char a3) ;
 	default char applyAsChar(char a1, char a2, char a3) {
 		try {
 			return this.applyAsCharX(a1, a2, a3);
@@ -96,7 +95,7 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 	default char handlingApplyAsChar(char a1, char a2, char a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsCharX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 	default char applyAsChar(char a1, char a2, char a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsCharX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 	default char applyAsChar(char a1, char a2, char a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsCharX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 	default char applyAsChar(char a1, char a2, char a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsCharX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 	default char applyAsChar(char a1, char a2, char a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsCharX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 	default char applyAsChar(char a1, char a2, char a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsCharX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 	default char applyAsCharThen(char a1, char a2, char a3, @Nonnull LToCharFunction<Throwable> handler) {
 		try {
 			return this.applyAsCharX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsChar(e);
 		}
@@ -191,7 +190,7 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 	default char shovingApplyAsChar(char a1, char a2, char a3) {
 		try {
 			return this.applyAsCharX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LCharTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		return func.shovingApplyAsChar(a1, a2, a3);
 	}
 
-	static char handlingApplyAsChar(char a1, char a2, char a3, LCharTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static char handlingApplyAsChar(char a1, char a2, char a3, LCharTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsChar(a1, a2, a3, handling);
 	}

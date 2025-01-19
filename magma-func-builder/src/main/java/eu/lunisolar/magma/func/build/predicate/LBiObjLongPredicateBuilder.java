@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LBiObjLongPredicate.
  */
 public final class LBiObjLongPredicateBuilder<T1, T2> extends PerCaseBuilderWithBoolProduct.Base<LBiObjLongPredicateBuilder<T1, T2>, LBiObjLongPredicate<T1, T2>, LBiObjLongPredicate<T1, T2>> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LBiObjLongPredicate<T1, T2>> consumer;
 
@@ -147,7 +147,7 @@ public final class LBiObjLongPredicateBuilder<T1, T2> extends PerCaseBuilderWith
 		LBiObjLongPredicate<T1, T2> retval;
 
 		final Case<LBiObjLongPredicate<T1, T2>, LBiObjLongPredicate<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiObjLongPredicate.<T1, T2> biObjLongPred((a1, a2, a3) -> {
+		retval = LBiObjLongPredicate.<T1, T2>biObjLongPred((a1, a2, a3) -> {
 			try {
 				for (Case<LBiObjLongPredicate<T1, T2>, LBiObjLongPredicate<T1, T2>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a1, a2, a3)) {
@@ -156,12 +156,12 @@ public final class LBiObjLongPredicateBuilder<T1, T2> extends PerCaseBuilderWith
 				}
 
 				return otherwiseFinal.test(a1, a2, a3);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

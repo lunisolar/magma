@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LToByteFunction.
  */
 public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProduct.Base<LToByteFunctionBuilder<T>, LPredicate<T>, LToByteFunction<T>> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LToByteFunction<T>> consumer;
 
@@ -147,7 +147,7 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 		LToByteFunction<T> retval;
 
 		final Case<LPredicate<T>, LToByteFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToByteFunction.<T> toByteFunc(a -> {
+		retval = LToByteFunction.<T>toByteFunc(a -> {
 			try {
 				for (Case<LPredicate<T>, LToByteFunction<T>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a)) {
@@ -156,12 +156,12 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 				}
 
 				return otherwiseFinal.applyAsByte(a);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

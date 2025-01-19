@@ -90,7 +90,7 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends FailP
 		return X::value;
 	}
 
-	// <editor-fold desc="main methods">
+	//<editor-fold desc="main methods">
 
 	/**   */
 	default @Nonnull SELF must_(@Nonnull LLongPredicate predicate, @Nonnull LLongFunction<String> msgFunc) {
@@ -1859,7 +1859,8 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithEx3(@Nonnull LBiObjLongFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWithEx3(@Nonnull LBiObjLongFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2,
+			@Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1927,7 +1928,8 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithEx3(V1 with1, V2 with2, @Nonnull LBiObjLongFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWithEx3(V1 with1, V2 with2, @Nonnull LBiObjLongFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2,
+			@Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1945,7 +1947,7 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends FailP
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (pred.test(get())) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -1954,7 +1956,7 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends FailP
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (!pred.test(get())) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -1963,7 +1965,7 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends FailP
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (pred.test(get(), a2)) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -1972,7 +1974,7 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends FailP
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (!pred.test(get(), a2)) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -1981,7 +1983,7 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends FailP
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (pred.test(get(), a2, a3)) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -1990,15 +1992,16 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends FailP
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (!pred.test(get(), a2, a3)) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	default @Nonnull SELF mustBeEqual(long expected) {
 		return mustEx(Be::equalEx, expected);
 	}
+
 	default @Nonnull SELF mustBeEqual(long expected, String message) {
 		return mustEx0(Be::equalEx, expected, message);
 	}
@@ -2006,6 +2009,7 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends FailP
 	default @Nonnull SELF mustBeNotEqual(long expected) {
 		return mustEx(Be::notEqualEx, expected);
 	}
+
 	default @Nonnull SELF mustBeNotEqual(long expected, String message) {
 		return mustEx0(Be::notEqualEx, expected, message);
 	}
@@ -2013,24 +2017,31 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends FailP
 	default @Nonnull SELF mustBeGreaterThan(long value) {
 		return mustEx(Be::gtEx, value);
 	}
+
 	default @Nonnull SELF mustBeGreaterThan(long value, String message) {
 		return mustEx0(Be::gtEx, value, message);
 	}
+
 	default @Nonnull SELF mustBeGreaterEqual(long value) {
 		return mustEx(Be::gtEqEx, value);
 	}
+
 	default @Nonnull SELF mustBeGreaterEqual(long value, String message) {
 		return mustEx0(Be::gtEqEx, value, message);
 	}
+
 	default @Nonnull SELF mustBeLessThan(long value) {
 		return mustEx(Be::ltEx, value);
 	}
+
 	default @Nonnull SELF mustBeLessThan(long value, String message) {
 		return mustEx0(Be::ltEx, value, message);
 	}
+
 	default @Nonnull SELF mustBeLessEqual(long value) {
 		return mustEx(Be::ltEqEx, value);
 	}
+
 	default @Nonnull SELF mustBeLessEqual(long value, String message) {
 		return mustEx0(Be::ltEqEx, value, message);
 	}
@@ -2038,6 +2049,7 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends FailP
 	default @Nonnull SELF mustBeBetween(long min, long max) {
 		return mustEx(Be::betweenEx, min, max);
 	}
+
 	default @Nonnull SELF mustBeBetween(long min, long max, String message) {
 		return mustEx0(Be::betweenEx, min, max, message);
 	}
@@ -2045,6 +2057,7 @@ public interface CheckLongTrait<SELF extends CheckLongTrait<SELF>> extends FailP
 	default @Nonnull SELF mustBeInRange(long min, long max) {
 		return mustEx(Be::inRangeEx, min, max);
 	}
+
 	default @Nonnull SELF mustBeInRange(long min, long max, String message) {
 		return mustEx0(Be::inRangeEx, min, max, message);
 	}

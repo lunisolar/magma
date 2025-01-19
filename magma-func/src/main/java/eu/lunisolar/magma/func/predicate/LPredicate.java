@@ -72,11 +72,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterface.NonThrowing, OFunction<T, aBool>, Codomain<aBool>, Domain1<a<T>> { // NOSONAR
+public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterface.NonThrowing, OFunction<T, aBool>, Codomain<aBool>, Domain1<a<T>> { //NOSONAR
 
 	String DESCRIPTION = "LPredicate: boolean test(T a)";
 
-	// boolean test(T a) ;
 	default boolean test(T a) {
 		try {
 			return this.testX(a);
@@ -98,7 +97,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	default boolean handlingTest(T a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.testX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -110,7 +109,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	default boolean test(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.testX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -118,7 +117,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	default boolean test(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.testX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -126,7 +125,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	default boolean test(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.testX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -134,7 +133,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	default boolean test(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.testX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -158,7 +157,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	default boolean test(T a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.testX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -170,7 +169,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	default boolean testThen(T a, @Nonnull LPredicate<Throwable> handler) {
 		try {
 			return this.testX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.test(e);
 		}
@@ -193,7 +192,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 	default boolean shovingTest(T a) {
 		try {
 			return this.testX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -203,7 +202,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return func.shovingTest(a);
 	}
 
-	static <T> boolean handlingTest(T a, LPredicate<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> boolean handlingTest(T a, LPredicate<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a, handling);
 	}
@@ -601,7 +600,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return a;
 	}
 
-	// <editor-fold desc="CallContext">
+	//<editor-fold desc="CallContext">
 
 	@Nonnull
 	static <T> LPredicate<T> pred(@Nullable CallContext c1, final @Nonnull LPredicate<T> lambda) {
@@ -893,7 +892,7 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		return future;
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Creates function that always returns the same value. */
 	static <T> LPredicate<T> constant(boolean r) {

@@ -72,7 +72,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaInterface.NonThrowing, OFunction<T, a<T>>, Codomain<a<T>>, Domain1<a<T>>, LFunction<T, T> { // NOSONAR
+public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaInterface.NonThrowing, OFunction<T, a<T>>, Codomain<a<T>>, Domain1<a<T>>, LFunction<T, T> { //NOSONAR
 
 	String DESCRIPTION = "LUnaryOperator: T apply(T a)";
 
@@ -84,7 +84,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	default T handlingApply(T a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -96,7 +96,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	default T apply(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -104,7 +104,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	default T apply(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -112,7 +112,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	default T apply(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -120,7 +120,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	default T apply(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -144,7 +144,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	default T apply(T a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -156,7 +156,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	default T applyThen(T a, @Nonnull LFunction<Throwable, T> handler) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.apply(e);
 		}
@@ -179,7 +179,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 	default T shovingApply(T a) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -189,7 +189,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		return func.shovingApply(a);
 	}
 
-	static <T> T handlingApply(T a, LUnaryOperator<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> T handlingApply(T a, LUnaryOperator<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a, handling);
 	}
@@ -315,7 +315,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		};
 	}
 
-	// <editor-fold desc="CallContext">
+	//<editor-fold desc="CallContext">
 
 	@Nonnull
 	static <T> LUnaryOperator<T> unaryOp(@Nullable CallContext c1, final @Nonnull LUnaryOperator<T> lambda) {
@@ -607,7 +607,7 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		return future;
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Creates function that always returns the same value. */
 	static <T> LUnaryOperator<T> constant(T r) {

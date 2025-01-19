@@ -68,11 +68,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, Codomain<aFloat>, Domain0 { // NOSONAR
+public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, Codomain<aFloat>, Domain0 { //NOSONAR
 
 	String DESCRIPTION = "LFltSupplier: float getAsFlt()";
 
-	// float getAsFlt() ;
 	default float getAsFlt() {
 		try {
 			return this.getAsFltX();
@@ -94,7 +93,7 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	default float handlingGetAsFlt(HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.getAsFltX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -106,7 +105,7 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	default float getAsFlt(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.getAsFltX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -114,7 +113,7 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	default float getAsFlt(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.getAsFltX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -122,7 +121,7 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	default float getAsFlt(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.getAsFltX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -130,7 +129,7 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	default float getAsFlt(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.getAsFltX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -154,7 +153,7 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	default float getAsFlt(@Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.getAsFltX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -166,7 +165,7 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	default float getAsFltThen(@Nonnull LToFltFunction<Throwable> handler) {
 		try {
 			return this.getAsFltX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsFlt(e);
 		}
@@ -189,7 +188,7 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	default float shovingGetAsFlt() {
 		try {
 			return this.getAsFltX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -199,7 +198,7 @@ public interface LFltSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		return func.shovingGetAsFlt();
 	}
 
-	static float handlingGetAsFlt(LFltSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static float handlingGetAsFlt(LFltSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingGetAsFlt(handling);
 	}

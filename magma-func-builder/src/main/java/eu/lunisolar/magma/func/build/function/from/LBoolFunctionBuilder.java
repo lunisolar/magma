@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LBoolFunction.
  */
 public final class LBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LBoolFunctionBuilder<R>, LLogicalOperator, LBoolFunction<R>, R> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LBoolFunction<R>> consumer;
 
@@ -125,7 +125,7 @@ public final class LBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.Bas
 		LBoolFunction<R> retval;
 
 		final Case<LLogicalOperator, LBoolFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBoolFunction.<R> boolFunc(a -> {
+		retval = LBoolFunction.<R>boolFunc(a -> {
 			try {
 				for (Case<LLogicalOperator, LBoolFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().apply(a)) {
@@ -134,12 +134,12 @@ public final class LBoolFunctionBuilder<R> extends PerCaseBuilderWithProduct.Bas
 				}
 
 				return otherwiseFinal.apply(a);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -74,7 +74,6 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 
 	String DESCRIPTION = "LBiConsumer: void accept(T1 a1,T2 a2)";
 
-	// void accept(T1 a1,T2 a2) ;
 	default void accept(T1 a1, T2 a2) {
 		try {
 			this.acceptX(a1, a2);
@@ -97,7 +96,7 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	default void handlingAccept(T1 a1, T2 a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			this.acceptX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -109,7 +108,7 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	default void accept(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			this.acceptX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -117,7 +116,7 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	default void accept(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			this.acceptX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -125,7 +124,7 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	default void accept(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			this.acceptX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -133,7 +132,7 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	default void accept(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			this.acceptX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -157,7 +156,7 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	default void accept(T1 a1, T2 a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			this.acceptX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -169,7 +168,7 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	default void acceptThen(T1 a1, T2 a2, @Nonnull LConsumer<Throwable> handler) {
 		try {
 			this.acceptX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			handler.accept(e);
 		}
@@ -192,7 +191,7 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 	default void shovingAccept(T1 a1, T2 a2) {
 		try {
 			this.acceptX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -202,7 +201,7 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		func.shovingAccept(a1, a2);
 	}
 
-	static <T1, T2> void handlingAccept(T1 a1, T2 a2, LBiConsumer<T1, T2> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T1, T2> void handlingAccept(T1 a1, T2 a2, LBiConsumer<T1, T2> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, handling);
 	}
@@ -314,7 +313,7 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		};
 	}
 
-	// <editor-fold desc="CallContext">
+	//<editor-fold desc="CallContext">
 
 	@Nonnull
 	static <T1, T2> LBiConsumer<T1, T2> biCons(@Nullable CallContext c1, final @Nonnull LBiConsumer<T1, T2> lambda) {
@@ -606,7 +605,7 @@ public interface LBiConsumer<T1, T2> extends BiConsumer<T1, T2>, MetaConsumer, M
 		return future;
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull

@@ -72,7 +72,6 @@ public interface LByteConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 
 	String DESCRIPTION = "LByteConsumer: void accept(byte a)";
 
-	// void accept(byte a) ;
 	default void accept(byte a) {
 		try {
 			this.acceptX(a);
@@ -95,7 +94,7 @@ public interface LByteConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	default void handlingAccept(byte a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -107,7 +106,7 @@ public interface LByteConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	default void accept(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -115,7 +114,7 @@ public interface LByteConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	default void accept(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -123,7 +122,7 @@ public interface LByteConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	default void accept(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -131,7 +130,7 @@ public interface LByteConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	default void accept(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -155,7 +154,7 @@ public interface LByteConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	default void accept(byte a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -167,7 +166,7 @@ public interface LByteConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	default void acceptThen(byte a, @Nonnull LConsumer<Throwable> handler) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			handler.accept(e);
 		}
@@ -190,7 +189,7 @@ public interface LByteConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	default void shovingAccept(byte a) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -200,7 +199,7 @@ public interface LByteConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		func.shovingAccept(a);
 	}
 
-	static void handlingAccept(byte a, LByteConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static void handlingAccept(byte a, LByteConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a, handling);
 	}

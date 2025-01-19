@@ -151,7 +151,7 @@ public class Lazy<T> implements LSupplier<T>, LSingle<T> {
 			Lazy other = (Lazy) two;
 
 			return Null.equals(one.value(), other.value()); //
-			});
+		});
 	}
 
 	public boolean equals(Object that) {

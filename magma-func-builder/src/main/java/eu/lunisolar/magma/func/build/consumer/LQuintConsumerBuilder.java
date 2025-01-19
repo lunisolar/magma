@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LQuintConsumer.
  */
 public final class LQuintConsumerBuilder<T1, T2, T3, T4, T5> extends PerCaseBuilder.Base<LQuintConsumerBuilder<T1, T2, T3, T4, T5>, LQuintPredicate<T1, T2, T3, T4, T5>, LQuintConsumer<T1, T2, T3, T4, T5>> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LQuintConsumer<T1, T2, T3, T4, T5>> consumer;
 
@@ -112,8 +112,8 @@ public final class LQuintConsumerBuilder<T1, T2, T3, T4, T5> extends PerCaseBuil
 	}
 
 	/** Allows to specify additional cases for a specific values of arguments (matched by equals).*/
-	public <V1 extends T1, V2 extends T2, V3 extends T3, V4 extends T4, V5 extends T5> PartialCase.The<LQuintConsumerBuilder<T1, T2, T3, T4, T5>, LQuintPredicate<T1, T2, T3, T4, T5>, LQuintConsumer<T1, T2, T3, T4, T5>> forValue(T1 v1, T2 v2, T3 v3,
-			T4 v4, T5 v5) {
+	public <V1 extends T1, V2 extends T2, V3 extends T3, V4 extends T4, V5 extends T5> PartialCase.The<LQuintConsumerBuilder<T1, T2, T3, T4, T5>, LQuintPredicate<T1, T2, T3, T4, T5>, LQuintConsumer<T1, T2, T3, T4, T5>> forValue(T1 v1, T2 v2, T3 v3, T4 v4,
+			T5 v5) {
 		return partialCaseFactoryMethod((a1, a2, a3, a4, a5) -> Objects.equals(a1, v1) && Objects.equals(a2, v2) && Objects.equals(a3, v3) && Objects.equals(a4, v4) && Objects.equals(a5, v5));
 	}
 
@@ -121,8 +121,8 @@ public final class LQuintConsumerBuilder<T1, T2, T3, T4, T5> extends PerCaseBuil
 	@Nonnull
 	public <V1 extends T1, V2 extends T2, V3 extends T3, V4 extends T4, V5 extends T5> LQuintConsumerBuilder<T1, T2, T3, T4, T5> casesOf(Class<V1> argC1, Class<V2> argC2, Class<V3> argC3, Class<V4> argC4, Class<V5> argC5,
 			Consumer<LQuintConsumerBuilder<V1, V2, V3, V4, V5>> pcpConsumer) {
-		PartialCase.The pc = partialCaseFactoryMethod((a1, a2, a3, a4, a5) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)) && (argC4 == null || argC4.isInstance(a4))
-				&& (argC5 == null || argC5.isInstance(a5)));
+		PartialCase.The pc = partialCaseFactoryMethod(
+				(a1, a2, a3, a4, a5) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)) && (argC4 == null || argC4.isInstance(a4)) && (argC5 == null || argC5.isInstance(a5)));
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return fluentCtx();
 	}
@@ -131,8 +131,8 @@ public final class LQuintConsumerBuilder<T1, T2, T3, T4, T5> extends PerCaseBuil
 	@Nonnull
 	public <V1 extends T1, V2 extends T2, V3 extends T3, V4 extends T4, V5 extends T5> LQuintConsumerBuilder<T1, T2, T3, T4, T5> forClass(Class<V1> argC1, Class<V2> argC2, Class<V3> argC3, Class<V4> argC4, Class<V5> argC5,
 			LQuintConsumer<V1, V2, V3, V4, V5> function) {
-		PartialCase.The pc = partialCaseFactoryMethod((a1, a2, a3, a4, a5) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)) && (argC4 == null || argC4.isInstance(a4))
-				&& (argC5 == null || argC5.isInstance(a5)));
+		PartialCase.The pc = partialCaseFactoryMethod(
+				(a1, a2, a3, a4, a5) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)) && (argC4 == null || argC4.isInstance(a4)) && (argC5 == null || argC5.isInstance(a5)));
 		pc.evaluate(function);
 		return fluentCtx();
 	}
@@ -141,8 +141,8 @@ public final class LQuintConsumerBuilder<T1, T2, T3, T4, T5> extends PerCaseBuil
 	@Nonnull
 	public <V1 extends T1, V2 extends T2, V3 extends T3, V4 extends T4, V5 extends T5> PartialCase.The<LQuintConsumerBuilder<T1, T2, T3, T4, T5>, LQuintPredicate<T1, T2, T3, T4, T5>, LQuintConsumer<T1, T2, T3, T4, T5>> forClass(Class<V1> argC1,
 			Class<V2> argC2, Class<V3> argC3, Class<V4> argC4, Class<V5> argC5) {
-		return partialCaseFactoryMethod((a1, a2, a3, a4, a5) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)) && (argC4 == null || argC4.isInstance(a4))
-				&& (argC5 == null || argC5.isInstance(a5)));
+		return partialCaseFactoryMethod(
+				(a1, a2, a3, a4, a5) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)) && (argC4 == null || argC4.isInstance(a4)) && (argC5 == null || argC5.isInstance(a5)));
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -154,7 +154,7 @@ public final class LQuintConsumerBuilder<T1, T2, T3, T4, T5> extends PerCaseBuil
 		LQuintConsumer<T1, T2, T3, T4, T5> retval;
 
 		final Case<LQuintPredicate<T1, T2, T3, T4, T5>, LQuintConsumer<T1, T2, T3, T4, T5>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LQuintConsumer.<T1, T2, T3, T4, T5> quintCons((a1, a2, a3, a4, a5) -> {
+		retval = LQuintConsumer.<T1, T2, T3, T4, T5>quintCons((a1, a2, a3, a4, a5) -> {
 			try {
 				for (Case<LQuintPredicate<T1, T2, T3, T4, T5>, LQuintConsumer<T1, T2, T3, T4, T5>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a1, a2, a3, a4, a5)) {
@@ -164,12 +164,12 @@ public final class LQuintConsumerBuilder<T1, T2, T3, T4, T5> extends PerCaseBuil
 				}
 
 				otherwiseFinal.accept(a1, a2, a3, a4, a5);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

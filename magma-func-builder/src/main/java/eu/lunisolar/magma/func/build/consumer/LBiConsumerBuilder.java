@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LBiConsumer.
  */
 public final class LBiConsumerBuilder<T1, T2> extends PerCaseBuilder.Base<LBiConsumerBuilder<T1, T2>, LBiPredicate<T1, T2>, LBiConsumer<T1, T2>> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LBiConsumer<T1, T2>> consumer;
 
@@ -147,7 +147,7 @@ public final class LBiConsumerBuilder<T1, T2> extends PerCaseBuilder.Base<LBiCon
 		LBiConsumer<T1, T2> retval;
 
 		final Case<LBiPredicate<T1, T2>, LBiConsumer<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiConsumer.<T1, T2> biCons((a1, a2) -> {
+		retval = LBiConsumer.<T1, T2>biCons((a1, a2) -> {
 			try {
 				for (Case<LBiPredicate<T1, T2>, LBiConsumer<T1, T2>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a1, a2)) {
@@ -157,12 +157,12 @@ public final class LBiConsumerBuilder<T1, T2> extends PerCaseBuilder.Base<LBiCon
 				}
 
 				otherwiseFinal.accept(a1, a2);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

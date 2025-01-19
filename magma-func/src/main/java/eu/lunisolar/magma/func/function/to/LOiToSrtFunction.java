@@ -72,11 +72,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowing, OiFunction<T, aShort>, Codomain<aShort>, Domain2<a<T>, aInt> { // NOSONAR
+public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowing, OiFunction<T, aShort>, Codomain<aShort>, Domain2<a<T>, aInt> { //NOSONAR
 
 	String DESCRIPTION = "LOiToSrtFunction: short applyAsSrt(T a1,int a2)";
 
-	// short applyAsSrt(T a1,int a2) ;
 	default short applyAsSrt(T a1, int a2) {
 		try {
 			return this.applyAsSrtX(a1, a2);
@@ -98,7 +97,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	default short handlingApplyAsSrt(T a1, int a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsSrtX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -110,7 +109,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	default short applyAsSrt(T a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsSrtX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -118,7 +117,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	default short applyAsSrt(T a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsSrtX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -126,7 +125,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	default short applyAsSrt(T a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsSrtX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -134,7 +133,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	default short applyAsSrt(T a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsSrtX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -158,7 +157,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	default short applyAsSrt(T a1, int a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsSrtX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -170,7 +169,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	default short applyAsSrtThen(T a1, int a2, @Nonnull LToSrtFunction<Throwable> handler) {
 		try {
 			return this.applyAsSrtX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsSrt(e);
 		}
@@ -193,7 +192,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 	default short shovingApplyAsSrt(T a1, int a2) {
 		try {
 			return this.applyAsSrtX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -203,7 +202,7 @@ public interface LOiToSrtFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func.shovingApplyAsSrt(a1, a2);
 	}
 
-	static <T> short handlingApplyAsSrt(T a1, int a2, LOiToSrtFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> short handlingApplyAsSrt(T a1, int a2, LOiToSrtFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsSrt(a1, a2, handling);
 	}

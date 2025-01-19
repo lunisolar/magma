@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LToSrtBiFunction.
  */
 public final class LToSrtBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithSrtProduct.Base<LToSrtBiFunctionBuilder<T1, T2>, LBiPredicate<T1, T2>, LToSrtBiFunction<T1, T2>> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LToSrtBiFunction<T1, T2>> consumer;
 
@@ -147,7 +147,7 @@ public final class LToSrtBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithSrt
 		LToSrtBiFunction<T1, T2> retval;
 
 		final Case<LBiPredicate<T1, T2>, LToSrtBiFunction<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToSrtBiFunction.<T1, T2> toSrtBiFunc((a1, a2) -> {
+		retval = LToSrtBiFunction.<T1, T2>toSrtBiFunc((a1, a2) -> {
 			try {
 				for (Case<LBiPredicate<T1, T2>, LToSrtBiFunction<T1, T2>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a1, a2)) {
@@ -156,12 +156,12 @@ public final class LToSrtBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithSrt
 				}
 
 				return otherwiseFinal.applyAsSrt(a1, a2);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

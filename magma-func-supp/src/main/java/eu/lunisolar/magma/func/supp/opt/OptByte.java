@@ -77,7 +77,7 @@ public final class OptByte extends OptByteBase<OptByte> {
 		LIntConsumer.fromTill(0, BYTE_INTERN_SIZE, i -> INTERN_POOL[i] = new OptByte((byte) ((-BYTE_OFFSET) + i)));
 	}
 
-	// <editor-fold desc="factories">
+	//<editor-fold desc="factories">
 
 	private OptByte() {
 		super();
@@ -120,7 +120,7 @@ public final class OptByte extends OptByteBase<OptByte> {
 		return predicate.test(value) ? of(value) : empty();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are handled with function, that should either throw exception or return one to be thrown. */
 	public static @Nonnull OptByte safelyFrom(@Nonnull LPredicate<Throwable> produceEmpty, @Nonnull ExWMF<RuntimeException> elseHandler, @Nonnull LByteSupplier producer) {

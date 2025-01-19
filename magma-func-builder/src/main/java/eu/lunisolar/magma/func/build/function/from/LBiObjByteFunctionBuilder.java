@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LBiObjByteFunction.
  */
 public final class LBiObjByteFunctionBuilder<T1, T2, R> extends PerCaseBuilderWithProduct.Base<LBiObjByteFunctionBuilder<T1, T2, R>, LBiObjBytePredicate<T1, T2>, LBiObjByteFunction<T1, T2, R>, R> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LBiObjByteFunction<T1, T2, R>> consumer;
 
@@ -147,7 +147,7 @@ public final class LBiObjByteFunctionBuilder<T1, T2, R> extends PerCaseBuilderWi
 		LBiObjByteFunction<T1, T2, R> retval;
 
 		final Case<LBiObjBytePredicate<T1, T2>, LBiObjByteFunction<T1, T2, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiObjByteFunction.<T1, T2, R> biObjByteFunc((a1, a2, a3) -> {
+		retval = LBiObjByteFunction.<T1, T2, R>biObjByteFunc((a1, a2, a3) -> {
 			try {
 				for (Case<LBiObjBytePredicate<T1, T2>, LBiObjByteFunction<T1, T2, R>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a1, a2, a3)) {
@@ -156,12 +156,12 @@ public final class LBiObjByteFunctionBuilder<T1, T2, R> extends PerCaseBuilderWi
 				}
 
 				return otherwiseFinal.apply(a1, a2, a3);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

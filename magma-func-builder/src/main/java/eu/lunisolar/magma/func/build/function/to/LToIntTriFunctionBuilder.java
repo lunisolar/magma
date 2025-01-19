@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LToIntTriFunction.
  */
 public final class LToIntTriFunctionBuilder<T1, T2, T3> extends PerCaseBuilderWithIntProduct.Base<LToIntTriFunctionBuilder<T1, T2, T3>, LTriPredicate<T1, T2, T3>, LToIntTriFunction<T1, T2, T3>> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LToIntTriFunction<T1, T2, T3>> consumer;
 
@@ -147,7 +147,7 @@ public final class LToIntTriFunctionBuilder<T1, T2, T3> extends PerCaseBuilderWi
 		LToIntTriFunction<T1, T2, T3> retval;
 
 		final Case<LTriPredicate<T1, T2, T3>, LToIntTriFunction<T1, T2, T3>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToIntTriFunction.<T1, T2, T3> toIntTriFunc((a1, a2, a3) -> {
+		retval = LToIntTriFunction.<T1, T2, T3>toIntTriFunc((a1, a2, a3) -> {
 			try {
 				for (Case<LTriPredicate<T1, T2, T3>, LToIntTriFunction<T1, T2, T3>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a1, a2, a3)) {
@@ -156,12 +156,12 @@ public final class LToIntTriFunctionBuilder<T1, T2, T3> extends PerCaseBuilderWi
 				}
 
 				return otherwiseFinal.applyAsInt(a1, a2, a3);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

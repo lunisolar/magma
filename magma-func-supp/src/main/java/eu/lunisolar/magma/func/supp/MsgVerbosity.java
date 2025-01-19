@@ -105,46 +105,57 @@ public enum MsgVerbosity {
 	public String format1M() {
 		return format1M;
 	}
+
 	@Nonnull
 	public String format2M() {
 		return format2M;
 	}
+
 	@Nonnull
 	public String format3M() {
 		return format3M;
 	}
+
 	@Nonnull
 	public String format4M() {
 		return format4M;
 	}
+
 	@Nonnull
 	public String format1UM() {
 		return format1UM;
 	}
+
 	@Nonnull
 	public String format2UM() {
 		return format2UM;
 	}
+
 	@Nonnull
 	public String format3UM() {
 		return format3UM;
 	}
+
 	@Nonnull
 	public String format4UM() {
 		return format4UM;
 	}
+
 	@Nonnull
 	public String format1MUM() {
 		return format1MUM;
 	}
+
 	@Nonnull
 	public String format2MUM() {
 		return format2MUM;
 	}
+
 	@Nonnull
 	public String format3MUM() {
 		return format3MUM;
 	}
+
 	@Nonnull
 	public String format4MUM() {
 		return format4MUM;

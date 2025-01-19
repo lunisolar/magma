@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, MetaInterface.NonThrowing, Codomain<aLong>, Domain1<aDouble> { // NOSONAR
+public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, MetaInterface.NonThrowing, Codomain<aLong>, Domain1<aDouble> { //NOSONAR
 
 	String DESCRIPTION = "LDblToLongFunction: long applyAsLong(double a)";
 
-	// long applyAsLong(double a) ;
 	default long applyAsLong(double a) {
 		try {
 			return this.applyAsLongX(a);
@@ -96,7 +95,7 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 	default long handlingApplyAsLong(double a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 	default long applyAsLong(double a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 	default long applyAsLong(double a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 	default long applyAsLong(double a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 	default long applyAsLong(double a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 	default long applyAsLong(double a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 	default long applyAsLongThen(double a, @Nonnull LToLongFunction<Throwable> handler) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsLong(e);
 		}
@@ -191,7 +190,7 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 	default long shovingApplyAsLong(double a) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LDblToLongFunction extends DoubleToLongFunction, MetaFunction, 
 		return func.shovingApplyAsLong(a);
 	}
 
-	static long handlingApplyAsLong(double a, LDblToLongFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static long handlingApplyAsLong(double a, LDblToLongFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsLong(a, handling);
 	}

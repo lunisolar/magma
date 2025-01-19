@@ -68,12 +68,11 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.NonThrowing, Codomain<a<T>>, Domain0 { // NOSONAR
+public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.NonThrowing, Codomain<a<T>>, Domain0 { //NOSONAR
 
 	String DESCRIPTION = "LSupplier: T get()";
 
 	@Nullable
-	// T get() ;
 	default T get() {
 		try {
 			return this.getX();
@@ -95,7 +94,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	default T handlingGet(HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.getX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -107,7 +106,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	default T get(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.getX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -115,7 +114,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	default T get(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.getX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -123,7 +122,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	default T get(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.getX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -131,7 +130,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	default T get(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.getX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -155,7 +154,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	default T get(@Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.getX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -167,7 +166,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	default T getThen(@Nonnull LFunction<Throwable, T> handler) {
 		try {
 			return this.getX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.apply(e);
 		}
@@ -190,7 +189,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 	default T shovingGet() {
 		try {
 			return this.getX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -200,7 +199,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		return func.shovingGet();
 	}
 
-	static <T> T handlingGet(LSupplier<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> T handlingGet(LSupplier<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingGet(handling);
 	}
@@ -304,7 +303,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		};
 	}
 
-	// <editor-fold desc="CallContext">
+	//<editor-fold desc="CallContext">
 
 	@Nonnull
 	static <T> LSupplier<T> sup(@Nullable CallContext c1, final @Nonnull LSupplier<T> lambda) {
@@ -596,7 +595,7 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		return future;
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Creates function that always returns the same value. */
 	static <T> LSupplier<T> of(T r) {

@@ -68,7 +68,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterface.NonThrowing, Codomain<aBool>, Domain0 { // NOSONAR
+public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterface.NonThrowing, Codomain<aBool>, Domain0 { //NOSONAR
 
 	String DESCRIPTION = "LBoolSupplier: boolean getAsBool()";
 
@@ -81,7 +81,6 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		return this.getAsBool();
 	}
 
-	// boolean getAsBool() ;
 	default boolean getAsBool() {
 		try {
 			return this.getAsBoolX();
@@ -103,7 +102,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	default boolean handlingGetAsBool(HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.getAsBoolX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -115,7 +114,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	default boolean getAsBool(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.getAsBoolX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -123,7 +122,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	default boolean getAsBool(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.getAsBoolX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -131,7 +130,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	default boolean getAsBool(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.getAsBoolX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -139,7 +138,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	default boolean getAsBool(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.getAsBoolX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -163,7 +162,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	default boolean getAsBool(@Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.getAsBoolX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -175,7 +174,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	default boolean getAsBoolThen(@Nonnull LPredicate<Throwable> handler) {
 		try {
 			return this.getAsBoolX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.test(e);
 		}
@@ -198,7 +197,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 	default boolean shovingGetAsBool() {
 		try {
 			return this.getAsBoolX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -208,7 +207,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		return func.shovingGetAsBool();
 	}
 
-	static boolean handlingGetAsBool(LBoolSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static boolean handlingGetAsBool(LBoolSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingGetAsBool(handling);
 	}
@@ -309,7 +308,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		};
 	}
 
-	// <editor-fold desc="CallContext">
+	//<editor-fold desc="CallContext">
 
 	@Nonnull
 	static LBoolSupplier boolSup(@Nullable CallContext c1, final @Nonnull LBoolSupplier lambda) {
@@ -601,7 +600,7 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		return future;
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Creates function that always returns the same value. */
 	static LBoolSupplier of(boolean r) {

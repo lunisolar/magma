@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LLongFunction.
  */
 public final class LLongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LLongFunctionBuilder<R>, LLongPredicate, LLongFunction<R>, R> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LLongFunction<R>> consumer;
 
@@ -125,7 +125,7 @@ public final class LLongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Bas
 		LLongFunction<R> retval;
 
 		final Case<LLongPredicate, LLongFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongFunction.<R> longFunc(a -> {
+		retval = LLongFunction.<R>longFunc(a -> {
 			try {
 				for (Case<LLongPredicate, LLongFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a)) {
@@ -134,12 +134,12 @@ public final class LLongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Bas
 				}
 
 				return otherwiseFinal.apply(a);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

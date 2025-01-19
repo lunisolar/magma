@@ -76,10 +76,10 @@ public interface ValueTrait<T, SELF extends ValueTrait<T, SELF>> extends FluentT
 		return getClass().isInstance(trait) ? (SELF) trait : valueFromOther(trait);
 	}
 
-	private SELF valueFromOther(@Nonnull ValueTrait<? extends T,?> trait) {
-        var value = trait.nullable();
-        return (value == null) ? voidValue() : value(value);
-    }
+	private SELF valueFromOther(@Nonnull ValueTrait<? extends T, ?> trait) {
+		var value = trait.nullable();
+		return (value == null) ? voidValue() : value(value);
+	}
 
 	default @Nonnull T nonnull() {
 		var value = value();

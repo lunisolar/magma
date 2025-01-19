@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaInterface.NonThrowing, Codomain<aInt>, Domain1<aInt> { // NOSONAR
+public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaInterface.NonThrowing, Codomain<aInt>, Domain1<aInt> { //NOSONAR
 
 	String DESCRIPTION = "LIntUnaryOperator: int applyAsInt(int a)";
 
-	// int applyAsInt(int a) ;
 	default int applyAsInt(int a) {
 		try {
 			return this.applyAsIntX(a);
@@ -96,7 +95,7 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	default int handlingApplyAsInt(int a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	default int applyAsInt(int a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	default int applyAsInt(int a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	default int applyAsInt(int a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	default int applyAsInt(int a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	default int applyAsInt(int a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	default int applyAsIntThen(int a, @Nonnull LToIntFunction<Throwable> handler) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsInt(e);
 		}
@@ -191,7 +190,7 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 	default int shovingApplyAsInt(int a) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LIntUnaryOperator extends IntUnaryOperator, MetaOperator, MetaI
 		return func.shovingApplyAsInt(a);
 	}
 
-	static int handlingApplyAsInt(int a, LIntUnaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static int handlingApplyAsInt(int a, LIntUnaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a, handling);
 	}

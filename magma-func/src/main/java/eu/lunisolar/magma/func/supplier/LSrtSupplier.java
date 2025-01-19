@@ -68,11 +68,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, Codomain<aShort>, Domain0 { // NOSONAR
+public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, Codomain<aShort>, Domain0 { //NOSONAR
 
 	String DESCRIPTION = "LSrtSupplier: short getAsSrt()";
 
-	// short getAsSrt() ;
 	default short getAsSrt() {
 		try {
 			return this.getAsSrtX();
@@ -94,7 +93,7 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	default short handlingGetAsSrt(HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.getAsSrtX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -106,7 +105,7 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	default short getAsSrt(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.getAsSrtX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -114,7 +113,7 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	default short getAsSrt(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.getAsSrtX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -122,7 +121,7 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	default short getAsSrt(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.getAsSrtX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -130,7 +129,7 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	default short getAsSrt(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.getAsSrtX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -154,7 +153,7 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	default short getAsSrt(@Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.getAsSrtX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -166,7 +165,7 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	default short getAsSrtThen(@Nonnull LToSrtFunction<Throwable> handler) {
 		try {
 			return this.getAsSrtX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsSrt(e);
 		}
@@ -189,7 +188,7 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 	default short shovingGetAsSrt() {
 		try {
 			return this.getAsSrtX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -199,7 +198,7 @@ public interface LSrtSupplier extends MetaSupplier, MetaInterface.NonThrowing, C
 		return func.shovingGetAsSrt();
 	}
 
-	static short handlingGetAsSrt(LSrtSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static short handlingGetAsSrt(LSrtSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingGetAsSrt(handling);
 	}

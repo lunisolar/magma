@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LTriConsumer.
  */
 public final class LTriConsumerBuilder<T1, T2, T3> extends PerCaseBuilder.Base<LTriConsumerBuilder<T1, T2, T3>, LTriPredicate<T1, T2, T3>, LTriConsumer<T1, T2, T3>> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LTriConsumer<T1, T2, T3>> consumer;
 
@@ -147,7 +147,7 @@ public final class LTriConsumerBuilder<T1, T2, T3> extends PerCaseBuilder.Base<L
 		LTriConsumer<T1, T2, T3> retval;
 
 		final Case<LTriPredicate<T1, T2, T3>, LTriConsumer<T1, T2, T3>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LTriConsumer.<T1, T2, T3> triCons((a1, a2, a3) -> {
+		retval = LTriConsumer.<T1, T2, T3>triCons((a1, a2, a3) -> {
 			try {
 				for (Case<LTriPredicate<T1, T2, T3>, LTriConsumer<T1, T2, T3>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a1, a2, a3)) {
@@ -157,12 +157,12 @@ public final class LTriConsumerBuilder<T1, T2, T3> extends PerCaseBuilder.Base<L
 				}
 
 				otherwiseFinal.accept(a1, a2, a3);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

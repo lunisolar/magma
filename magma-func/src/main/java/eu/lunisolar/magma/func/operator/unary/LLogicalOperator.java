@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogicalOperator, Codomain<aBool>, Domain1<aBool> { // NOSONAR
+public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogicalOperator, Codomain<aBool>, Domain1<aBool> { //NOSONAR
 
 	String DESCRIPTION = "LLogicalOperator: boolean apply(boolean a)";
 
-	// boolean apply(boolean a) ;
 	default boolean apply(boolean a) {
 		try {
 			return this.applyX(a);
@@ -96,7 +95,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 	default boolean handlingApply(boolean a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 	default boolean apply(boolean a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 	default boolean apply(boolean a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 	default boolean apply(boolean a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 	default boolean apply(boolean a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 	default boolean apply(boolean a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 	default boolean applyThen(boolean a, @Nonnull LPredicate<Throwable> handler) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.test(e);
 		}
@@ -191,7 +190,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 	default boolean shovingApply(boolean a) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 		return func.shovingApply(a);
 	}
 
-	static boolean handlingApply(boolean a, LLogicalOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static boolean handlingApply(boolean a, LLogicalOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a, handling);
 	}
@@ -553,8 +552,8 @@ public interface LLogicalOperator extends MetaInterface.NonThrowing, MetaLogical
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <X extends Throwable> boolean throwIfNotEx(boolean a, @Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3)
-			throws X {
+	public static <X extends Throwable> boolean throwIfNotEx(boolean a, @Nonnull LBoolFunction<? extends String> specialPredicate, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2,
+			@Nullable Object param3) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
 		Null.nonNullArg(message, "message");

@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LConsumer.
  */
 public final class LConsumerBuilder<T> extends PerCaseBuilder.Base<LConsumerBuilder<T>, LPredicate<T>, LConsumer<T>> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LConsumer<T>> consumer;
 
@@ -147,7 +147,7 @@ public final class LConsumerBuilder<T> extends PerCaseBuilder.Base<LConsumerBuil
 		LConsumer<T> retval;
 
 		final Case<LPredicate<T>, LConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LConsumer.<T> cons(a -> {
+		retval = LConsumer.<T>cons(a -> {
 			try {
 				for (Case<LPredicate<T>, LConsumer<T>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a)) {
@@ -157,12 +157,12 @@ public final class LConsumerBuilder<T> extends PerCaseBuilder.Base<LConsumerBuil
 				}
 
 				otherwiseFinal.accept(a);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

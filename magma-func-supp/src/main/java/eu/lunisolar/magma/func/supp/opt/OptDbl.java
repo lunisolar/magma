@@ -70,7 +70,7 @@ public final class OptDbl extends OptDblBase<OptDbl> {
 
 	private static final OptDbl EMPTY = new OptDbl();
 
-	// <editor-fold desc="factories">
+	//<editor-fold desc="factories">
 
 	private OptDbl() {
 		super();
@@ -118,7 +118,7 @@ public final class OptDbl extends OptDblBase<OptDbl> {
 		return optional.isPresent() ? OptDbl.of(optional.getAsDouble()) : empty();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are handled with function, that should either throw exception or return one to be thrown. */
 	public static @Nonnull OptDbl safelyFrom(@Nonnull LPredicate<Throwable> produceEmpty, @Nonnull ExWMF<RuntimeException> elseHandler, @Nonnull LDblSupplier producer) {

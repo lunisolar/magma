@@ -61,10 +61,10 @@ public final class Checks implements FluentSyntax {
 
 	public static final String DEFAULT_DESCRIPTION = "?";
 
-	// <editor-fold desc="no instance">
+	//<editor-fold desc="no instance">
 	private Checks() {
 	}
-	// </editor-fold>
+	//</editor-fold>
 
 	@ThreadSafe
 	public final static class CheckBool implements CheckBoolTrait<CheckBool> {

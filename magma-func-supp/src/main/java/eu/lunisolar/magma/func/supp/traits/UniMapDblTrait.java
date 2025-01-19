@@ -59,7 +59,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface UniMapDblTrait<SELF extends UniMapDblTrait<SELF>> extends DblValueTrait<SELF>, FluentTrait<SELF> {
 
-	// <editor-fold desc="uniMap">
+	//<editor-fold desc="uniMap">
 
 	default @Nonnull SELF map(@Nonnull LDblUnaryOperator mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -76,6 +76,6 @@ public interface UniMapDblTrait<SELF extends UniMapDblTrait<SELF>> extends DblVa
 		return value(mapping.applyAsDbl(value(), a1, a2));
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 }

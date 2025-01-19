@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface UseSrtSingleTrait<SELF extends UseSrtSingleTrait<SELF>> extends UseSrtTrait<SELF>, SrtValueTrait<SELF> {
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
 	default @Nonnull SELF use(@Nonnull LSrtConsumer consumer) {
 		consumer.accept(value());
@@ -114,5 +114,5 @@ public interface UseSrtSingleTrait<SELF extends UseSrtSingleTrait<SELF>> extends
 		return useWith(with1, with2, consumer);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

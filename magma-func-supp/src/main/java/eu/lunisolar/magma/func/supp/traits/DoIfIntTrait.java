@@ -56,7 +56,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface DoIfIntTrait<SELF extends DoIfIntTrait<SELF>> extends FluentTrait<SELF> {
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
 	public @Nonnull SELF doIf(@Nonnull LIntPredicate predicate, @Nonnull LIntConsumer action);
 
@@ -134,5 +134,5 @@ public interface DoIfIntTrait<SELF extends DoIfIntTrait<SELF>> extends FluentTra
 		return doIfNotWith(with1, with2, predicate, action);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

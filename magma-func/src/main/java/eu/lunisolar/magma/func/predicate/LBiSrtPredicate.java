@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing, Codomain<aBool>, Domain2<aShort, aShort> { // NOSONAR
+public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowing, Codomain<aBool>, Domain2<aShort, aShort> { //NOSONAR
 
 	String DESCRIPTION = "LBiSrtPredicate: boolean test(short a1,short a2)";
 
-	// boolean test(short a1,short a2) ;
 	default boolean test(short a1, short a2) {
 		try {
 			return this.testX(a1, a2);
@@ -96,7 +95,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	default boolean handlingTest(short a1, short a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.testX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	default boolean test(short a1, short a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.testX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	default boolean test(short a1, short a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.testX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	default boolean test(short a1, short a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.testX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	default boolean test(short a1, short a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.testX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	default boolean test(short a1, short a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.testX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	default boolean testThen(short a1, short a2, @Nonnull LPredicate<Throwable> handler) {
 		try {
 			return this.testX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.test(e);
 		}
@@ -191,7 +190,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 	default boolean shovingTest(short a1, short a2) {
 		try {
 			return this.testX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LBiSrtPredicate extends MetaPredicate, MetaInterface.NonThrowin
 		return func.shovingTest(a1, a2);
 	}
 
-	static boolean handlingTest(short a1, short a2, LBiSrtPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static boolean handlingTest(short a1, short a2, LBiSrtPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, handling);
 	}

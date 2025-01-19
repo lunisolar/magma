@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface DoIfCharSingleTrait<SELF extends DoIfCharSingleTrait<SELF>> extends DoIfCharTrait<SELF>, IsCharTrait<SELF>, CharValueTrait<SELF> {
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
 	default @Nonnull SELF doIf(@Nonnull LCharPredicate predicate, @Nonnull LCharConsumer action) {
 		if (is(predicate))
@@ -181,5 +181,5 @@ public interface DoIfCharSingleTrait<SELF extends DoIfCharSingleTrait<SELF>> ext
 		return doIfNotWith(with1, with2, predicate, action);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

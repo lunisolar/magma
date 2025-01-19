@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThrowing, Codomain<aDouble>, Domain3<aDouble, aDouble, aDouble> { // NOSONAR
+public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThrowing, Codomain<aDouble>, Domain3<aDouble, aDouble, aDouble> { //NOSONAR
 
 	String DESCRIPTION = "LDblTernaryOperator: double applyAsDbl(double a1,double a2,double a3)";
 
-	// double applyAsDbl(double a1,double a2,double a3) ;
 	default double applyAsDbl(double a1, double a2, double a3) {
 		try {
 			return this.applyAsDblX(a1, a2, a3);
@@ -96,7 +95,7 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default double handlingApplyAsDbl(double a1, double a2, double a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsDblX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default double applyAsDbl(double a1, double a2, double a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsDblX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default double applyAsDbl(double a1, double a2, double a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsDblX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default double applyAsDbl(double a1, double a2, double a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsDblX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default double applyAsDbl(double a1, double a2, double a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsDblX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default double applyAsDbl(double a1, double a2, double a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsDblX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default double applyAsDblThen(double a1, double a2, double a3, @Nonnull LToDblFunction<Throwable> handler) {
 		try {
 			return this.applyAsDblX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsDbl(e);
 		}
@@ -191,7 +190,7 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default double shovingApplyAsDbl(double a1, double a2, double a3) {
 		try {
 			return this.applyAsDblX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LDblTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		return func.shovingApplyAsDbl(a1, a2, a3);
 	}
 
-	static double handlingApplyAsDbl(double a1, double a2, double a3, LDblTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static double handlingApplyAsDbl(double a1, double a2, double a3, LDblTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsDbl(a1, a2, a3, handling);
 	}

@@ -66,7 +66,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait<SELF>, aValue<aShort>, CheckSrtTrait<SELF>, FilterSrtSingleTrait<SELF>, IsSrtTrait<SELF>, DoIfSrtSingleTrait<SELF>, UseSrtSingleTrait<SELF>, UniMapSrtTrait<SELF> {
 
-	// <editor-fold desc="forcing ValueTrait re-implementation">
+	//<editor-fold desc="forcing ValueTrait re-implementation">
 
 	@Override
 	@Nonnull
@@ -76,7 +76,7 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 	@Nonnull
 	SELF voidValue();
 
-	// </editor-fold>
+	//</editor-fold>
 
 	short get();
 
@@ -103,7 +103,7 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		}
 	}
 
-	// <editor-fold desc="isPresent() dependant boolean terminals">
+	//<editor-fold desc="isPresent() dependant boolean terminals">
 
 	@Override
 	default boolean is(@Nonnull LSrtPredicate predicate) {
@@ -177,17 +177,17 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		return isPresent() && FilterSrtSingleTrait.super.isNotWith(with1, with2, predicate);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="filtering">
+	//<editor-fold desc="filtering">
 
-	// </editor-fold>
+	//</editor-fold>
 
 	default SELF butNot(short value) {
 		return isPresent() ? (value() == value ? voidValue() : fluentCtx()) : voidValue();
 	}
 
-	// <editor-fold desc="uniMap">
+	//<editor-fold desc="uniMap">
 
 	default @Nonnull SELF map(@Nonnull LSrtUnaryOperator mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -204,9 +204,9 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		return isPresent() ? value(mapping.applyAsSrt(get(), a1, a2)) : voidValue();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="map">
+	//<editor-fold desc="map">
 
 	default @Nonnull OptBool mapToBool(@Nonnull LSrtPredicate mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -288,9 +288,9 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		return isPresent() ? (Opt.of(mapping.apply(get(), a1, a2))) : Opt.empty();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="flatMap">
+	//<editor-fold desc="flatMap">
 
 	default @Nonnull OptBool flatMapToBool(@Nonnull LSrtFunction<? extends OptBoolTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -517,13 +517,13 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		return isPresent() ? Opt.from(mapping.apply(get(), a1, a2)) : Opt.empty();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="ifPresent">
+	//<editor-fold desc="ifPresent">
 
 	default @Nonnull SELF ifVoid(@Nonnull LAction action) {
 		Null.nonNullArg(action, "action");
@@ -657,7 +657,7 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		return fluentCtx();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Compared to ifPresent it will simply fail if there is no value */
 	default @Nonnull SELF visit(@Nonnull LSrtConsumer consumer) {
@@ -666,7 +666,7 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		return fluentCtx();
 	}
 
-	// <editor-fold desc="orElse">
+	//<editor-fold desc="orElse">
 
 	default @Nonnull SELF orThrow() {
 		if (isPresent()) {
@@ -842,7 +842,7 @@ public interface OptSrtTrait<SELF extends OptSrtTrait<SELF>> extends FluentTrait
 		return isPresent() ? fluentCtx() : valueFrom(supplier.apply(a1, a2, a3));
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	default OptionalInt toOptional() {
 		return isPresent() ? OptionalInt.of(value()) : OptionalInt.empty();

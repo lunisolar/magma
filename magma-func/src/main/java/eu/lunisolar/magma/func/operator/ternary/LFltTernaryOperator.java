@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThrowing, Codomain<aFloat>, Domain3<aFloat, aFloat, aFloat> { // NOSONAR
+public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThrowing, Codomain<aFloat>, Domain3<aFloat, aFloat, aFloat> { //NOSONAR
 
 	String DESCRIPTION = "LFltTernaryOperator: float applyAsFlt(float a1,float a2,float a3)";
 
-	// float applyAsFlt(float a1,float a2,float a3) ;
 	default float applyAsFlt(float a1, float a2, float a3) {
 		try {
 			return this.applyAsFltX(a1, a2, a3);
@@ -96,7 +95,7 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default float handlingApplyAsFlt(float a1, float a2, float a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsFltX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default float applyAsFlt(float a1, float a2, float a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsFltX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default float applyAsFlt(float a1, float a2, float a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsFltX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default float applyAsFlt(float a1, float a2, float a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsFltX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default float applyAsFlt(float a1, float a2, float a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsFltX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default float applyAsFlt(float a1, float a2, float a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsFltX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default float applyAsFltThen(float a1, float a2, float a3, @Nonnull LToFltFunction<Throwable> handler) {
 		try {
 			return this.applyAsFltX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsFlt(e);
 		}
@@ -191,7 +190,7 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default float shovingApplyAsFlt(float a1, float a2, float a3) {
 		try {
 			return this.applyAsFltX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LFltTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		return func.shovingApplyAsFlt(a1, a2, a3);
 	}
 
-	static float handlingApplyAsFlt(float a1, float a2, float a3, LFltTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static float handlingApplyAsFlt(float a1, float a2, float a3, LFltTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsFlt(a1, a2, a3, handling);
 	}

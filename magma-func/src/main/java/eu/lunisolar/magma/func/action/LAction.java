@@ -73,7 +73,6 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		this.execute();
 	}
 
-	// void execute() ;
 	default void execute() {
 		try {
 			this.executeX();
@@ -96,7 +95,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 	default void handlingExecute(HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			this.executeX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 	default void execute(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			this.executeX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 	default void execute(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			this.executeX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 	default void execute(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			this.executeX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 	default void execute(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			this.executeX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 	default void execute(@Nonnull ExWF<RuntimeException> factory) {
 		try {
 			this.executeX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 	default void executeThen(@Nonnull LConsumer<Throwable> handler) {
 		try {
 			this.executeX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			handler.accept(e);
 		}
@@ -191,7 +190,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 	default void shovingExecute() {
 		try {
 			this.executeX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		func.shovingExecute();
 	}
 
-	static void handlingExecute(LAction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static void handlingExecute(LAction func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		func.handlingExecute(handling);
 	}
@@ -290,7 +289,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		};
 	}
 
-	// <editor-fold desc="CallContext">
+	//<editor-fold desc="CallContext">
 
 	@Nonnull
 	static LAction act(@Nullable CallContext c1, final @Nonnull LAction lambda) {
@@ -582,7 +581,7 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		return future;
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull

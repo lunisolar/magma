@@ -70,7 +70,7 @@ public final class OptLong extends OptLongBase<OptLong> {
 
 	private static final OptLong EMPTY = new OptLong();
 
-	// <editor-fold desc="factories">
+	//<editor-fold desc="factories">
 
 	private OptLong() {
 		super();
@@ -118,7 +118,7 @@ public final class OptLong extends OptLongBase<OptLong> {
 		return optional.isPresent() ? OptLong.of(optional.getAsLong()) : empty();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are handled with function, that should either throw exception or return one to be thrown. */
 	public static @Nonnull OptLong safelyFrom(@Nonnull LPredicate<Throwable> produceEmpty, @Nonnull ExWMF<RuntimeException> elseHandler, @Nonnull LLongSupplier producer) {

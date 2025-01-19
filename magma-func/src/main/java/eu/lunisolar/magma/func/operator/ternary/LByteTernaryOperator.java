@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThrowing, Codomain<aByte>, Domain3<aByte, aByte, aByte> { // NOSONAR
+public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThrowing, Codomain<aByte>, Domain3<aByte, aByte, aByte> { //NOSONAR
 
 	String DESCRIPTION = "LByteTernaryOperator: byte applyAsByte(byte a1,byte a2,byte a3)";
 
-	// byte applyAsByte(byte a1,byte a2,byte a3) ;
 	default byte applyAsByte(byte a1, byte a2, byte a3) {
 		try {
 			return this.applyAsByteX(a1, a2, a3);
@@ -96,7 +95,7 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 	default byte handlingApplyAsByte(byte a1, byte a2, byte a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsByteX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 	default byte applyAsByte(byte a1, byte a2, byte a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsByteX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 	default byte applyAsByte(byte a1, byte a2, byte a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsByteX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 	default byte applyAsByte(byte a1, byte a2, byte a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsByteX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 	default byte applyAsByte(byte a1, byte a2, byte a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsByteX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 	default byte applyAsByte(byte a1, byte a2, byte a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsByteX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 	default byte applyAsByteThen(byte a1, byte a2, byte a3, @Nonnull LToByteFunction<Throwable> handler) {
 		try {
 			return this.applyAsByteX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsByte(e);
 		}
@@ -191,7 +190,7 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 	default byte shovingApplyAsByte(byte a1, byte a2, byte a3) {
 		try {
 			return this.applyAsByteX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LByteTernaryOperator extends MetaOperator, MetaInterface.NonThr
 		return func.shovingApplyAsByte(a1, a2, a3);
 	}
 
-	static byte handlingApplyAsByte(byte a1, byte a2, byte a3, LByteTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static byte handlingApplyAsByte(byte a1, byte a2, byte a3, LByteTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsByte(a1, a2, a3, handling);
 	}

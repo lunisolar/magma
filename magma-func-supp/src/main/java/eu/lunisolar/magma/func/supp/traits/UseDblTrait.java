@@ -56,7 +56,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface UseDblTrait<SELF extends UseDblTrait<SELF>> extends FluentTrait<SELF> {
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
 	public @Nonnull SELF use(@Nonnull LDblConsumer consumer);
 
@@ -105,5 +105,5 @@ public interface UseDblTrait<SELF extends UseDblTrait<SELF>> extends FluentTrait
 		return useWith(with1, with2, consumer);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

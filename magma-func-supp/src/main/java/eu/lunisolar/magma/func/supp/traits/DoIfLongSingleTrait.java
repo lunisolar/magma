@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface DoIfLongSingleTrait<SELF extends DoIfLongSingleTrait<SELF>> extends DoIfLongTrait<SELF>, IsLongTrait<SELF>, LongValueTrait<SELF> {
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
 	default @Nonnull SELF doIf(@Nonnull LLongPredicate predicate, @Nonnull LLongConsumer action) {
 		if (is(predicate))
@@ -181,5 +181,5 @@ public interface DoIfLongSingleTrait<SELF extends DoIfLongSingleTrait<SELF>> ext
 		return doIfNotWith(with1, with2, predicate, action);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

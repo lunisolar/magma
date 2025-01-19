@@ -66,7 +66,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait<SELF>, aValue<aDouble>, CheckDblTrait<SELF>, FilterDblSingleTrait<SELF>, IsDblTrait<SELF>, DoIfDblSingleTrait<SELF>, UseDblSingleTrait<SELF>, UniMapDblTrait<SELF> {
 
-	// <editor-fold desc="forcing ValueTrait re-implementation">
+	//<editor-fold desc="forcing ValueTrait re-implementation">
 
 	@Override
 	@Nonnull
@@ -76,7 +76,7 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 	@Nonnull
 	SELF voidValue();
 
-	// </editor-fold>
+	//</editor-fold>
 
 	double get();
 
@@ -103,7 +103,7 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 		}
 	}
 
-	// <editor-fold desc="isPresent() dependant boolean terminals">
+	//<editor-fold desc="isPresent() dependant boolean terminals">
 
 	@Override
 	default boolean is(@Nonnull LDblPredicate predicate) {
@@ -177,17 +177,17 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 		return isPresent() && FilterDblSingleTrait.super.isNotWith(with1, with2, predicate);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="filtering">
+	//<editor-fold desc="filtering">
 
-	// </editor-fold>
+	//</editor-fold>
 
 	default SELF butNot(double value) {
 		return isPresent() ? (value() == value ? voidValue() : fluentCtx()) : voidValue();
 	}
 
-	// <editor-fold desc="uniMap">
+	//<editor-fold desc="uniMap">
 
 	default @Nonnull SELF map(@Nonnull LDblUnaryOperator mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -204,9 +204,9 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 		return isPresent() ? value(mapping.applyAsDbl(get(), a1, a2)) : voidValue();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="map">
+	//<editor-fold desc="map">
 
 	default @Nonnull OptBool mapToBool(@Nonnull LDblPredicate mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -288,9 +288,9 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 		return isPresent() ? (Opt.of(mapping.apply(get(), a1, a2))) : Opt.empty();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="flatMap">
+	//<editor-fold desc="flatMap">
 
 	default @Nonnull OptBool flatMapToBool(@Nonnull LDblFunction<? extends OptBoolTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -517,13 +517,13 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 		return isPresent() ? Opt.from(mapping.apply(get(), a1, a2)) : Opt.empty();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="ifPresent">
+	//<editor-fold desc="ifPresent">
 
 	default @Nonnull SELF ifVoid(@Nonnull LAction action) {
 		Null.nonNullArg(action, "action");
@@ -657,7 +657,7 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 		return fluentCtx();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Compared to ifPresent it will simply fail if there is no value */
 	default @Nonnull SELF visit(@Nonnull LDblConsumer consumer) {
@@ -666,7 +666,7 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 		return fluentCtx();
 	}
 
-	// <editor-fold desc="orElse">
+	//<editor-fold desc="orElse">
 
 	default @Nonnull SELF orThrow() {
 		if (isPresent()) {
@@ -842,7 +842,7 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 		return isPresent() ? fluentCtx() : valueFrom(supplier.apply(a1, a2, a3));
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	default OptionalDouble toOptional() {
 		return isPresent() ? OptionalDouble.of(value()) : OptionalDouble.empty();
@@ -939,6 +939,7 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 				public boolean hasNext() {
 					return !spent;
 				}
+
 				@Override
 				public double nextDouble() {
 					if (spent)
@@ -953,6 +954,7 @@ public interface OptDblTrait<SELF extends OptDblTrait<SELF>> extends FluentTrait
 				public boolean hasNext() {
 					return false;
 				}
+
 				@Override
 				public double nextDouble() {
 					throw X.noSuchElement();

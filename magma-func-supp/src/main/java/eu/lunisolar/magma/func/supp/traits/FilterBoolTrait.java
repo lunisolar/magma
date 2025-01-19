@@ -56,7 +56,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface FilterBoolTrait<SELF extends FilterBoolTrait<SELF>> extends FluentTrait<SELF> {
 
-	// <editor-fold desc="filtering">
+	//<editor-fold desc="filtering">
 
 	public SELF filter(@Nonnull LLogicalOperator operator);
 
@@ -110,5 +110,5 @@ public interface FilterBoolTrait<SELF extends FilterBoolTrait<SELF>> extends Flu
 		return filterWith(with1, with2, operator);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface DoIfFltSingleTrait<SELF extends DoIfFltSingleTrait<SELF>> extends DoIfFltTrait<SELF>, IsFltTrait<SELF>, FltValueTrait<SELF> {
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
 	default @Nonnull SELF doIf(@Nonnull LFltPredicate predicate, @Nonnull LFltConsumer action) {
 		if (is(predicate))
@@ -181,5 +181,5 @@ public interface DoIfFltSingleTrait<SELF extends DoIfFltSingleTrait<SELF>> exten
 		return doIfNotWith(with1, with2, predicate, action);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

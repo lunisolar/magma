@@ -70,12 +70,11 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain2<a<T1>, a<T2>> { // NOSONAR
+public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain2<a<T1>, a<T2>> { //NOSONAR
 
 	String DESCRIPTION = "LBiFunction: R apply(T1 a1,T2 a2)";
 
 	@Nullable
-	// R apply(T1 a1,T2 a2) ;
 	default R apply(T1 a1, T2 a2) {
 		try {
 			return this.applyX(a1, a2);
@@ -97,7 +96,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	default R handlingApply(T1 a1, T2 a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -109,7 +108,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	default R apply(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -117,7 +116,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	default R apply(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -125,7 +124,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	default R apply(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -133,7 +132,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	default R apply(T1 a1, T2 a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -157,7 +156,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	default R apply(T1 a1, T2 a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -169,7 +168,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	default R applyThen(T1 a1, T2 a2, @Nonnull LFunction<Throwable, R> handler) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.apply(e);
 		}
@@ -192,7 +191,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 	default R shovingApply(T1 a1, T2 a2) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -202,7 +201,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 		return func.shovingApply(a1, a2);
 	}
 
-	static <T1, T2, R> R handlingApply(T1 a1, T2 a2, LBiFunction<T1, T2, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T1, T2, R> R handlingApply(T1 a1, T2 a2, LBiFunction<T1, T2, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, handling);
 	}
@@ -342,7 +341,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 		};
 	}
 
-	// <editor-fold desc="CallContext">
+	//<editor-fold desc="CallContext">
 
 	@Nonnull
 	static <T1, T2, R> LBiFunction<T1, T2, R> biFunc(@Nullable CallContext c1, final @Nonnull LBiFunction<T1, T2, R> lambda) {
@@ -634,7 +633,7 @@ public interface LBiFunction<T1, T2, R> extends BiFunction<T1, T2, R>, MetaFunct
 		return future;
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Creates function that always returns the same value. */
 	static <T1, T2, R> LBiFunction<T1, T2, R> constant(R r) {

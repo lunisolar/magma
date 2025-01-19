@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LFltFunction.
  */
 public final class LFltFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LFltFunctionBuilder<R>, LFltPredicate, LFltFunction<R>, R> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LFltFunction<R>> consumer;
 
@@ -125,7 +125,7 @@ public final class LFltFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 		LFltFunction<R> retval;
 
 		final Case<LFltPredicate, LFltFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFltFunction.<R> fltFunc(a -> {
+		retval = LFltFunction.<R>fltFunc(a -> {
 			try {
 				for (Case<LFltPredicate, LFltFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a)) {
@@ -134,12 +134,12 @@ public final class LFltFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 				}
 
 				return otherwiseFinal.apply(a);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

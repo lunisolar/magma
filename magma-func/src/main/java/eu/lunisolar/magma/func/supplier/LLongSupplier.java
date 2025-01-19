@@ -68,11 +68,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface.NonThrowing, Codomain<aLong>, Domain0 { // NOSONAR
+public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface.NonThrowing, Codomain<aLong>, Domain0 { //NOSONAR
 
 	String DESCRIPTION = "LLongSupplier: long getAsLong()";
 
-	// long getAsLong() ;
 	default long getAsLong() {
 		try {
 			return this.getAsLongX();
@@ -94,7 +93,7 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 	default long handlingGetAsLong(HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.getAsLongX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -106,7 +105,7 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 	default long getAsLong(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.getAsLongX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -114,7 +113,7 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 	default long getAsLong(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.getAsLongX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -122,7 +121,7 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 	default long getAsLong(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.getAsLongX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -130,7 +129,7 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 	default long getAsLong(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.getAsLongX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -154,7 +153,7 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 	default long getAsLong(@Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.getAsLongX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -166,7 +165,7 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 	default long getAsLongThen(@Nonnull LToLongFunction<Throwable> handler) {
 		try {
 			return this.getAsLongX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsLong(e);
 		}
@@ -189,7 +188,7 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 	default long shovingGetAsLong() {
 		try {
 			return this.getAsLongX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -199,7 +198,7 @@ public interface LLongSupplier extends LongSupplier, MetaSupplier, MetaInterface
 		return func.shovingGetAsLong();
 	}
 
-	static long handlingGetAsLong(LLongSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static long handlingGetAsLong(LLongSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingGetAsLong(handling);
 	}

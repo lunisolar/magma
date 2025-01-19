@@ -90,7 +90,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FailPoi
 		return X::value;
 	}
 
-	// <editor-fold desc="main methods">
+	//<editor-fold desc="main methods">
 
 	/**   */
 	default @Nonnull SELF must_(@Nonnull LPredicate<? super T> predicate, @Nonnull LFunction<? super T, String> msgFunc) {
@@ -6911,7 +6911,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FailPoi
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (pred.test(get())) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -6920,7 +6920,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FailPoi
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (!pred.test(get())) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -6929,7 +6929,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FailPoi
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (pred.test(get(), a2)) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -6938,7 +6938,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FailPoi
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (!pred.test(get(), a2)) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -6947,7 +6947,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FailPoi
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (pred.test(get(), a2, a3)) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -6956,15 +6956,16 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FailPoi
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (!pred.test(get(), a2, a3)) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	default @Nonnull SELF mustBeEqual(Object expected) {
 		return mustEx(Be::equalEx, expected);
 	}
+
 	default @Nonnull SELF mustBeEqual(Object expected, String message) {
 		return mustEx0(Be::equalEx, expected, message);
 	}
@@ -6972,6 +6973,7 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FailPoi
 	default @Nonnull SELF mustBeNotEqual(Object expected) {
 		return mustEx(Be::notEqualEx, expected);
 	}
+
 	default @Nonnull SELF mustBeNotEqual(Object expected, String message) {
 		return mustEx0(Be::notEqualEx, expected, message);
 	}
@@ -6979,24 +6981,31 @@ public interface CheckTrait<T, SELF extends CheckTrait<T, SELF>> extends FailPoi
 	default @Nonnull SELF mustBeNull() {
 		return mustEx(Be::NullEx);
 	}
+
 	default @Nonnull SELF mustBeNull(String message) {
 		return mustEx0(Be::NullEx, message);
 	}
+
 	default @Nonnull SELF mustBeNotNull() {
 		return mustEx(Be::notNullEx);
 	}
+
 	default @Nonnull SELF mustBeNotNull(String message) {
 		return mustEx0(Be::notNullEx, message);
 	}
+
 	default @Nonnull SELF mustBeSame(Object expected) {
 		return mustEx(Be::sameEx, expected);
 	}
+
 	default @Nonnull SELF mustBeSame(Object expected, String message) {
 		return mustEx0(Be::sameEx, expected, message);
 	}
+
 	default @Nonnull SELF mustBeNotSame(Object expected) {
 		return mustEx(Be::notSameEx, expected);
 	}
+
 	default @Nonnull SELF mustBeNotSame(Object expected, String message) {
 		return mustEx0(Be::notSameEx, expected, message);
 	}

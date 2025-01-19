@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThrowing, Codomain<aInt>, Domain3<aInt, aInt, aInt> { // NOSONAR
+public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThrowing, Codomain<aInt>, Domain3<aInt, aInt, aInt> { //NOSONAR
 
 	String DESCRIPTION = "LIntTernaryOperator: int applyAsInt(int a1,int a2,int a3)";
 
-	// int applyAsInt(int a1,int a2,int a3) ;
 	default int applyAsInt(int a1, int a2, int a3) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
@@ -96,7 +95,7 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default int handlingApplyAsInt(int a1, int a2, int a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default int applyAsInt(int a1, int a2, int a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default int applyAsInt(int a1, int a2, int a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default int applyAsInt(int a1, int a2, int a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default int applyAsInt(int a1, int a2, int a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default int applyAsInt(int a1, int a2, int a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default int applyAsIntThen(int a1, int a2, int a3, @Nonnull LToIntFunction<Throwable> handler) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsInt(e);
 		}
@@ -191,7 +190,7 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 	default int shovingApplyAsInt(int a1, int a2, int a3) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LIntTernaryOperator extends MetaOperator, MetaInterface.NonThro
 		return func.shovingApplyAsInt(a1, a2, a3);
 	}
 
-	static int handlingApplyAsInt(int a1, int a2, int a3, LIntTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static int handlingApplyAsInt(int a1, int a2, int a3, LIntTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a1, a2, a3, handling);
 	}

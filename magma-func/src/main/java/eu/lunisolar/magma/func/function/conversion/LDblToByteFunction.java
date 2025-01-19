@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDblToByteFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aByte>, Domain1<aDouble> { // NOSONAR
+public interface LDblToByteFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aByte>, Domain1<aDouble> { //NOSONAR
 
 	String DESCRIPTION = "LDblToByteFunction: byte applyAsByte(double a)";
 
-	// byte applyAsByte(double a) ;
 	default byte applyAsByte(double a) {
 		try {
 			return this.applyAsByteX(a);
@@ -96,7 +95,7 @@ public interface LDblToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	default byte handlingApplyAsByte(double a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsByteX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LDblToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	default byte applyAsByte(double a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsByteX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LDblToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	default byte applyAsByte(double a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsByteX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LDblToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	default byte applyAsByte(double a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsByteX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LDblToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	default byte applyAsByte(double a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsByteX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LDblToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	default byte applyAsByte(double a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsByteX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LDblToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	default byte applyAsByteThen(double a, @Nonnull LToByteFunction<Throwable> handler) {
 		try {
 			return this.applyAsByteX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsByte(e);
 		}
@@ -191,7 +190,7 @@ public interface LDblToByteFunction extends MetaFunction, MetaInterface.NonThrow
 	default byte shovingApplyAsByte(double a) {
 		try {
 			return this.applyAsByteX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LDblToByteFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.shovingApplyAsByte(a);
 	}
 
-	static byte handlingApplyAsByte(double a, LDblToByteFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static byte handlingApplyAsByte(double a, LDblToByteFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsByte(a, handling);
 	}

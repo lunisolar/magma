@@ -71,7 +71,7 @@ public abstract class OptBase<T, SELF extends OptBase<T, SELF>> implements OptTr
 		return value == null;
 	}
 
-	// <editor-fold desc="equals/hashcode/toString">
+	//<editor-fold desc="equals/hashcode/toString">
 
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -100,6 +100,6 @@ public abstract class OptBase<T, SELF extends OptBase<T, SELF>> implements OptTr
 		return sb.append("]").toString();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 }

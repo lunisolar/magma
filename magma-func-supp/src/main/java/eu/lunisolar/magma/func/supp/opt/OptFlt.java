@@ -70,7 +70,7 @@ public final class OptFlt extends OptFltBase<OptFlt> {
 
 	private static final OptFlt EMPTY = new OptFlt();
 
-	// <editor-fold desc="factories">
+	//<editor-fold desc="factories">
 
 	private OptFlt() {
 		super();
@@ -113,7 +113,7 @@ public final class OptFlt extends OptFltBase<OptFlt> {
 		return predicate.test(value) ? of(value) : empty();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are handled with function, that should either throw exception or return one to be thrown. */
 	public static @Nonnull OptFlt safelyFrom(@Nonnull LPredicate<Throwable> produceEmpty, @Nonnull ExWMF<RuntimeException> elseHandler, @Nonnull LFltSupplier producer) {

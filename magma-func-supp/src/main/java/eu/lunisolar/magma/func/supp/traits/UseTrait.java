@@ -56,7 +56,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface UseTrait<T, SELF extends UseTrait<T, SELF>> extends FluentTrait<SELF> {
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
 	public @Nonnull SELF use(@Nonnull LConsumer<? super T> consumer);
 
@@ -222,5 +222,5 @@ public interface UseTrait<T, SELF extends UseTrait<T, SELF>> extends FluentTrait
 		return uniUseWith(with, consumer);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

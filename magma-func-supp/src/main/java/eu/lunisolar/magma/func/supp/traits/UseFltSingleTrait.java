@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface UseFltSingleTrait<SELF extends UseFltSingleTrait<SELF>> extends UseFltTrait<SELF>, FltValueTrait<SELF> {
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
 	default @Nonnull SELF use(@Nonnull LFltConsumer consumer) {
 		consumer.accept(value());
@@ -114,5 +114,5 @@ public interface UseFltSingleTrait<SELF extends UseFltSingleTrait<SELF>> extends
 		return useWith(with1, with2, consumer);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

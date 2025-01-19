@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, MetaLogicalOperator, Codomain<aBool>, Domain3<aBool, aBool, aBool> { // NOSONAR
+public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, MetaLogicalOperator, Codomain<aBool>, Domain3<aBool, aBool, aBool> { //NOSONAR
 
 	String DESCRIPTION = "LLogicalTernaryOperator: boolean apply(boolean a1,boolean a2,boolean a3)";
 
-	// boolean apply(boolean a1,boolean a2,boolean a3) ;
 	default boolean apply(boolean a1, boolean a2, boolean a3) {
 		try {
 			return this.applyX(a1, a2, a3);
@@ -96,7 +95,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	default boolean handlingApply(boolean a1, boolean a2, boolean a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	default boolean apply(boolean a1, boolean a2, boolean a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	default boolean apply(boolean a1, boolean a2, boolean a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	default boolean apply(boolean a1, boolean a2, boolean a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	default boolean apply(boolean a1, boolean a2, boolean a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	default boolean apply(boolean a1, boolean a2, boolean a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	default boolean applyThen(boolean a1, boolean a2, boolean a3, @Nonnull LPredicate<Throwable> handler) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.test(e);
 		}
@@ -191,7 +190,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	default boolean shovingApply(boolean a1, boolean a2, boolean a3) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 		return func.shovingApply(a1, a2, a3);
 	}
 
-	static boolean handlingApply(boolean a1, boolean a2, boolean a3, LLogicalTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static boolean handlingApply(boolean a1, boolean a2, boolean a3, LLogicalTernaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, a3, handling);
 	}
@@ -413,8 +412,8 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> boolean throwIf(boolean a1, boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3)
-			throws X {
+	public static <X extends Throwable> boolean throwIf(boolean a1, boolean a2, boolean a3, @Nonnull LLogicalTernaryOperator pred, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2,
+			@Nullable Object param3) throws X {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(factory, "factory");
 		Null.nonNullArg(message, "message");
@@ -545,8 +544,8 @@ public interface LLogicalTernaryOperator extends MetaInterface.NonThrowing, Meta
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> boolean throwIf(boolean a1, @Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3)
-			throws X {
+	public static <X extends Throwable> boolean throwIf(boolean a1, @Nonnull LLogicalTernaryOperator pred, boolean a2, boolean a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2,
+			@Nullable Object param3) throws X {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(factory, "factory");
 		Null.nonNullArg(message, "message");

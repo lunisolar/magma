@@ -32,7 +32,7 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.value.*; // NOSONAR   
+import eu.lunisolar.magma.func.supp.value.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
 
@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface IsByteTrait<SELF extends IsByteTrait<SELF>> extends ByteValueTrait<SELF> {
 
-	// <editor-fold desc="is">
+	//<editor-fold desc="is">
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
 	default boolean is(@Nonnull LBytePredicate predicate) {
@@ -181,5 +181,5 @@ public interface IsByteTrait<SELF extends IsByteTrait<SELF>> extends ByteValueTr
 		return isNotWith(with1, with2, predicate);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

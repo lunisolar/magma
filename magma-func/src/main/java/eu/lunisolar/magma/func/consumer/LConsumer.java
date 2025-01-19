@@ -72,7 +72,6 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 
 	String DESCRIPTION = "LConsumer: void accept(T a)";
 
-	// void accept(T a) ;
 	default void accept(T a) {
 		try {
 			this.acceptX(a);
@@ -95,7 +94,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 	default void handlingAccept(T a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -107,7 +106,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 	default void accept(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -115,7 +114,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 	default void accept(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -123,7 +122,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 	default void accept(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -131,7 +130,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 	default void accept(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -155,7 +154,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 	default void accept(T a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -167,7 +166,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 	default void acceptThen(T a, @Nonnull LConsumer<Throwable> handler) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			handler.accept(e);
 		}
@@ -190,7 +189,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 	default void shovingAccept(T a) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -200,7 +199,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 		func.shovingAccept(a);
 	}
 
-	static <T> void handlingAccept(T a, LConsumer<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> void handlingAccept(T a, LConsumer<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a, handling);
 	}
@@ -298,7 +297,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 		};
 	}
 
-	// <editor-fold desc="CallContext">
+	//<editor-fold desc="CallContext">
 
 	@Nonnull
 	static <T> LConsumer<T> cons(@Nullable CallContext c1, final @Nonnull LConsumer<T> lambda) {
@@ -590,7 +589,7 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 		return future;
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull

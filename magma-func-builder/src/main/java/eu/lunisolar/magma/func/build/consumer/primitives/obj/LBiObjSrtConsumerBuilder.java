@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LBiObjSrtConsumer.
  */
 public final class LBiObjSrtConsumerBuilder<T1, T2> extends PerCaseBuilder.Base<LBiObjSrtConsumerBuilder<T1, T2>, LBiObjSrtPredicate<T1, T2>, LBiObjSrtConsumer<T1, T2>> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LBiObjSrtConsumer<T1, T2>> consumer;
 
@@ -147,7 +147,7 @@ public final class LBiObjSrtConsumerBuilder<T1, T2> extends PerCaseBuilder.Base<
 		LBiObjSrtConsumer<T1, T2> retval;
 
 		final Case<LBiObjSrtPredicate<T1, T2>, LBiObjSrtConsumer<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiObjSrtConsumer.<T1, T2> biObjSrtCons((a1, a2, a3) -> {
+		retval = LBiObjSrtConsumer.<T1, T2>biObjSrtCons((a1, a2, a3) -> {
 			try {
 				for (Case<LBiObjSrtPredicate<T1, T2>, LBiObjSrtConsumer<T1, T2>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a1, a2, a3)) {
@@ -157,12 +157,12 @@ public final class LBiObjSrtConsumerBuilder<T1, T2> extends PerCaseBuilder.Base<
 				}
 
 				otherwiseFinal.accept(a1, a2, a3);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

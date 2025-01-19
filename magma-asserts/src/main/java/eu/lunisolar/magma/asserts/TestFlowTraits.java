@@ -391,6 +391,7 @@ public final class TestFlowTraits {
 
 		@Nonnull
 		SELF testFlow(@Nonnull String phase, @Nullable String description, LConsumer<Step<STAGE, ?>> consumer);
+
 		<STEP_STAGE> @Nonnull SELF testFlowWith(@Nonnull String phase, @Nullable String description, @Nonnull LSupplier<STEP_STAGE> stepStage, LConsumer<Step2<STAGE, STEP_STAGE, ?>> consumer);
 
 	}

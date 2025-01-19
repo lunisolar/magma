@@ -62,7 +62,7 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 		return (SELF) doIf(clazz::isInstance, (LConsumer) action);
 	}
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
 	public @Nonnull SELF doIf(@Nonnull LPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action);
 
@@ -392,5 +392,5 @@ public interface DoIfTrait<T, SELF extends DoIfTrait<T, SELF>> extends FluentTra
 		return uniDoIfNotWith(with, predicate, action);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

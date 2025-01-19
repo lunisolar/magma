@@ -72,7 +72,6 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 
 	String DESCRIPTION = "LQuintConsumer: void accept(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5)";
 
-	// void accept(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5) ;
 	default void accept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
 		try {
 			this.acceptX(a1, a2, a3, a4, a5);
@@ -95,7 +94,7 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 	default void handlingAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			this.acceptX(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -107,7 +106,7 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 	default void accept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			this.acceptX(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -115,7 +114,7 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 	default void accept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			this.acceptX(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -123,7 +122,7 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 	default void accept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			this.acceptX(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -131,7 +130,7 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 	default void accept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			this.acceptX(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -155,7 +154,7 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 	default void accept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			this.acceptX(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -167,7 +166,7 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 	default void acceptThen(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LConsumer<Throwable> handler) {
 		try {
 			this.acceptX(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			handler.accept(e);
 		}
@@ -190,7 +189,7 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 	default void shovingAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
 		try {
 			this.acceptX(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -200,7 +199,7 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 		func.shovingAccept(a1, a2, a3, a4, a5);
 	}
 
-	static <T1, T2, T3, T4, T5> void handlingAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T1, T2, T3, T4, T5> void handlingAccept(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintConsumer<T1, T2, T3, T4, T5> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, a3, a4, a5, handling);
 	}
@@ -337,7 +336,7 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 		};
 	}
 
-	// <editor-fold desc="CallContext">
+	//<editor-fold desc="CallContext">
 
 	@Nonnull
 	static <T1, T2, T3, T4, T5> LQuintConsumer<T1, T2, T3, T4, T5> quintCons(@Nullable CallContext c1, final @Nonnull LQuintConsumer<T1, T2, T3, T4, T5> lambda) {
@@ -560,7 +559,8 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 		}
 	}
 
-	static <T1, T2, T3, T4, T5> void acceptX(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintConsumer<T1, T2, T3, T4, T5> function) throws Throwable {
+	static <T1, T2, T3, T4, T5> void acceptX(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintConsumer<T1, T2, T3, T4, T5> function)
+			throws Throwable {
 		Null.nonNullArg(function, "function");
 
 		Object last = null;
@@ -631,7 +631,7 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 		return future;
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
@@ -669,8 +669,8 @@ public interface LQuintConsumer<T1, T2, T3, T4, T5> extends MetaConsumer, MetaIn
 
 	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3, V4, V5> LQuintConsumer<V1, V2, V3, V4, V5> compose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2,
-			@Nonnull final LFunction<? super V3, ? extends T3> before3, @Nonnull final LFunction<? super V4, ? extends T4> before4, @Nonnull final LFunction<? super V5, ? extends T5> before5) {
+	default <V1, V2, V3, V4, V5> LQuintConsumer<V1, V2, V3, V4, V5> compose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LFunction<? super V3, ? extends T3> before3,
+			@Nonnull final LFunction<? super V4, ? extends T4> before4, @Nonnull final LFunction<? super V5, ? extends T5> before5) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");

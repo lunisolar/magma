@@ -32,7 +32,7 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.value.*; // NOSONAR   
+import eu.lunisolar.magma.func.supp.value.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
 
@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface IsBoolTrait<SELF extends IsBoolTrait<SELF>> extends BoolValueTrait<SELF> {
 
-	// <editor-fold desc="is">
+	//<editor-fold desc="is">
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
 	default boolean is(@Nonnull LLogicalOperator operator) {
@@ -181,5 +181,5 @@ public interface IsBoolTrait<SELF extends IsBoolTrait<SELF>> extends BoolValueTr
 		return isNotWith(with1, with2, operator);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

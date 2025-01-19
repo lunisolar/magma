@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface FilterByteSingleTrait<SELF extends FilterByteSingleTrait<SELF>> extends FilterByteTrait<SELF>, IsByteTrait<SELF> {
 
-	// <editor-fold desc="is">
+	//<editor-fold desc="is">
 
 	@Override
 	default @Nonnull SELF filter(@Nonnull LBytePredicate predicate) {
@@ -95,5 +95,5 @@ public interface FilterByteSingleTrait<SELF extends FilterByteSingleTrait<SELF>>
 		return this.isWith(with1, with2, predicate) ? fluentCtx() : voidValue();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

@@ -72,7 +72,7 @@ public final class OptBool extends OptBoolBase<OptBool> {
 	private static final OptBool TRUE = new OptBool(true);
 	private static final OptBool FALSE = new OptBool(false);
 
-	// <editor-fold desc="factories">
+	//<editor-fold desc="factories">
 
 	private OptBool() {
 		super();
@@ -115,7 +115,7 @@ public final class OptBool extends OptBoolBase<OptBool> {
 		return predicate.apply(value) ? of(value) : empty();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are handled with function, that should either throw exception or return one to be thrown. */
 	public static @Nonnull OptBool safelyFrom(@Nonnull LPredicate<Throwable> produceEmpty, @Nonnull ExWMF<RuntimeException> elseHandler, @Nonnull LBoolSupplier producer) {

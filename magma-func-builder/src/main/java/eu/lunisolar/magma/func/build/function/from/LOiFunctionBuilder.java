@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LOiFunction.
  */
 public final class LOiFunctionBuilder<T, R> extends PerCaseBuilderWithProduct.Base<LOiFunctionBuilder<T, R>, LObjIntPredicate<T>, LOiFunction<T, R>, R> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LOiFunction<T, R>> consumer;
 
@@ -147,7 +147,7 @@ public final class LOiFunctionBuilder<T, R> extends PerCaseBuilderWithProduct.Ba
 		LOiFunction<T, R> retval;
 
 		final Case<LObjIntPredicate<T>, LOiFunction<T, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LOiFunction.<T, R> oiFunc((a1, a2) -> {
+		retval = LOiFunction.<T, R>oiFunc((a1, a2) -> {
 			try {
 				for (Case<LObjIntPredicate<T>, LOiFunction<T, R>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a1, a2)) {
@@ -156,12 +156,12 @@ public final class LOiFunctionBuilder<T, R> extends PerCaseBuilderWithProduct.Ba
 				}
 
 				return otherwiseFinal.apply(a1, a2);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

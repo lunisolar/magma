@@ -90,7 +90,7 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FailPoi
 		return X::value;
 	}
 
-	// <editor-fold desc="main methods">
+	//<editor-fold desc="main methods">
 
 	/**   */
 	default @Nonnull SELF must_(@Nonnull LFltPredicate predicate, @Nonnull LFltFunction<String> msgFunc) {
@@ -1945,7 +1945,7 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FailPoi
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (pred.test(get())) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -1954,7 +1954,7 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FailPoi
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (!pred.test(get())) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -1963,7 +1963,7 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FailPoi
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (pred.test(get(), a2)) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -1972,7 +1972,7 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FailPoi
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (!pred.test(get(), a2)) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -1981,7 +1981,7 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FailPoi
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (pred.test(get(), a2, a3)) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -1990,15 +1990,16 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FailPoi
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (!pred.test(get(), a2, a3)) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	default @Nonnull SELF mustBeEqual(float expected) {
 		return mustEx(Be::equalEx, expected);
 	}
+
 	default @Nonnull SELF mustBeEqual(float expected, String message) {
 		return mustEx0(Be::equalEx, expected, message);
 	}
@@ -2006,6 +2007,7 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FailPoi
 	default @Nonnull SELF mustBeNotEqual(float expected) {
 		return mustEx(Be::notEqualEx, expected);
 	}
+
 	default @Nonnull SELF mustBeNotEqual(float expected, String message) {
 		return mustEx0(Be::notEqualEx, expected, message);
 	}
@@ -2013,24 +2015,31 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FailPoi
 	default @Nonnull SELF mustBeGreaterThan(float value) {
 		return mustEx(Be::gtEx, value);
 	}
+
 	default @Nonnull SELF mustBeGreaterThan(float value, String message) {
 		return mustEx0(Be::gtEx, value, message);
 	}
+
 	default @Nonnull SELF mustBeGreaterEqual(float value) {
 		return mustEx(Be::gtEqEx, value);
 	}
+
 	default @Nonnull SELF mustBeGreaterEqual(float value, String message) {
 		return mustEx0(Be::gtEqEx, value, message);
 	}
+
 	default @Nonnull SELF mustBeLessThan(float value) {
 		return mustEx(Be::ltEx, value);
 	}
+
 	default @Nonnull SELF mustBeLessThan(float value, String message) {
 		return mustEx0(Be::ltEx, value, message);
 	}
+
 	default @Nonnull SELF mustBeLessEqual(float value) {
 		return mustEx(Be::ltEqEx, value);
 	}
+
 	default @Nonnull SELF mustBeLessEqual(float value, String message) {
 		return mustEx0(Be::ltEqEx, value, message);
 	}
@@ -2038,6 +2047,7 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FailPoi
 	default @Nonnull SELF mustBeBetween(float min, float max) {
 		return mustEx(Be::betweenEx, min, max);
 	}
+
 	default @Nonnull SELF mustBeBetween(float min, float max, String message) {
 		return mustEx0(Be::betweenEx, min, max, message);
 	}
@@ -2045,6 +2055,7 @@ public interface CheckFltTrait<SELF extends CheckFltTrait<SELF>> extends FailPoi
 	default @Nonnull SELF mustBeInRange(float min, float max) {
 		return mustEx(Be::inRangeEx, min, max);
 	}
+
 	default @Nonnull SELF mustBeInRange(float min, float max, String message) {
 		return mustEx0(Be::inRangeEx, min, max, message);
 	}

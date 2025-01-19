@@ -72,12 +72,11 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInterface.NonThrowing, OFunction<T, a<R>>, Codomain<a<R>>, Domain1<a<T>> { // NOSONAR
+public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInterface.NonThrowing, OFunction<T, a<R>>, Codomain<a<R>>, Domain1<a<T>> { //NOSONAR
 
 	String DESCRIPTION = "LFunction: R apply(T a)";
 
 	@Nullable
-	// R apply(T a) ;
 	default R apply(T a) {
 		try {
 			return this.applyX(a);
@@ -99,7 +98,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	default R handlingApply(T a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -111,7 +110,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	default R apply(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -119,7 +118,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	default R apply(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -127,7 +126,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	default R apply(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -135,7 +134,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	default R apply(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -159,7 +158,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	default R apply(T a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -171,7 +170,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	default R applyThen(T a, @Nonnull LFunction<Throwable, R> handler) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.apply(e);
 		}
@@ -194,7 +193,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 	default R shovingApply(T a) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -204,7 +203,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return func.shovingApply(a);
 	}
 
-	static <T, R> R handlingApply(T a, LFunction<T, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T, R> R handlingApply(T a, LFunction<T, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a, handling);
 	}
@@ -330,7 +329,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		};
 	}
 
-	// <editor-fold desc="CallContext">
+	//<editor-fold desc="CallContext">
 
 	@Nonnull
 	static <T, R> LFunction<T, R> func(@Nullable CallContext c1, final @Nonnull LFunction<T, R> lambda) {
@@ -622,7 +621,7 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		return future;
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Creates function that always returns the same value. */
 	static <T, R> LFunction<T, R> constant(R r) {

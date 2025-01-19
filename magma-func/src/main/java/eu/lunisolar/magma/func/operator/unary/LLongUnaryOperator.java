@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, MetaInterface.NonThrowing, Codomain<aLong>, Domain1<aLong> { // NOSONAR
+public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, MetaInterface.NonThrowing, Codomain<aLong>, Domain1<aLong> { //NOSONAR
 
 	String DESCRIPTION = "LLongUnaryOperator: long applyAsLong(long a)";
 
-	// long applyAsLong(long a) ;
 	default long applyAsLong(long a) {
 		try {
 			return this.applyAsLongX(a);
@@ -96,7 +95,7 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 	default long handlingApplyAsLong(long a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 	default long applyAsLong(long a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 	default long applyAsLong(long a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 	default long applyAsLong(long a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 	default long applyAsLong(long a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 	default long applyAsLong(long a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 	default long applyAsLongThen(long a, @Nonnull LToLongFunction<Throwable> handler) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsLong(e);
 		}
@@ -191,7 +190,7 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 	default long shovingApplyAsLong(long a) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LLongUnaryOperator extends LongUnaryOperator, MetaOperator, Met
 		return func.shovingApplyAsLong(a);
 	}
 
-	static long handlingApplyAsLong(long a, LLongUnaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static long handlingApplyAsLong(long a, LLongUnaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsLong(a, handling);
 	}

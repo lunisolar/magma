@@ -72,11 +72,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThrowing, OiFunction<T, aBool>, Codomain<aBool>, Domain2<a<T>, aInt> { // NOSONAR
+public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThrowing, OiFunction<T, aBool>, Codomain<aBool>, Domain2<a<T>, aInt> { //NOSONAR
 
 	String DESCRIPTION = "LObjIntPredicate: boolean test(T a1,int a2)";
 
-	// boolean test(T a1,int a2) ;
 	default boolean test(T a1, int a2) {
 		try {
 			return this.testX(a1, a2);
@@ -98,7 +97,7 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	default boolean handlingTest(T a1, int a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.testX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -110,7 +109,7 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	default boolean test(T a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.testX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -118,7 +117,7 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	default boolean test(T a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.testX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -126,7 +125,7 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	default boolean test(T a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.testX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -134,7 +133,7 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	default boolean test(T a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.testX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -158,7 +157,7 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	default boolean test(T a1, int a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.testX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -170,7 +169,7 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	default boolean testThen(T a1, int a2, @Nonnull LPredicate<Throwable> handler) {
 		try {
 			return this.testX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.test(e);
 		}
@@ -193,7 +192,7 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 	default boolean shovingTest(T a1, int a2) {
 		try {
 			return this.testX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -203,7 +202,7 @@ public interface LObjIntPredicate<T> extends MetaPredicate, MetaInterface.NonThr
 		return func.shovingTest(a1, a2);
 	}
 
-	static <T> boolean handlingTest(T a1, int a2, LObjIntPredicate<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> boolean handlingTest(T a1, int a2, LObjIntPredicate<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, handling);
 	}

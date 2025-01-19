@@ -70,7 +70,7 @@ public final class OptInt extends OptIntBase<OptInt> {
 
 	private static final OptInt EMPTY = new OptInt();
 
-	// <editor-fold desc="factories">
+	//<editor-fold desc="factories">
 
 	private OptInt() {
 		super();
@@ -118,7 +118,7 @@ public final class OptInt extends OptIntBase<OptInt> {
 		return optional.isPresent() ? OptInt.of(optional.getAsInt()) : empty();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are handled with function, that should either throw exception or return one to be thrown. */
 	public static @Nonnull OptInt safelyFrom(@Nonnull LPredicate<Throwable> produceEmpty, @Nonnull ExWMF<RuntimeException> elseHandler, @Nonnull LIntSupplier producer) {

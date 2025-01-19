@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface UseCharSingleTrait<SELF extends UseCharSingleTrait<SELF>> extends UseCharTrait<SELF>, CharValueTrait<SELF> {
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
 	default @Nonnull SELF use(@Nonnull LCharConsumer consumer) {
 		consumer.accept(value());
@@ -114,5 +114,5 @@ public interface UseCharSingleTrait<SELF extends UseCharSingleTrait<SELF>> exten
 		return useWith(with1, with2, consumer);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

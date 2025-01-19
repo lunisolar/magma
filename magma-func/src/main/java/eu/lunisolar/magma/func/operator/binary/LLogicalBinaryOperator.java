@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaLogicalOperator, Codomain<aBool>, Domain2<aBool, aBool> { // NOSONAR
+public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaLogicalOperator, Codomain<aBool>, Domain2<aBool, aBool> { //NOSONAR
 
 	String DESCRIPTION = "LLogicalBinaryOperator: boolean apply(boolean a1,boolean a2)";
 
-	// boolean apply(boolean a1,boolean a2) ;
 	default boolean apply(boolean a1, boolean a2) {
 		try {
 			return this.applyX(a1, a2);
@@ -96,7 +95,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	default boolean handlingApply(boolean a1, boolean a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	default boolean apply(boolean a1, boolean a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	default boolean apply(boolean a1, boolean a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	default boolean apply(boolean a1, boolean a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	default boolean apply(boolean a1, boolean a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	default boolean apply(boolean a1, boolean a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	default boolean applyThen(boolean a1, boolean a2, @Nonnull LPredicate<Throwable> handler) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.test(e);
 		}
@@ -191,7 +190,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 	default boolean shovingApply(boolean a1, boolean a2) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LLogicalBinaryOperator extends MetaInterface.NonThrowing, MetaL
 		return func.shovingApply(a1, a2);
 	}
 
-	static boolean handlingApply(boolean a1, boolean a2, LLogicalBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static boolean handlingApply(boolean a1, boolean a2, LLogicalBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, handling);
 	}

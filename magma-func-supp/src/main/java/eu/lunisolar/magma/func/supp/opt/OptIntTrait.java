@@ -66,7 +66,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait<SELF>, aValue<aInt>, CheckIntTrait<SELF>, FilterIntSingleTrait<SELF>, IsIntTrait<SELF>, DoIfIntSingleTrait<SELF>, UseIntSingleTrait<SELF>, UniMapIntTrait<SELF> {
 
-	// <editor-fold desc="forcing ValueTrait re-implementation">
+	//<editor-fold desc="forcing ValueTrait re-implementation">
 
 	@Override
 	@Nonnull
@@ -76,7 +76,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 	@Nonnull
 	SELF voidValue();
 
-	// </editor-fold>
+	//</editor-fold>
 
 	int get();
 
@@ -103,7 +103,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		}
 	}
 
-	// <editor-fold desc="isPresent() dependant boolean terminals">
+	//<editor-fold desc="isPresent() dependant boolean terminals">
 
 	@Override
 	default boolean is(@Nonnull LIntPredicate predicate) {
@@ -165,17 +165,17 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		return isPresent() && FilterIntSingleTrait.super.isNotWith(with1, with2, predicate);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="filtering">
+	//<editor-fold desc="filtering">
 
-	// </editor-fold>
+	//</editor-fold>
 
 	default SELF butNot(int value) {
 		return isPresent() ? (value() == value ? voidValue() : fluentCtx()) : voidValue();
 	}
 
-	// <editor-fold desc="uniMap">
+	//<editor-fold desc="uniMap">
 
 	default @Nonnull SELF map(@Nonnull LIntUnaryOperator mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -197,9 +197,9 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		return isPresent() ? value(mapping.applyAsInt(get(), a1, a2)) : voidValue();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="map">
+	//<editor-fold desc="map">
 
 	default @Nonnull OptBool mapToBool(@Nonnull LIntPredicate mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -311,9 +311,9 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		return isPresent() ? (Opt.of(mapping.apply(get(), a1, a2))) : Opt.empty();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="flatMap">
+	//<editor-fold desc="flatMap">
 
 	default @Nonnull OptBool flatMapToBool(@Nonnull LIntFunction<? extends OptBoolTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -540,13 +540,13 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		return isPresent() ? Opt.from(mapping.apply(get(), a1, a2)) : Opt.empty();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="ifPresent">
+	//<editor-fold desc="ifPresent">
 
 	default @Nonnull SELF ifVoid(@Nonnull LAction action) {
 		Null.nonNullArg(action, "action");
@@ -680,7 +680,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		return fluentCtx();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Compared to ifPresent it will simply fail if there is no value */
 	default @Nonnull SELF visit(@Nonnull LIntConsumer consumer) {
@@ -689,7 +689,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		return fluentCtx();
 	}
 
-	// <editor-fold desc="orElse">
+	//<editor-fold desc="orElse">
 
 	default @Nonnull SELF orThrow() {
 		if (isPresent()) {
@@ -875,7 +875,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 		return isPresent() ? fluentCtx() : valueFrom(supplier.apply(a1, a2, a3));
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	default OptionalInt toOptional() {
 		return isPresent() ? OptionalInt.of(value()) : OptionalInt.empty();
@@ -972,6 +972,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 				public boolean hasNext() {
 					return !spent;
 				}
+
 				@Override
 				public int nextInt() {
 					if (spent)
@@ -986,6 +987,7 @@ public interface OptIntTrait<SELF extends OptIntTrait<SELF>> extends FluentTrait
 				public boolean hasNext() {
 					return false;
 				}
+
 				@Override
 				public int nextInt() {
 					throw X.noSuchElement();

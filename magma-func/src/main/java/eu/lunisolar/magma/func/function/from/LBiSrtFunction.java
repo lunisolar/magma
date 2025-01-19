@@ -70,12 +70,11 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain2<aShort, aShort> { // NOSONAR
+public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain2<aShort, aShort> { //NOSONAR
 
 	String DESCRIPTION = "LBiSrtFunction: R apply(short a1,short a2)";
 
 	@Nullable
-	// R apply(short a1,short a2) ;
 	default R apply(short a1, short a2) {
 		try {
 			return this.applyX(a1, a2);
@@ -97,7 +96,7 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	default R handlingApply(short a1, short a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -109,7 +108,7 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	default R apply(short a1, short a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -117,7 +116,7 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	default R apply(short a1, short a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -125,7 +124,7 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	default R apply(short a1, short a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -133,7 +132,7 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	default R apply(short a1, short a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -157,7 +156,7 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	default R apply(short a1, short a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -169,7 +168,7 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	default R applyThen(short a1, short a2, @Nonnull LFunction<Throwable, R> handler) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.apply(e);
 		}
@@ -192,7 +191,7 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 	default R shovingApply(short a1, short a2) {
 		try {
 			return this.applyX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -202,7 +201,7 @@ public interface LBiSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowi
 		return func.shovingApply(a1, a2);
 	}
 
-	static <R> R handlingApply(short a1, short a2, LBiSrtFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <R> R handlingApply(short a1, short a2, LBiSrtFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, handling);
 	}

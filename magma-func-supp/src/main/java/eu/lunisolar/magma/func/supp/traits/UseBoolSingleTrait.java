@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface UseBoolSingleTrait<SELF extends UseBoolSingleTrait<SELF>> extends UseBoolTrait<SELF>, BoolValueTrait<SELF> {
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
 	default @Nonnull SELF use(@Nonnull LBoolConsumer consumer) {
 		consumer.accept(value());
@@ -114,5 +114,5 @@ public interface UseBoolSingleTrait<SELF extends UseBoolSingleTrait<SELF>> exten
 		return useWith(with1, with2, consumer);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

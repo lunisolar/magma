@@ -59,7 +59,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface UniMapByteTrait<SELF extends UniMapByteTrait<SELF>> extends ByteValueTrait<SELF>, FluentTrait<SELF> {
 
-	// <editor-fold desc="uniMap">
+	//<editor-fold desc="uniMap">
 
 	default @Nonnull SELF map(@Nonnull LByteUnaryOperator mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -76,6 +76,6 @@ public interface UniMapByteTrait<SELF extends UniMapByteTrait<SELF>> extends Byt
 		return value(mapping.applyAsByte(value(), a1, a2));
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 }

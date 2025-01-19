@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing, Codomain<aBool>, Domain1<aChar> { // NOSONAR
+public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing, Codomain<aBool>, Domain1<aChar> { //NOSONAR
 
 	String DESCRIPTION = "LCharPredicate: boolean test(char a)";
 
-	// boolean test(char a) ;
 	default boolean test(char a) {
 		try {
 			return this.testX(a);
@@ -96,7 +95,7 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	default boolean handlingTest(char a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.testX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	default boolean test(char a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.testX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	default boolean test(char a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.testX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	default boolean test(char a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.testX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	default boolean test(char a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.testX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	default boolean test(char a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.testX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	default boolean testThen(char a, @Nonnull LPredicate<Throwable> handler) {
 		try {
 			return this.testX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.test(e);
 		}
@@ -191,7 +190,7 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 	default boolean shovingTest(char a) {
 		try {
 			return this.testX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LCharPredicate extends MetaPredicate, MetaInterface.NonThrowing
 		return func.shovingTest(a);
 	}
 
-	static boolean handlingTest(char a, LCharPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static boolean handlingTest(char a, LCharPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a, handling);
 	}

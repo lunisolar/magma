@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LQuadConsumer.
  */
 public final class LQuadConsumerBuilder<T1, T2, T3, T4> extends PerCaseBuilder.Base<LQuadConsumerBuilder<T1, T2, T3, T4>, LQuadPredicate<T1, T2, T3, T4>, LQuadConsumer<T1, T2, T3, T4>> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LQuadConsumer<T1, T2, T3, T4>> consumer;
 
@@ -148,7 +148,7 @@ public final class LQuadConsumerBuilder<T1, T2, T3, T4> extends PerCaseBuilder.B
 		LQuadConsumer<T1, T2, T3, T4> retval;
 
 		final Case<LQuadPredicate<T1, T2, T3, T4>, LQuadConsumer<T1, T2, T3, T4>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LQuadConsumer.<T1, T2, T3, T4> quadCons((a1, a2, a3, a4) -> {
+		retval = LQuadConsumer.<T1, T2, T3, T4>quadCons((a1, a2, a3, a4) -> {
 			try {
 				for (Case<LQuadPredicate<T1, T2, T3, T4>, LQuadConsumer<T1, T2, T3, T4>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a1, a2, a3, a4)) {
@@ -158,12 +158,12 @@ public final class LQuadConsumerBuilder<T1, T2, T3, T4> extends PerCaseBuilder.B
 				}
 
 				otherwiseFinal.accept(a1, a2, a3, a4);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

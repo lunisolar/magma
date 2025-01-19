@@ -72,9 +72,11 @@ public final class TestFlow<STAGE> implements TestFlowTraits.Junction<STAGE, Tes
 	public static @Nonnull TestFlow<?> test(String description, @Nonnull LConsumer<String> logger) {
 		return testFlow(logger).log("Test: " + description);
 	}
+
 	public static @Nonnull TestFlow<?> test(String description) {
 		return test(description, System.out::println);
 	}
+
 	public static @Nonnull TestFlow<?> test() {
 		return test(DEFAULT_DESCRIPTION, System.out::println);
 	}
@@ -82,12 +84,15 @@ public final class TestFlow<STAGE> implements TestFlowTraits.Junction<STAGE, Tes
 	public static @Nonnull TestFlow<?> scenario(@Nonnull LConsumer<String> logger) {
 		return testFlow(logger);
 	}
+
 	public static @Nonnull TestFlow<?> scenario(String description, @Nonnull LConsumer<String> logger) {
 		return testFlow(logger).log("Test: " + description);
 	}
+
 	public static @Nonnull TestFlow<?> scenario(String description) {
 		return scenario(description, System.out::println);
 	}
+
 	public static @Nonnull TestFlow<?> scenario() {
 		return scenario(DEFAULT_DESCRIPTION, System.out::println);
 	}

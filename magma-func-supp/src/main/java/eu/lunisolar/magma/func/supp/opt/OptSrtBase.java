@@ -79,7 +79,7 @@ public abstract class OptSrtBase<SELF extends OptSrtBase<SELF>> implements OptSr
 		return !isPresent;
 	}
 
-	// <editor-fold desc="equals/hashcode/toString">
+	//<editor-fold desc="equals/hashcode/toString">
 
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -108,6 +108,6 @@ public abstract class OptSrtBase<SELF extends OptSrtBase<SELF>> implements OptSr
 		return sb.append("]").toString();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 }

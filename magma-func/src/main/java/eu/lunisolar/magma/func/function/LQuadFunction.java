@@ -70,12 +70,11 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain4<a<T1>, a<T2>, a<T3>, a<T4>> { // NOSONAR
+public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain4<a<T1>, a<T2>, a<T3>, a<T4>> { //NOSONAR
 
 	String DESCRIPTION = "LQuadFunction: R apply(T1 a1,T2 a2,T3 a3,T4 a4)";
 
 	@Nullable
-	// R apply(T1 a1,T2 a2,T3 a3,T4 a4) ;
 	default R apply(T1 a1, T2 a2, T3 a3, T4 a4) {
 		try {
 			return this.applyX(a1, a2, a3, a4);
@@ -97,7 +96,7 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 	default R handlingApply(T1 a1, T2 a2, T3 a3, T4 a4, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyX(a1, a2, a3, a4);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -109,7 +108,7 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 	default R apply(T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a1, a2, a3, a4);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -117,7 +116,7 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 	default R apply(T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a1, a2, a3, a4);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -125,7 +124,7 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 	default R apply(T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a1, a2, a3, a4);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -133,7 +132,7 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 	default R apply(T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a1, a2, a3, a4);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -157,7 +156,7 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 	default R apply(T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a1, a2, a3, a4);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -169,7 +168,7 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 	default R applyThen(T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LFunction<Throwable, R> handler) {
 		try {
 			return this.applyX(a1, a2, a3, a4);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.apply(e);
 		}
@@ -192,7 +191,7 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 	default R shovingApply(T1 a1, T2 a2, T3 a3, T4 a4) {
 		try {
 			return this.applyX(a1, a2, a3, a4);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -202,7 +201,7 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 		return func.shovingApply(a1, a2, a3, a4);
 	}
 
-	static <T1, T2, T3, T4, R> R handlingApply(T1 a1, T2 a2, T3 a3, T4 a4, LQuadFunction<T1, T2, T3, T4, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T1, T2, T3, T4, R> R handlingApply(T1 a1, T2 a2, T3 a3, T4 a4, LQuadFunction<T1, T2, T3, T4, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, a3, a4, handling);
 	}
@@ -358,7 +357,7 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 		};
 	}
 
-	// <editor-fold desc="CallContext">
+	//<editor-fold desc="CallContext">
 
 	@Nonnull
 	static <T1, T2, T3, T4, R> LQuadFunction<T1, T2, T3, T4, R> quadFunc(@Nullable CallContext c1, final @Nonnull LQuadFunction<T1, T2, T3, T4, R> lambda) {
@@ -651,7 +650,7 @@ public interface LQuadFunction<T1, T2, T3, T4, R> extends MetaFunction, MetaInte
 		return future;
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Creates function that always returns the same value. */
 	static <T1, T2, T3, T4, R> LQuadFunction<T1, T2, T3, T4, R> constant(R r) {

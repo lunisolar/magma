@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aShort>, Domain1<aBool> { // NOSONAR
+public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aShort>, Domain1<aBool> { //NOSONAR
 
 	String DESCRIPTION = "LBoolToSrtFunction: short applyAsSrt(boolean a)";
 
-	// short applyAsSrt(boolean a) ;
 	default short applyAsSrt(boolean a) {
 		try {
 			return this.applyAsSrtX(a);
@@ -96,7 +95,7 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	default short handlingApplyAsSrt(boolean a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsSrtX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	default short applyAsSrt(boolean a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsSrtX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	default short applyAsSrt(boolean a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsSrtX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	default short applyAsSrt(boolean a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsSrtX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	default short applyAsSrt(boolean a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsSrtX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	default short applyAsSrt(boolean a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsSrtX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	default short applyAsSrtThen(boolean a, @Nonnull LToSrtFunction<Throwable> handler) {
 		try {
 			return this.applyAsSrtX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsSrt(e);
 		}
@@ -191,7 +190,7 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 	default short shovingApplyAsSrt(boolean a) {
 		try {
 			return this.applyAsSrtX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LBoolToSrtFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.shovingApplyAsSrt(a);
 	}
 
-	static short handlingApplyAsSrt(boolean a, LBoolToSrtFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static short handlingApplyAsSrt(boolean a, LBoolToSrtFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsSrt(a, handling);
 	}

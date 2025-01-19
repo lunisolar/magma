@@ -72,7 +72,6 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 
 	String DESCRIPTION = "LTriConsumer: void accept(T1 a1,T2 a2,T3 a3)";
 
-	// void accept(T1 a1,T2 a2,T3 a3) ;
 	default void accept(T1 a1, T2 a2, T3 a3) {
 		try {
 			this.acceptX(a1, a2, a3);
@@ -95,7 +94,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 	default void handlingAccept(T1 a1, T2 a2, T3 a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			this.acceptX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -107,7 +106,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 	default void accept(T1 a1, T2 a2, T3 a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			this.acceptX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -115,7 +114,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 	default void accept(T1 a1, T2 a2, T3 a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			this.acceptX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -123,7 +122,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 	default void accept(T1 a1, T2 a2, T3 a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			this.acceptX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -131,7 +130,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 	default void accept(T1 a1, T2 a2, T3 a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			this.acceptX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -155,7 +154,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 	default void accept(T1 a1, T2 a2, T3 a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			this.acceptX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -167,7 +166,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 	default void acceptThen(T1 a1, T2 a2, T3 a3, @Nonnull LConsumer<Throwable> handler) {
 		try {
 			this.acceptX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			handler.accept(e);
 		}
@@ -190,7 +189,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 	default void shovingAccept(T1 a1, T2 a2, T3 a3) {
 		try {
 			this.acceptX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -200,7 +199,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		func.shovingAccept(a1, a2, a3);
 	}
 
-	static <T1, T2, T3> void handlingAccept(T1 a1, T2 a2, T3 a3, LTriConsumer<T1, T2, T3> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T1, T2, T3> void handlingAccept(T1 a1, T2 a2, T3 a3, LTriConsumer<T1, T2, T3> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, a3, handling);
 	}
@@ -320,7 +319,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		};
 	}
 
-	// <editor-fold desc="CallContext">
+	//<editor-fold desc="CallContext">
 
 	@Nonnull
 	static <T1, T2, T3> LTriConsumer<T1, T2, T3> triCons(@Nullable CallContext c1, final @Nonnull LTriConsumer<T1, T2, T3> lambda) {
@@ -613,7 +612,7 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		return future;
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull

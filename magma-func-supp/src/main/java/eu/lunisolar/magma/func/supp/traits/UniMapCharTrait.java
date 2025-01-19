@@ -59,7 +59,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface UniMapCharTrait<SELF extends UniMapCharTrait<SELF>> extends CharValueTrait<SELF>, FluentTrait<SELF> {
 
-	// <editor-fold desc="uniMap">
+	//<editor-fold desc="uniMap">
 
 	default @Nonnull SELF map(@Nonnull LCharUnaryOperator mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -76,6 +76,6 @@ public interface UniMapCharTrait<SELF extends UniMapCharTrait<SELF>> extends Cha
 		return value(mapping.applyAsChar(value(), a1, a2));
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 }

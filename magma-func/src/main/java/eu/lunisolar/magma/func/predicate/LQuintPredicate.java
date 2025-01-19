@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, MetaInterface.NonThrowing, Codomain<aBool>, Domain5<a<T1>, a<T2>, a<T3>, a<T4>, a<T5>> { // NOSONAR
+public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, MetaInterface.NonThrowing, Codomain<aBool>, Domain5<a<T1>, a<T2>, a<T3>, a<T4>, a<T5>> { //NOSONAR
 
 	String DESCRIPTION = "LQuintPredicate: boolean test(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5)";
 
-	// boolean test(T1 a1,T2 a2,T3 a3,T4 a4,T5 a5) ;
 	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
 		try {
 			return this.testX(a1, a2, a3, a4, a5);
@@ -96,7 +95,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	default boolean handlingTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.testX(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.testX(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.testX(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.testX(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.testX(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	default boolean test(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.testX(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	default boolean testThen(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LPredicate<Throwable> handler) {
 		try {
 			return this.testX(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.test(e);
 		}
@@ -191,7 +190,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	default boolean shovingTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5) {
 		try {
 			return this.testX(a1, a2, a3, a4, a5);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return func.shovingTest(a1, a2, a3, a4, a5);
 	}
 
-	static <T1, T2, T3, T4, T5> boolean handlingTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T1, T2, T3, T4, T5> boolean handlingTest(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, LQuintPredicate<T1, T2, T3, T4, T5> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, a3, a4, a5, handling);
 	}
@@ -678,8 +677,8 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNotEx(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> specialPredicate, @Nonnull ExMF<X> factory)
-			throws X {
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNotEx(T1 a1, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> specialPredicate,
+			@Nonnull ExMF<X> factory) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
 		var m = specialPredicate.apply(a1, a2, a3, a4, a5);
@@ -742,8 +741,8 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 	}
 
 	/** Throws new exception if condition is not met (non null message is returned by 'predicate') */
-	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNotEx(T1 a1, @Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> specialPredicate, T2 a2, T3 a3, T4 a4, T5 a5, @Nonnull ExMF<X> factory)
-			throws X {
+	public static <T1, T2, T3, T4, T5, X extends Throwable> T1 throwIfNotEx(T1 a1, @Nonnull LQuintFunction<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends String> specialPredicate, T2 a2, T3 a3, T4 a4, T5 a5,
+			@Nonnull ExMF<X> factory) throws X {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(factory, "factory");
 		var m = specialPredicate.apply(a1, a2, a3, a4, a5);
@@ -805,7 +804,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return a1;
 	}
 
-	// <editor-fold desc="CallContext">
+	//<editor-fold desc="CallContext">
 
 	@Nonnull
 	static <T1, T2, T3, T4, T5> LQuintPredicate<T1, T2, T3, T4, T5> quintPred(@Nullable CallContext c1, final @Nonnull LQuintPredicate<T1, T2, T3, T4, T5> lambda) {
@@ -1100,7 +1099,7 @@ public interface LQuintPredicate<T1, T2, T3, T4, T5> extends MetaPredicate, Meta
 		return future;
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Creates function that always returns the same value. */
 	static <T1, T2, T3, T4, T5> LQuintPredicate<T1, T2, T3, T4, T5> constant(boolean r) {

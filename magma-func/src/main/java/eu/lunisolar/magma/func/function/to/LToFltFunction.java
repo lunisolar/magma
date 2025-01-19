@@ -72,11 +72,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowing, OFunction<T, aFloat>, Codomain<aFloat>, Domain1<a<T>> { // NOSONAR
+public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowing, OFunction<T, aFloat>, Codomain<aFloat>, Domain1<a<T>> { //NOSONAR
 
 	String DESCRIPTION = "LToFltFunction: float applyAsFlt(T a)";
 
-	// float applyAsFlt(T a) ;
 	default float applyAsFlt(T a) {
 		try {
 			return this.applyAsFltX(a);
@@ -98,7 +97,7 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	default float handlingApplyAsFlt(T a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsFltX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -110,7 +109,7 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	default float applyAsFlt(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsFltX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -118,7 +117,7 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	default float applyAsFlt(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsFltX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -126,7 +125,7 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	default float applyAsFlt(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsFltX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -134,7 +133,7 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	default float applyAsFlt(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsFltX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -158,7 +157,7 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	default float applyAsFlt(T a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsFltX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -170,7 +169,7 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	default float applyAsFltThen(T a, @Nonnull LToFltFunction<Throwable> handler) {
 		try {
 			return this.applyAsFltX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsFlt(e);
 		}
@@ -193,7 +192,7 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	default float shovingApplyAsFlt(T a) {
 		try {
 			return this.applyAsFltX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -203,7 +202,7 @@ public interface LToFltFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		return func.shovingApplyAsFlt(a);
 	}
 
-	static <T> float handlingApplyAsFlt(T a, LToFltFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> float handlingApplyAsFlt(T a, LToFltFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsFlt(a, handling);
 	}

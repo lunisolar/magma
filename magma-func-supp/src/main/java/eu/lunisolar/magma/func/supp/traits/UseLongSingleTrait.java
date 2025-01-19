@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface UseLongSingleTrait<SELF extends UseLongSingleTrait<SELF>> extends UseLongTrait<SELF>, LongValueTrait<SELF> {
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
 	default @Nonnull SELF use(@Nonnull LLongConsumer consumer) {
 		consumer.accept(value());
@@ -114,5 +114,5 @@ public interface UseLongSingleTrait<SELF extends UseLongSingleTrait<SELF>> exten
 		return useWith(with1, with2, consumer);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

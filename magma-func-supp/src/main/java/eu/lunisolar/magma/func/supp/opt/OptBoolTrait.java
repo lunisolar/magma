@@ -66,7 +66,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTrait<SELF>, aValue<aBool>, CheckBoolTrait<SELF>, FilterBoolSingleTrait<SELF>, IsBoolTrait<SELF>, DoIfBoolSingleTrait<SELF>, UseBoolSingleTrait<SELF>, UniMapBoolTrait<SELF> {
 
-	// <editor-fold desc="forcing ValueTrait re-implementation">
+	//<editor-fold desc="forcing ValueTrait re-implementation">
 
 	@Override
 	@Nonnull
@@ -76,7 +76,7 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 	@Nonnull
 	SELF voidValue();
 
-	// </editor-fold>
+	//</editor-fold>
 
 	boolean get();
 
@@ -95,7 +95,7 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 		return !isPresent();
 	}
 
-	// <editor-fold desc="isPresent() dependant boolean terminals">
+	//<editor-fold desc="isPresent() dependant boolean terminals">
 
 	@Override
 	default boolean is(@Nonnull LLogicalOperator operator) {
@@ -169,17 +169,17 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 		return isPresent() && FilterBoolSingleTrait.super.isNotWith(with1, with2, operator);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="filtering">
+	//<editor-fold desc="filtering">
 
-	// </editor-fold>
+	//</editor-fold>
 
 	default SELF butNot(boolean value) {
 		return isPresent() ? (value() == value ? voidValue() : fluentCtx()) : voidValue();
 	}
 
-	// <editor-fold desc="uniMap">
+	//<editor-fold desc="uniMap">
 
 	default @Nonnull SELF map(@Nonnull LLogicalOperator mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -206,9 +206,9 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 		return isPresent() ? value(mapping.apply(get(), a1, a2)) : voidValue();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="map">
+	//<editor-fold desc="map">
 
 	default @Nonnull OptByte mapToByte(@Nonnull LBoolToByteFunction mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -270,9 +270,9 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 		return isPresent() ? (Opt.of(mapping.apply(get(), a1, a2))) : Opt.empty();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="flatMap">
+	//<editor-fold desc="flatMap">
 
 	default @Nonnull SELF flatMap(@Nonnull LBoolFunction<? extends OptBoolTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -499,13 +499,13 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 		return isPresent() ? Opt.from(mapping.apply(get(), a1, a2)) : Opt.empty();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="ifPresent">
+	//<editor-fold desc="ifPresent">
 
 	default @Nonnull SELF ifVoid(@Nonnull LAction action) {
 		Null.nonNullArg(action, "action");
@@ -639,7 +639,7 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 		return fluentCtx();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Compared to ifPresent it will simply fail if there is no value */
 	default @Nonnull SELF visit(@Nonnull LBoolConsumer consumer) {
@@ -648,7 +648,7 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 		return fluentCtx();
 	}
 
-	// <editor-fold desc="orElse">
+	//<editor-fold desc="orElse">
 
 	default @Nonnull SELF orThrow() {
 		if (isPresent()) {
@@ -834,7 +834,7 @@ public interface OptBoolTrait<SELF extends OptBoolTrait<SELF>> extends FluentTra
 		return isPresent() ? fluentCtx() : valueFrom(supplier.apply(a1, a2, a3));
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	default @Nonnull OptBool op(@Nonnull OptBoolTrait<?> opt2, @Nonnull LLogicalBinaryOperator both, @Nonnull LLogicalOperator first, @Nonnull LLogicalOperator second, @Nonnull LBoolSupplier none) {
 		return op(this, opt2, both, first, second, none);

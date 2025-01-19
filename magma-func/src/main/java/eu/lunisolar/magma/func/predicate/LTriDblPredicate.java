@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowing, Codomain<aBool>, Domain3<aDouble, aDouble, aDouble> { // NOSONAR
+public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowing, Codomain<aBool>, Domain3<aDouble, aDouble, aDouble> { //NOSONAR
 
 	String DESCRIPTION = "LTriDblPredicate: boolean test(double a1,double a2,double a3)";
 
-	// boolean test(double a1,double a2,double a3) ;
 	default boolean test(double a1, double a2, double a3) {
 		try {
 			return this.testX(a1, a2, a3);
@@ -96,7 +95,7 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	default boolean handlingTest(double a1, double a2, double a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.testX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	default boolean test(double a1, double a2, double a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.testX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	default boolean test(double a1, double a2, double a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.testX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	default boolean test(double a1, double a2, double a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.testX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	default boolean test(double a1, double a2, double a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.testX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	default boolean test(double a1, double a2, double a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.testX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	default boolean testThen(double a1, double a2, double a3, @Nonnull LPredicate<Throwable> handler) {
 		try {
 			return this.testX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.test(e);
 		}
@@ -191,7 +190,7 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	default boolean shovingTest(double a1, double a2, double a3) {
 		try {
 			return this.testX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 		return func.shovingTest(a1, a2, a3);
 	}
 
-	static boolean handlingTest(double a1, double a2, double a3, LTriDblPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static boolean handlingTest(double a1, double a2, double a3, LTriDblPredicate func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, a3, handling);
 	}
@@ -414,7 +413,8 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> double throwIf(double a1, double a2, double a3, @Nonnull LTriDblPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) throws X {
+	public static <X extends Throwable> double throwIf(double a1, double a2, double a3, @Nonnull LTriDblPredicate pred, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3)
+			throws X {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(factory, "factory");
 		Null.nonNullArg(message, "message");
@@ -545,7 +545,8 @@ public interface LTriDblPredicate extends MetaPredicate, MetaInterface.NonThrowi
 	}
 
 	/** Throws new exception if condition is met. */
-	public static <X extends Throwable> double throwIf(double a1, @Nonnull LTriDblPredicate pred, double a2, double a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) throws X {
+	public static <X extends Throwable> double throwIf(double a1, @Nonnull LTriDblPredicate pred, double a2, double a3, @Nonnull ExMF<X> factory, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3)
+			throws X {
 		Null.nonNullArg(pred, "pred");
 		Null.nonNullArg(factory, "factory");
 		Null.nonNullArg(message, "message");

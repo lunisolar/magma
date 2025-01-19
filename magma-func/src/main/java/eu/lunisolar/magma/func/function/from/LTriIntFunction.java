@@ -70,12 +70,11 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LTriIntFunction<R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain3<aInt, aInt, aInt> { // NOSONAR
+public interface LTriIntFunction<R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain3<aInt, aInt, aInt> { //NOSONAR
 
 	String DESCRIPTION = "LTriIntFunction: R apply(int a1,int a2,int a3)";
 
 	@Nullable
-	// R apply(int a1,int a2,int a3) ;
 	default R apply(int a1, int a2, int a3) {
 		try {
 			return this.applyX(a1, a2, a3);
@@ -97,7 +96,7 @@ public interface LTriIntFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	default R handlingApply(int a1, int a2, int a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -109,7 +108,7 @@ public interface LTriIntFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	default R apply(int a1, int a2, int a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -117,7 +116,7 @@ public interface LTriIntFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	default R apply(int a1, int a2, int a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -125,7 +124,7 @@ public interface LTriIntFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	default R apply(int a1, int a2, int a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -133,7 +132,7 @@ public interface LTriIntFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	default R apply(int a1, int a2, int a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -157,7 +156,7 @@ public interface LTriIntFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	default R apply(int a1, int a2, int a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -169,7 +168,7 @@ public interface LTriIntFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	default R applyThen(int a1, int a2, int a3, @Nonnull LFunction<Throwable, R> handler) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.apply(e);
 		}
@@ -192,7 +191,7 @@ public interface LTriIntFunction<R> extends MetaFunction, MetaInterface.NonThrow
 	default R shovingApply(int a1, int a2, int a3) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -202,7 +201,7 @@ public interface LTriIntFunction<R> extends MetaFunction, MetaInterface.NonThrow
 		return func.shovingApply(a1, a2, a3);
 	}
 
-	static <R> R handlingApply(int a1, int a2, int a3, LTriIntFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <R> R handlingApply(int a1, int a2, int a3, LTriIntFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, a3, handling);
 	}

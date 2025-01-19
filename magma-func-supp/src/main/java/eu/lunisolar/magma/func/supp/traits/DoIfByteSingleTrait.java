@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> extends DoIfByteTrait<SELF>, IsByteTrait<SELF>, ByteValueTrait<SELF> {
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
 	default @Nonnull SELF doIf(@Nonnull LBytePredicate predicate, @Nonnull LByteConsumer action) {
 		if (is(predicate))
@@ -181,5 +181,5 @@ public interface DoIfByteSingleTrait<SELF extends DoIfByteSingleTrait<SELF>> ext
 		return doIfNotWith(with1, with2, predicate, action);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

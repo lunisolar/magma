@@ -70,12 +70,11 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LTriCharFunction<R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain3<aChar, aChar, aChar> { // NOSONAR
+public interface LTriCharFunction<R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain3<aChar, aChar, aChar> { //NOSONAR
 
 	String DESCRIPTION = "LTriCharFunction: R apply(char a1,char a2,char a3)";
 
 	@Nullable
-	// R apply(char a1,char a2,char a3) ;
 	default R apply(char a1, char a2, char a3) {
 		try {
 			return this.applyX(a1, a2, a3);
@@ -97,7 +96,7 @@ public interface LTriCharFunction<R> extends MetaFunction, MetaInterface.NonThro
 	default R handlingApply(char a1, char a2, char a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -109,7 +108,7 @@ public interface LTriCharFunction<R> extends MetaFunction, MetaInterface.NonThro
 	default R apply(char a1, char a2, char a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -117,7 +116,7 @@ public interface LTriCharFunction<R> extends MetaFunction, MetaInterface.NonThro
 	default R apply(char a1, char a2, char a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -125,7 +124,7 @@ public interface LTriCharFunction<R> extends MetaFunction, MetaInterface.NonThro
 	default R apply(char a1, char a2, char a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -133,7 +132,7 @@ public interface LTriCharFunction<R> extends MetaFunction, MetaInterface.NonThro
 	default R apply(char a1, char a2, char a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -157,7 +156,7 @@ public interface LTriCharFunction<R> extends MetaFunction, MetaInterface.NonThro
 	default R apply(char a1, char a2, char a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -169,7 +168,7 @@ public interface LTriCharFunction<R> extends MetaFunction, MetaInterface.NonThro
 	default R applyThen(char a1, char a2, char a3, @Nonnull LFunction<Throwable, R> handler) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.apply(e);
 		}
@@ -192,7 +191,7 @@ public interface LTriCharFunction<R> extends MetaFunction, MetaInterface.NonThro
 	default R shovingApply(char a1, char a2, char a3) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -202,7 +201,7 @@ public interface LTriCharFunction<R> extends MetaFunction, MetaInterface.NonThro
 		return func.shovingApply(a1, a2, a3);
 	}
 
-	static <R> R handlingApply(char a1, char a2, char a3, LTriCharFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <R> R handlingApply(char a1, char a2, char a3, LTriCharFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, a3, handling);
 	}

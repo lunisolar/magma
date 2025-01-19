@@ -70,7 +70,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThrowing, Codomain<a<T>>, Domain3<a<T>, a<T>, a<T>>, LTriFunction<T, T, T, T> { // NOSONAR
+public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThrowing, Codomain<a<T>>, Domain3<a<T>, a<T>, a<T>>, LTriFunction<T, T, T, T> { //NOSONAR
 
 	String DESCRIPTION = "LTernaryOperator: T apply(T a1,T a2,T a3)";
 
@@ -82,7 +82,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	default T handlingApply(T a1, T a2, T a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -94,7 +94,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	default T apply(T a1, T a2, T a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -102,7 +102,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	default T apply(T a1, T a2, T a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -110,7 +110,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	default T apply(T a1, T a2, T a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -118,7 +118,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	default T apply(T a1, T a2, T a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -142,7 +142,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	default T apply(T a1, T a2, T a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -154,7 +154,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	default T applyThen(T a1, T a2, T a3, @Nonnull LFunction<Throwable, T> handler) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.apply(e);
 		}
@@ -177,7 +177,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 	default T shovingApply(T a1, T a2, T a3) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -187,7 +187,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		return func.shovingApply(a1, a2, a3);
 	}
 
-	static <T> T handlingApply(T a1, T a2, T a3, LTernaryOperator<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> T handlingApply(T a1, T a2, T a3, LTernaryOperator<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, a3, handling);
 	}
@@ -335,7 +335,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		};
 	}
 
-	// <editor-fold desc="CallContext">
+	//<editor-fold desc="CallContext">
 
 	@Nonnull
 	static <T> LTernaryOperator<T> ternaryOp(@Nullable CallContext c1, final @Nonnull LTernaryOperator<T> lambda) {
@@ -627,7 +627,7 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		return future;
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Creates function that always returns the same value. */
 	static <T> LTernaryOperator<T> constant(T r) {

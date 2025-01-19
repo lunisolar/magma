@@ -59,7 +59,7 @@ import static eu.lunisolar.magma.func.predicate.LObjIntPredicate.objIntPred;
 
 /**
  * Aggregates access functions (with index) to a specific container (e.g. array, list) of specific type (e.g. int[])
- * Such access do not protect against concurrent modification.     
+ * Such access do not protect against concurrent modification.
  */
 public interface IA<C, E extends aType> extends IndexedRead<C, E>, IndexedWrite<C, E> {
 
@@ -196,7 +196,7 @@ public interface IA<C, E extends aType> extends IndexedRead<C, E>, IndexedWrite<
 		return boolArray();
 	}
 
-	// <editor-fold desc="convenience methods for reference">
+	//<editor-fold desc="convenience methods for reference">
 
 	// boolean
 
@@ -324,7 +324,7 @@ public interface IA<C, E extends aType> extends IndexedRead<C, E>, IndexedWrite<
 		return array[index];
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	public static <E, C> @Nonnull List<E> toList(@Nonnull IndexedRead<C, a<E>> indexedRead, @Nonnull C container) {
 		try {
@@ -363,6 +363,7 @@ public interface IA<C, E extends aType> extends IndexedRead<C, E>, IndexedWrite<
 		public E get(int index) {
 			return (E) getter.apply(container, index);
 		}
+
 		@Override
 		public int size() {
 			return size.applyAsInt(container);

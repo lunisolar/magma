@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aInt>, Domain1<aByte> { // NOSONAR
+public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aInt>, Domain1<aByte> { //NOSONAR
 
 	String DESCRIPTION = "LByteToIntFunction: int applyAsInt(byte a)";
 
-	// int applyAsInt(byte a) ;
 	default int applyAsInt(byte a) {
 		try {
 			return this.applyAsIntX(a);
@@ -96,7 +95,7 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	default int handlingApplyAsInt(byte a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	default int applyAsInt(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	default int applyAsInt(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	default int applyAsInt(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	default int applyAsInt(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	default int applyAsInt(byte a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	default int applyAsIntThen(byte a, @Nonnull LToIntFunction<Throwable> handler) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsInt(e);
 		}
@@ -191,7 +190,7 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 	default int shovingApplyAsInt(byte a) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LByteToIntFunction extends MetaFunction, MetaInterface.NonThrow
 		return func.shovingApplyAsInt(a);
 	}
 
-	static int handlingApplyAsInt(byte a, LByteToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static int handlingApplyAsInt(byte a, LByteToIntFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a, handling);
 	}

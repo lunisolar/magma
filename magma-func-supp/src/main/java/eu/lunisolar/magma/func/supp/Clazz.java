@@ -57,10 +57,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 /**
  */
 public final class Clazz {
-	// <editor-fold desc="no instance">
+	//<editor-fold desc="no instance">
 	private Clazz() {
 	}
-	// </editor-fold>
+	//</editor-fold>
 
 	public static <T> void doFor(@Nonnull Class<T> clazz, @Nullable Object instance, @Nonnull LConsumer<? super T> function) {
 		Null.nonNullArg(clazz, "clazz");
@@ -154,7 +154,7 @@ public final class Clazz {
 		return Opt.of(from(clazz, instance, a2, a3, a4, function));
 	}
 
-	// <editor-fold desc="in some case's helps with compiler">
+	//<editor-fold desc="in some case's helps with compiler">
 
 	public static @Nonnull <T, R> R assuredClass(@Nonnull Class<R> clazz, @Nonnull T instance, @Nonnull LFunction<? super T, ? extends R> function) {
 		Null.nonNullArg(clazz, "clazz");
@@ -212,9 +212,9 @@ public final class Clazz {
 		return instance == null ? null : assuredClass(clazz, instance, a2, a3, a4, function);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="casts">
+	//<editor-fold desc="casts">
 
 	public static <T> T the(Object o) {
 		return (T) o;
@@ -244,9 +244,9 @@ public final class Clazz {
 		return (CT) o;
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="enum">
+	//<editor-fold desc="enum">
 
 	public static @Nonnull <T extends Enum<T>> Opt<T> aEnum(@Nonnull Class<T> enumClazz, @Nullable Object rawValue, LFunction<Throwable, T> noMatchHandler) {
 		return Opt.obj(Clazz.nullableAssuredClass(enumClazz, rawValue, enumClazz, noMatchHandler, (rv, ec, nmh) -> Opt.obj(rv.toString()).filterAndMap(String.class).map(str -> tryApplyThen(ec, str, Enum::valueOf, nmh)).orElse(null)));
@@ -258,6 +258,6 @@ public final class Clazz {
 		}).orElseThrow(X::state, "No value found.");
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 }

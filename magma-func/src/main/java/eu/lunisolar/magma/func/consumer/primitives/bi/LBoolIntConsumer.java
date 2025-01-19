@@ -72,7 +72,6 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 
 	String DESCRIPTION = "LBoolIntConsumer: void accept(boolean a1,int a2)";
 
-	// void accept(boolean a1,int a2) ;
 	default void accept(boolean a1, int a2) {
 		try {
 			this.acceptX(a1, a2);
@@ -95,7 +94,7 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	default void handlingAccept(boolean a1, int a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			this.acceptX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -107,7 +106,7 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	default void accept(boolean a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			this.acceptX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -115,7 +114,7 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	default void accept(boolean a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			this.acceptX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -123,7 +122,7 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	default void accept(boolean a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			this.acceptX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -131,7 +130,7 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	default void accept(boolean a1, int a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			this.acceptX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -155,7 +154,7 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	default void accept(boolean a1, int a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			this.acceptX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -167,7 +166,7 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	default void acceptThen(boolean a1, int a2, @Nonnull LConsumer<Throwable> handler) {
 		try {
 			this.acceptX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			handler.accept(e);
 		}
@@ -190,7 +189,7 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 	default void shovingAccept(boolean a1, int a2) {
 		try {
 			this.acceptX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -200,7 +199,7 @@ public interface LBoolIntConsumer extends MetaConsumer, MetaInterface.NonThrowin
 		func.shovingAccept(a1, a2);
 	}
 
-	static void handlingAccept(boolean a1, int a2, LBoolIntConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static void handlingAccept(boolean a1, int a2, LBoolIntConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, handling);
 	}

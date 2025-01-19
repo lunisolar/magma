@@ -72,11 +72,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaInterface.NonThrowing, OFunction<T, aInt>, Codomain<aInt>, Domain1<a<T>> { // NOSONAR
+public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaInterface.NonThrowing, OFunction<T, aInt>, Codomain<aInt>, Domain1<a<T>> { //NOSONAR
 
 	String DESCRIPTION = "LToIntFunction: int applyAsInt(T a)";
 
-	// int applyAsInt(T a) ;
 	default int applyAsInt(T a) {
 		try {
 			return this.applyAsIntX(a);
@@ -98,7 +97,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 	default int handlingApplyAsInt(T a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -110,7 +109,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 	default int applyAsInt(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -118,7 +117,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 	default int applyAsInt(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -126,7 +125,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 	default int applyAsInt(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -134,7 +133,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 	default int applyAsInt(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -158,7 +157,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 	default int applyAsInt(T a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -170,7 +169,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 	default int applyAsIntThen(T a, @Nonnull LToIntFunction<Throwable> handler) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsInt(e);
 		}
@@ -193,7 +192,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 	default int shovingApplyAsInt(T a) {
 		try {
 			return this.applyAsIntX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -203,7 +202,7 @@ public interface LToIntFunction<T> extends ToIntFunction<T>, MetaFunction, MetaI
 		return func.shovingApplyAsInt(a);
 	}
 
-	static <T> int handlingApplyAsInt(T a, LToIntFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> int handlingApplyAsInt(T a, LToIntFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a, handling);
 	}

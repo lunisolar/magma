@@ -70,7 +70,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, MetaInterface.NonThrowing, Codomain<aDouble>, Domain2<aDouble, aDouble> { // NOSONAR
+public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, MetaInterface.NonThrowing, Codomain<aDouble>, Domain2<aDouble, aDouble> { //NOSONAR
 
 	String DESCRIPTION = "LDblBinaryOperator: double applyAsDbl(double a1,double a2)";
 
@@ -83,7 +83,6 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		return this.applyAsDbl(a1, a2);
 	}
 
-	// double applyAsDbl(double a1,double a2) ;
 	default double applyAsDbl(double a1, double a2) {
 		try {
 			return this.applyAsDblX(a1, a2);
@@ -105,7 +104,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	default double handlingApplyAsDbl(double a1, double a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsDblX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -117,7 +116,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	default double applyAsDbl(double a1, double a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsDblX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -125,7 +124,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	default double applyAsDbl(double a1, double a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsDblX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -133,7 +132,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	default double applyAsDbl(double a1, double a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsDblX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -141,7 +140,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	default double applyAsDbl(double a1, double a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsDblX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -165,7 +164,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	default double applyAsDbl(double a1, double a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsDblX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -177,7 +176,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	default double applyAsDblThen(double a1, double a2, @Nonnull LToDblFunction<Throwable> handler) {
 		try {
 			return this.applyAsDblX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsDbl(e);
 		}
@@ -200,7 +199,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 	default double shovingApplyAsDbl(double a1, double a2) {
 		try {
 			return this.applyAsDblX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -210,7 +209,7 @@ public interface LDblBinaryOperator extends DoubleBinaryOperator, MetaOperator, 
 		return func.shovingApplyAsDbl(a1, a2);
 	}
 
-	static double handlingApplyAsDbl(double a1, double a2, LDblBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static double handlingApplyAsDbl(double a1, double a2, LDblBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsDbl(a1, a2, handling);
 	}

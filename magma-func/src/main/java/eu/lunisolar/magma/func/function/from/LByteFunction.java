@@ -70,12 +70,11 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain1<aByte> { // NOSONAR
+public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain1<aByte> { //NOSONAR
 
 	String DESCRIPTION = "LByteFunction: R apply(byte a)";
 
 	@Nullable
-	// R apply(byte a) ;
 	default R apply(byte a) {
 		try {
 			return this.applyX(a);
@@ -97,7 +96,7 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	default R handlingApply(byte a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -109,7 +108,7 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	default R apply(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -117,7 +116,7 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	default R apply(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -125,7 +124,7 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	default R apply(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -133,7 +132,7 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	default R apply(byte a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -157,7 +156,7 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	default R apply(byte a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -169,7 +168,7 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	default R applyThen(byte a, @Nonnull LFunction<Throwable, R> handler) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.apply(e);
 		}
@@ -192,7 +191,7 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 	default R shovingApply(byte a) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -202,7 +201,7 @@ public interface LByteFunction<R> extends MetaFunction, MetaInterface.NonThrowin
 		return func.shovingApply(a);
 	}
 
-	static <R> R handlingApply(byte a, LByteFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <R> R handlingApply(byte a, LByteFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a, handling);
 	}

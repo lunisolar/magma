@@ -67,7 +67,7 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 		return fluentCtx();
 	}
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
 	default @Nonnull SELF doIf(@Nonnull LPredicate<? super T> predicate, @Nonnull LConsumer<? super T> action) {
 		if (is(predicate))
@@ -477,5 +477,5 @@ public interface DoIfSingleTrait<T, SELF extends DoIfSingleTrait<T, SELF>> exten
 		return uniDoIfNotWith(with, predicate, action);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

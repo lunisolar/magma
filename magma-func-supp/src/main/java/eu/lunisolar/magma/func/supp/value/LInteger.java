@@ -111,7 +111,7 @@ public final class LInteger
 		return value;
 	}
 
-	// <editor-fold desc="equals/hashcode/toString">
+	//<editor-fold desc="equals/hashcode/toString">
 
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -138,6 +138,6 @@ public final class LInteger
 		return sb.append("]").toString();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 }

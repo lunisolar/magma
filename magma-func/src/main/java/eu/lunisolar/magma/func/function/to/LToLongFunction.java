@@ -72,11 +72,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, MetaInterface.NonThrowing, OFunction<T, aLong>, Codomain<aLong>, Domain1<a<T>> { // NOSONAR
+public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, MetaInterface.NonThrowing, OFunction<T, aLong>, Codomain<aLong>, Domain1<a<T>> { //NOSONAR
 
 	String DESCRIPTION = "LToLongFunction: long applyAsLong(T a)";
 
-	// long applyAsLong(T a) ;
 	default long applyAsLong(T a) {
 		try {
 			return this.applyAsLongX(a);
@@ -98,7 +97,7 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 	default long handlingApplyAsLong(T a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -110,7 +109,7 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 	default long applyAsLong(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -118,7 +117,7 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 	default long applyAsLong(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -126,7 +125,7 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 	default long applyAsLong(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -134,7 +133,7 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 	default long applyAsLong(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -158,7 +157,7 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 	default long applyAsLong(T a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -170,7 +169,7 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 	default long applyAsLongThen(T a, @Nonnull LToLongFunction<Throwable> handler) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsLong(e);
 		}
@@ -193,7 +192,7 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 	default long shovingApplyAsLong(T a) {
 		try {
 			return this.applyAsLongX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -203,7 +202,7 @@ public interface LToLongFunction<T> extends ToLongFunction<T>, MetaFunction, Met
 		return func.shovingApplyAsLong(a);
 	}
 
-	static <T> long handlingApplyAsLong(T a, LToLongFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> long handlingApplyAsLong(T a, LToLongFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsLong(a, handling);
 	}

@@ -70,7 +70,7 @@ public final class OptChar extends OptCharBase<OptChar> {
 
 	private static final OptChar EMPTY = new OptChar();
 
-	// <editor-fold desc="factories">
+	//<editor-fold desc="factories">
 
 	private OptChar() {
 		super();
@@ -113,7 +113,7 @@ public final class OptChar extends OptCharBase<OptChar> {
 		return predicate.test(value) ? of(value) : empty();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Tries to produce optional value. Any exception tested positively with predicate produces empty optional. Others are handled with function, that should either throw exception or return one to be thrown. */
 	public static @Nonnull OptChar safelyFrom(@Nonnull LPredicate<Throwable> produceEmpty, @Nonnull ExWMF<RuntimeException> elseHandler, @Nonnull LCharSupplier producer) {

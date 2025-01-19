@@ -72,11 +72,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThrowing, TieFunction<T, aLong>, Codomain<aInt>, Domain3<a<T>, aInt, aLong> { // NOSONAR
+public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThrowing, TieFunction<T, aLong>, Codomain<aInt>, Domain3<a<T>, aInt, aLong> { //NOSONAR
 
 	String DESCRIPTION = "LTieLongFunction: int applyAsInt(T a1,int a2,long a3)";
 
-	// int applyAsInt(T a1,int a2,long a3) ;
 	default int applyAsInt(T a1, int a2, long a3) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
@@ -98,7 +97,7 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	default int handlingApplyAsInt(T a1, int a2, long a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -110,7 +109,7 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	default int applyAsInt(T a1, int a2, long a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -118,7 +117,7 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	default int applyAsInt(T a1, int a2, long a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -126,7 +125,7 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	default int applyAsInt(T a1, int a2, long a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -134,7 +133,7 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	default int applyAsInt(T a1, int a2, long a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -158,7 +157,7 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	default int applyAsInt(T a1, int a2, long a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -170,7 +169,7 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	default int applyAsIntThen(T a1, int a2, long a3, @Nonnull LToIntFunction<Throwable> handler) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsInt(e);
 		}
@@ -193,7 +192,7 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 	default int shovingApplyAsInt(T a1, int a2, long a3) {
 		try {
 			return this.applyAsIntX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -203,7 +202,7 @@ public interface LTieLongFunction<T> extends MetaFunction, MetaInterface.NonThro
 		return func.shovingApplyAsInt(a1, a2, a3);
 	}
 
-	static <T> int handlingApplyAsInt(T a1, int a2, long a3, LTieLongFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> int handlingApplyAsInt(T a1, int a2, long a3, LTieLongFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsInt(a1, a2, a3, handling);
 	}

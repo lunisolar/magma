@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LTieFunction.
  */
 public final class LTieFunctionBuilder<T1, T2> extends PerCaseBuilderWithIntProduct.Base<LTieFunctionBuilder<T1, T2>, LObjIntObjPredicate<T1, T2>, LTieFunction<T1, T2>> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LTieFunction<T1, T2>> consumer;
 
@@ -147,7 +147,7 @@ public final class LTieFunctionBuilder<T1, T2> extends PerCaseBuilderWithIntProd
 		LTieFunction<T1, T2> retval;
 
 		final Case<LObjIntObjPredicate<T1, T2>, LTieFunction<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LTieFunction.<T1, T2> tieFunc((a1, a2, a3) -> {
+		retval = LTieFunction.<T1, T2>tieFunc((a1, a2, a3) -> {
 			try {
 				for (Case<LObjIntObjPredicate<T1, T2>, LTieFunction<T1, T2>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a1, a2, a3)) {
@@ -156,12 +156,12 @@ public final class LTieFunctionBuilder<T1, T2> extends PerCaseBuilderWithIntProd
 				}
 
 				return otherwiseFinal.applyAsInt(a1, a2, a3);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

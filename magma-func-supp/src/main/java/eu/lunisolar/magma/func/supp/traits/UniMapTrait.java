@@ -59,7 +59,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface UniMapTrait<T, SELF extends UniMapTrait<T, SELF>> extends ValueTrait<T, SELF>, FluentTrait<SELF> {
 
-	// <editor-fold desc="uniMap">
+	//<editor-fold desc="uniMap">
 
 	default @Nonnull SELF uniMap(@Nonnull LUnaryOperator<T> mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -106,6 +106,6 @@ public interface UniMapTrait<T, SELF extends UniMapTrait<T, SELF>> extends Value
 		return value(mapping.apply(a1, a2, a3, a4, value()));
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 }

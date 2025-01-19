@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface UseByteSingleTrait<SELF extends UseByteSingleTrait<SELF>> extends UseByteTrait<SELF>, ByteValueTrait<SELF> {
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
 	default @Nonnull SELF use(@Nonnull LByteConsumer consumer) {
 		consumer.accept(value());
@@ -114,5 +114,5 @@ public interface UseByteSingleTrait<SELF extends UseByteSingleTrait<SELF>> exten
 		return useWith(with1, with2, consumer);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

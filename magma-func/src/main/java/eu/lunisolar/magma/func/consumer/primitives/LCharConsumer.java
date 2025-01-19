@@ -72,7 +72,6 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 
 	String DESCRIPTION = "LCharConsumer: void accept(char a)";
 
-	// void accept(char a) ;
 	default void accept(char a) {
 		try {
 			this.acceptX(a);
@@ -95,7 +94,7 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	default void handlingAccept(char a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -107,7 +106,7 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	default void accept(char a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -115,7 +114,7 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	default void accept(char a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -123,7 +122,7 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	default void accept(char a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -131,7 +130,7 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	default void accept(char a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -155,7 +154,7 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	default void accept(char a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -167,7 +166,7 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	default void acceptThen(char a, @Nonnull LConsumer<Throwable> handler) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			handler.accept(e);
 		}
@@ -190,7 +189,7 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 	default void shovingAccept(char a) {
 		try {
 			this.acceptX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -200,7 +199,7 @@ public interface LCharConsumer extends MetaConsumer, MetaInterface.NonThrowing, 
 		func.shovingAccept(a);
 	}
 
-	static void handlingAccept(char a, LCharConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static void handlingAccept(char a, LCharConsumer func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a, handling);
 	}

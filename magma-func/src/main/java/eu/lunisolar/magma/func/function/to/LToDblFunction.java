@@ -72,7 +72,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, MetaInterface.NonThrowing, OFunction<T, aDouble>, Codomain<aDouble>, Domain1<a<T>> { // NOSONAR
+public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, MetaInterface.NonThrowing, OFunction<T, aDouble>, Codomain<aDouble>, Domain1<a<T>> { //NOSONAR
 
 	String DESCRIPTION = "LToDblFunction: double applyAsDbl(T a)";
 
@@ -85,7 +85,6 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 		return this.applyAsDbl(a);
 	}
 
-	// double applyAsDbl(T a) ;
 	default double applyAsDbl(T a) {
 		try {
 			return this.applyAsDblX(a);
@@ -107,7 +106,7 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	default double handlingApplyAsDbl(T a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsDblX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -119,7 +118,7 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	default double applyAsDbl(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsDblX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -127,7 +126,7 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	default double applyAsDbl(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsDblX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -135,7 +134,7 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	default double applyAsDbl(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsDblX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -143,7 +142,7 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	default double applyAsDbl(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsDblX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -167,7 +166,7 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	default double applyAsDbl(T a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsDblX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -179,7 +178,7 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	default double applyAsDblThen(T a, @Nonnull LToDblFunction<Throwable> handler) {
 		try {
 			return this.applyAsDblX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsDbl(e);
 		}
@@ -202,7 +201,7 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 	default double shovingApplyAsDbl(T a) {
 		try {
 			return this.applyAsDblX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -212,7 +211,7 @@ public interface LToDblFunction<T> extends ToDoubleFunction<T>, MetaFunction, Me
 		return func.shovingApplyAsDbl(a);
 	}
 
-	static <T> double handlingApplyAsDbl(T a, LToDblFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> double handlingApplyAsDbl(T a, LToDblFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsDbl(a, handling);
 	}

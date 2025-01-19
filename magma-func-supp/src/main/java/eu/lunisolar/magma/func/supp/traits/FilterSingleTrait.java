@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface FilterSingleTrait<T, SELF extends FilterSingleTrait<T, SELF>> extends FilterTrait<T, SELF>, IsTrait<T, SELF> {
 
-	// <editor-fold desc="is">
+	//<editor-fold desc="is">
 
 	@Override
 	default @Nonnull SELF filter(@Nonnull LPredicate<? super T> predicate) {
@@ -173,5 +173,5 @@ public interface FilterSingleTrait<T, SELF extends FilterSingleTrait<T, SELF>> e
 		return this.uniIsWith(with, predicate) ? fluentCtx() : voidValue();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

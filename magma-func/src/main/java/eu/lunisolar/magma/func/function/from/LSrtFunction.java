@@ -70,12 +70,11 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain1<aShort> { // NOSONAR
+public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain1<aShort> { //NOSONAR
 
 	String DESCRIPTION = "LSrtFunction: R apply(short a)";
 
 	@Nullable
-	// R apply(short a) ;
 	default R apply(short a) {
 		try {
 			return this.applyX(a);
@@ -97,7 +96,7 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	default R handlingApply(short a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -109,7 +108,7 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	default R apply(short a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -117,7 +116,7 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	default R apply(short a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -125,7 +124,7 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	default R apply(short a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -133,7 +132,7 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	default R apply(short a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -157,7 +156,7 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	default R apply(short a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -169,7 +168,7 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	default R applyThen(short a, @Nonnull LFunction<Throwable, R> handler) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.apply(e);
 		}
@@ -192,7 +191,7 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 	default R shovingApply(short a) {
 		try {
 			return this.applyX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -202,7 +201,7 @@ public interface LSrtFunction<R> extends MetaFunction, MetaInterface.NonThrowing
 		return func.shovingApply(a);
 	}
 
-	static <R> R handlingApply(short a, LSrtFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <R> R handlingApply(short a, LSrtFunction<R> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a, handling);
 	}

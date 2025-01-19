@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.NonThrowing, Codomain<aBool>, Domain3<a<T1>, a<T2>, a<T3>> { // NOSONAR
+public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.NonThrowing, Codomain<aBool>, Domain3<a<T1>, a<T2>, a<T3>> { //NOSONAR
 
 	String DESCRIPTION = "LTriPredicate: boolean test(T1 a1,T2 a2,T3 a3)";
 
-	// boolean test(T1 a1,T2 a2,T3 a3) ;
 	default boolean test(T1 a1, T2 a2, T3 a3) {
 		try {
 			return this.testX(a1, a2, a3);
@@ -96,7 +95,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	default boolean handlingTest(T1 a1, T2 a2, T3 a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.testX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	default boolean test(T1 a1, T2 a2, T3 a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.testX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	default boolean test(T1 a1, T2 a2, T3 a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.testX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	default boolean test(T1 a1, T2 a2, T3 a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.testX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	default boolean test(T1 a1, T2 a2, T3 a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.testX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	default boolean test(T1 a1, T2 a2, T3 a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.testX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	default boolean testThen(T1 a1, T2 a2, T3 a3, @Nonnull LPredicate<Throwable> handler) {
 		try {
 			return this.testX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.test(e);
 		}
@@ -191,7 +190,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 	default boolean shovingTest(T1 a1, T2 a2, T3 a3) {
 		try {
 			return this.testX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		return func.shovingTest(a1, a2, a3);
 	}
 
-	static <T1, T2, T3> boolean handlingTest(T1 a1, T2 a2, T3 a3, LTriPredicate<T1, T2, T3> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T1, T2, T3> boolean handlingTest(T1 a1, T2 a2, T3 a3, LTriPredicate<T1, T2, T3> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingTest(a1, a2, a3, handling);
 	}
@@ -788,7 +787,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		return a1;
 	}
 
-	// <editor-fold desc="CallContext">
+	//<editor-fold desc="CallContext">
 
 	@Nonnull
 	static <T1, T2, T3> LTriPredicate<T1, T2, T3> triPred(@Nullable CallContext c1, final @Nonnull LTriPredicate<T1, T2, T3> lambda) {
@@ -1081,7 +1080,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		return future;
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Creates function that always returns the same value. */
 	static <T1, T2, T3> LTriPredicate<T1, T2, T3> constant(boolean r) {

@@ -72,7 +72,6 @@ public interface LObjBiLongConsumer<T> extends MetaConsumer, MetaInterface.NonTh
 
 	String DESCRIPTION = "LObjBiLongConsumer: void accept(T a1,long a2,long a3)";
 
-	// void accept(T a1,long a2,long a3) ;
 	default void accept(T a1, long a2, long a3) {
 		try {
 			this.acceptX(a1, a2, a3);
@@ -95,7 +94,7 @@ public interface LObjBiLongConsumer<T> extends MetaConsumer, MetaInterface.NonTh
 	default void handlingAccept(T a1, long a2, long a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			this.acceptX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -107,7 +106,7 @@ public interface LObjBiLongConsumer<T> extends MetaConsumer, MetaInterface.NonTh
 	default void accept(T a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			this.acceptX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -115,7 +114,7 @@ public interface LObjBiLongConsumer<T> extends MetaConsumer, MetaInterface.NonTh
 	default void accept(T a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			this.acceptX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -123,7 +122,7 @@ public interface LObjBiLongConsumer<T> extends MetaConsumer, MetaInterface.NonTh
 	default void accept(T a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			this.acceptX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -131,7 +130,7 @@ public interface LObjBiLongConsumer<T> extends MetaConsumer, MetaInterface.NonTh
 	default void accept(T a1, long a2, long a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			this.acceptX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -155,7 +154,7 @@ public interface LObjBiLongConsumer<T> extends MetaConsumer, MetaInterface.NonTh
 	default void accept(T a1, long a2, long a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			this.acceptX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -167,7 +166,7 @@ public interface LObjBiLongConsumer<T> extends MetaConsumer, MetaInterface.NonTh
 	default void acceptThen(T a1, long a2, long a3, @Nonnull LConsumer<Throwable> handler) {
 		try {
 			this.acceptX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			handler.accept(e);
 		}
@@ -190,7 +189,7 @@ public interface LObjBiLongConsumer<T> extends MetaConsumer, MetaInterface.NonTh
 	default void shovingAccept(T a1, long a2, long a3) {
 		try {
 			this.acceptX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -200,7 +199,7 @@ public interface LObjBiLongConsumer<T> extends MetaConsumer, MetaInterface.NonTh
 		func.shovingAccept(a1, a2, a3);
 	}
 
-	static <T> void handlingAccept(T a1, long a2, long a3, LObjBiLongConsumer<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> void handlingAccept(T a1, long a2, long a3, LObjBiLongConsumer<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		func.handlingAccept(a1, a2, a3, handling);
 	}

@@ -70,7 +70,7 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 
 	private static final Opt<?> EMPTY = new Opt();
 
-	// <editor-fold desc="factories">
+	//<editor-fold desc="factories">
 
 	private Opt() {
 		super();
@@ -301,7 +301,7 @@ public final class Opt<T> extends OptBase<T, Opt<T>> {
 		return optional.isPresent() ? Opt.of(optional.get()) : empty();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/**
 	 * Must-be-instance-of - must be present and be instance of.

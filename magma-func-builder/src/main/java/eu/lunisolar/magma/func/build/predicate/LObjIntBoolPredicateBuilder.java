@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LObjIntBoolPredicate.
  */
 public final class LObjIntBoolPredicateBuilder<T> extends PerCaseBuilderWithBoolProduct.Base<LObjIntBoolPredicateBuilder<T>, LObjIntBoolPredicate<T>, LObjIntBoolPredicate<T>> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LObjIntBoolPredicate<T>> consumer;
 
@@ -147,7 +147,7 @@ public final class LObjIntBoolPredicateBuilder<T> extends PerCaseBuilderWithBool
 		LObjIntBoolPredicate<T> retval;
 
 		final Case<LObjIntBoolPredicate<T>, LObjIntBoolPredicate<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LObjIntBoolPredicate.<T> objIntBoolPred((a1, a2, a3) -> {
+		retval = LObjIntBoolPredicate.<T>objIntBoolPred((a1, a2, a3) -> {
 			try {
 				for (Case<LObjIntBoolPredicate<T>, LObjIntBoolPredicate<T>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a1, a2, a3)) {
@@ -156,12 +156,12 @@ public final class LObjIntBoolPredicateBuilder<T> extends PerCaseBuilderWithBool
 				}
 
 				return otherwiseFinal.test(a1, a2, a3);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

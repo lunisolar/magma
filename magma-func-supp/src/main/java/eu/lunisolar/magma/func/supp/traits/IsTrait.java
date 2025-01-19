@@ -32,7 +32,7 @@ import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.*; // NOSONAR
 import eu.lunisolar.magma.func.supp.check.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.value.*; // NOSONAR   
+import eu.lunisolar.magma.func.supp.value.*; // NOSONAR
 import eu.lunisolar.magma.func.tuple.*; // NOSONAR
 import eu.lunisolar.magma.basics.fluent.*; // NOSONAR
 
@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface IsTrait<T, SELF extends IsTrait<T, SELF>> extends ValueTrait<T, SELF> {
 
-	// <editor-fold desc="is">
+	//<editor-fold desc="is">
 
 	/** Variant 'method(..., (...) -> { ..long multiline definition.. })' */
 	default boolean is(@Nonnull LPredicate<? super T> predicate) {
@@ -467,5 +467,5 @@ public interface IsTrait<T, SELF extends IsTrait<T, SELF>> extends ValueTrait<T,
 		return uniIsNotWith(with, predicate);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

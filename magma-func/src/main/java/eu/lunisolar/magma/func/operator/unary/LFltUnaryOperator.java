@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowing, Codomain<aFloat>, Domain1<aFloat> { // NOSONAR
+public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowing, Codomain<aFloat>, Domain1<aFloat> { //NOSONAR
 
 	String DESCRIPTION = "LFltUnaryOperator: float applyAsFlt(float a)";
 
-	// float applyAsFlt(float a) ;
 	default float applyAsFlt(float a) {
 		try {
 			return this.applyAsFltX(a);
@@ -96,7 +95,7 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	default float handlingApplyAsFlt(float a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsFltX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	default float applyAsFlt(float a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsFltX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	default float applyAsFlt(float a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsFltX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	default float applyAsFlt(float a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsFltX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	default float applyAsFlt(float a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsFltX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	default float applyAsFlt(float a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsFltX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	default float applyAsFltThen(float a, @Nonnull LToFltFunction<Throwable> handler) {
 		try {
 			return this.applyAsFltX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsFlt(e);
 		}
@@ -191,7 +190,7 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 	default float shovingApplyAsFlt(float a) {
 		try {
 			return this.applyAsFltX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LFltUnaryOperator extends MetaOperator, MetaInterface.NonThrowi
 		return func.shovingApplyAsFlt(a);
 	}
 
-	static float handlingApplyAsFlt(float a, LFltUnaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static float handlingApplyAsFlt(float a, LFltUnaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsFlt(a, handling);
 	}

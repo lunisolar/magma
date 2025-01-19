@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThrowing, Codomain<aByte>, Domain2<aByte, aByte> { // NOSONAR
+public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThrowing, Codomain<aByte>, Domain2<aByte, aByte> { //NOSONAR
 
 	String DESCRIPTION = "LByteBinaryOperator: byte applyAsByte(byte a1,byte a2)";
 
-	// byte applyAsByte(byte a1,byte a2) ;
 	default byte applyAsByte(byte a1, byte a2) {
 		try {
 			return this.applyAsByteX(a1, a2);
@@ -96,7 +95,7 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	default byte handlingApplyAsByte(byte a1, byte a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsByteX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	default byte applyAsByte(byte a1, byte a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsByteX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	default byte applyAsByte(byte a1, byte a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsByteX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	default byte applyAsByte(byte a1, byte a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsByteX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	default byte applyAsByte(byte a1, byte a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsByteX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	default byte applyAsByte(byte a1, byte a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsByteX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	default byte applyAsByteThen(byte a1, byte a2, @Nonnull LToByteFunction<Throwable> handler) {
 		try {
 			return this.applyAsByteX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsByte(e);
 		}
@@ -191,7 +190,7 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 	default byte shovingApplyAsByte(byte a1, byte a2) {
 		try {
 			return this.applyAsByteX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LByteBinaryOperator extends MetaOperator, MetaInterface.NonThro
 		return func.shovingApplyAsByte(a1, a2);
 	}
 
-	static byte handlingApplyAsByte(byte a1, byte a2, LByteBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static byte handlingApplyAsByte(byte a1, byte a2, LByteBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsByte(a1, a2, handling);
 	}

@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LBinaryOperator.
  */
 public final class LBinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Base<LBinaryOperatorBuilder<T>, LBiPredicate<T, T>, LBinaryOperator<T>, T> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LBinaryOperator<T>> consumer;
 
@@ -147,7 +147,7 @@ public final class LBinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.B
 		LBinaryOperator<T> retval;
 
 		final Case<LBiPredicate<T, T>, LBinaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBinaryOperator.<T> binaryOp((a1, a2) -> {
+		retval = LBinaryOperator.<T>binaryOp((a1, a2) -> {
 			try {
 				for (Case<LBiPredicate<T, T>, LBinaryOperator<T>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a1, a2)) {
@@ -156,12 +156,12 @@ public final class LBinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.B
 				}
 
 				return otherwiseFinal.apply(a1, a2);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

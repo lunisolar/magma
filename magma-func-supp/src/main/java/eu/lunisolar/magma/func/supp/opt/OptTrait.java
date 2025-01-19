@@ -76,7 +76,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 			UniMapTrait<T, SELF>,
 			AutoCloseable {
 
-	// <editor-fold desc="forcing ValueTrait re-implementation">
+	//<editor-fold desc="forcing ValueTrait re-implementation">
 
 	@Override
 	@Nonnull
@@ -86,7 +86,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 	@Nonnull
 	SELF voidValue();
 
-	// </editor-fold>
+	//</editor-fold>
 
 	default @Nonnull T get() {
 		LPredicate.throwIfNot(this, OptTrait::isPresent, X::noSuchElement, "No value present.");
@@ -122,7 +122,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		}
 	}
 
-	// <editor-fold desc="isPresent() dependant boolean terminals">
+	//<editor-fold desc="isPresent() dependant boolean terminals">
 
 	@Override
 	default boolean is(@Nonnull LPredicate<? super T> predicate) {
@@ -352,11 +352,11 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		return isPresent() && FilterSingleTrait.super.uniIsNotWith(with, predicate);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="filtering">
+	//<editor-fold desc="filtering">
 
-	// </editor-fold>
+	//</editor-fold>
 
 	default SELF butNot(char value) {
 		return isPresent() ? (Is.equal(value(), value) ? voidValue() : fluentCtx()) : voidValue();
@@ -421,7 +421,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		return Objects.requireNonNull(result);
 	}
 
-	// <editor-fold desc="uniMap">
+	//<editor-fold desc="uniMap">
 
 	default @Nonnull SELF uniMap(@Nonnull LUnaryOperator<T> mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -468,9 +468,9 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		return isPresent() ? value(mapping.apply(a1, a2, a3, a4, get())) : voidValue();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="map">
+	//<editor-fold desc="map">
 
 	default @Nonnull OptBool mapToBool(@Nonnull LPredicate<? super T> mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -677,9 +677,9 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		return isPresent() ? (Opt.of(mapping.apply(a1, a2, a3, a4, get()))) : Opt.empty();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="flatMap">
+	//<editor-fold desc="flatMap">
 
 	default @Nonnull OptBool flatMapToBool(@Nonnull LFunction<? super T, ? extends OptBoolTrait<?>> mapping) {
 		Null.nonNullArg(mapping, "mapping");
@@ -1131,13 +1131,13 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		return isPresent() ? valueFrom(mapping.apply(a1, a2, a3, a4, get())) : voidValue();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="ifPresent">
+	//<editor-fold desc="ifPresent">
 
 	default @Nonnull SELF ifVoid(@Nonnull LAction action) {
 		Null.nonNullArg(action, "action");
@@ -1383,7 +1383,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		return fluentCtx();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Compared to ifPresent it will simply fail if there is no value */
 	default @Nonnull SELF visit(@Nonnull LConsumer<T> consumer) {
@@ -1399,7 +1399,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		return fluentCtx();
 	}
 
-	// <editor-fold desc="orElse">
+	//<editor-fold desc="orElse">
 
 	default @Nonnull SELF orThrow() {
 		if (isPresent()) {
@@ -1586,7 +1586,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 		return isPresent() ? fluentCtx() : valueFrom(supplier.apply(a1, a2, a3));
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	default Optional<T> toOptional() {
 		return isPresent() ? Optional.of(value()) : Optional.empty();
@@ -1690,6 +1690,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 				public boolean hasNext() {
 					return !spent;
 				}
+
 				@Override
 				public T next() {
 					if (spent)
@@ -1704,6 +1705,7 @@ public interface OptTrait<T, SELF extends OptTrait<T, SELF>>
 				public boolean hasNext() {
 					return false;
 				}
+
 				@Override
 				public T next() {
 					throw X.noSuchElement();

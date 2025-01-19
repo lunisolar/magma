@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LTieLongConsumer.
  */
 public final class LTieLongConsumerBuilder<T> extends PerCaseBuilder.Base<LTieLongConsumerBuilder<T>, LObjIntLongPredicate<T>, LTieLongConsumer<T>> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LTieLongConsumer<T>> consumer;
 
@@ -147,7 +147,7 @@ public final class LTieLongConsumerBuilder<T> extends PerCaseBuilder.Base<LTieLo
 		LTieLongConsumer<T> retval;
 
 		final Case<LObjIntLongPredicate<T>, LTieLongConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LTieLongConsumer.<T> tieLongCons((a1, a2, a3) -> {
+		retval = LTieLongConsumer.<T>tieLongCons((a1, a2, a3) -> {
 			try {
 				for (Case<LObjIntLongPredicate<T>, LTieLongConsumer<T>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a1, a2, a3)) {
@@ -157,12 +157,12 @@ public final class LTieLongConsumerBuilder<T> extends PerCaseBuilder.Base<LTieLo
 				}
 
 				otherwiseFinal.accept(a1, a2, a3);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

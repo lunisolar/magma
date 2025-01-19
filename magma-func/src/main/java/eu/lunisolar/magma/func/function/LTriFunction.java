@@ -70,12 +70,11 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain3<a<T1>, a<T2>, a<T3>> { // NOSONAR
+public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface.NonThrowing, Codomain<a<R>>, Domain3<a<T1>, a<T2>, a<T3>> { //NOSONAR
 
 	String DESCRIPTION = "LTriFunction: R apply(T1 a1,T2 a2,T3 a3)";
 
 	@Nullable
-	// R apply(T1 a1,T2 a2,T3 a3) ;
 	default R apply(T1 a1, T2 a2, T3 a3) {
 		try {
 			return this.applyX(a1, a2, a3);
@@ -97,7 +96,7 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 	default R handlingApply(T1 a1, T2 a2, T3 a3, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -109,7 +108,7 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 	default R apply(T1 a1, T2 a2, T3 a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -117,7 +116,7 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 	default R apply(T1 a1, T2 a2, T3 a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -125,7 +124,7 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 	default R apply(T1 a1, T2 a2, T3 a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -133,7 +132,7 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 	default R apply(T1 a1, T2 a2, T3 a3, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -157,7 +156,7 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 	default R apply(T1 a1, T2 a2, T3 a3, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -169,7 +168,7 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 	default R applyThen(T1 a1, T2 a2, T3 a3, @Nonnull LFunction<Throwable, R> handler) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.apply(e);
 		}
@@ -192,7 +191,7 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 	default R shovingApply(T1 a1, T2 a2, T3 a3) {
 		try {
 			return this.applyX(a1, a2, a3);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -202,7 +201,7 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 		return func.shovingApply(a1, a2, a3);
 	}
 
-	static <T1, T2, T3, R> R handlingApply(T1 a1, T2 a2, T3 a3, LTriFunction<T1, T2, T3, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T1, T2, T3, R> R handlingApply(T1 a1, T2 a2, T3 a3, LTriFunction<T1, T2, T3, R> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApply(a1, a2, a3, handling);
 	}
@@ -350,7 +349,7 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 		};
 	}
 
-	// <editor-fold desc="CallContext">
+	//<editor-fold desc="CallContext">
 
 	@Nonnull
 	static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> triFunc(@Nullable CallContext c1, final @Nonnull LTriFunction<T1, T2, T3, R> lambda) {
@@ -643,7 +642,7 @@ public interface LTriFunction<T1, T2, T3, R> extends MetaFunction, MetaInterface
 		return future;
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	/** Creates function that always returns the same value. */
 	static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> constant(R r) {

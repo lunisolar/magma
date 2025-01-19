@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, MetaInterface.NonThrowing, Codomain<aLong>, Domain2<aLong, aLong> { // NOSONAR
+public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, MetaInterface.NonThrowing, Codomain<aLong>, Domain2<aLong, aLong> { //NOSONAR
 
 	String DESCRIPTION = "LLongBinaryOperator: long applyAsLong(long a1,long a2)";
 
-	// long applyAsLong(long a1,long a2) ;
 	default long applyAsLong(long a1, long a2) {
 		try {
 			return this.applyAsLongX(a1, a2);
@@ -96,7 +95,7 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 	default long handlingApplyAsLong(long a1, long a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsLongX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 	default long applyAsLong(long a1, long a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsLongX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 	default long applyAsLong(long a1, long a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsLongX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 	default long applyAsLong(long a1, long a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsLongX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 	default long applyAsLong(long a1, long a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsLongX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 	default long applyAsLong(long a1, long a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsLongX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 	default long applyAsLongThen(long a1, long a2, @Nonnull LToLongFunction<Throwable> handler) {
 		try {
 			return this.applyAsLongX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsLong(e);
 		}
@@ -191,7 +190,7 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 	default long shovingApplyAsLong(long a1, long a2) {
 		try {
 			return this.applyAsLongX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LLongBinaryOperator extends LongBinaryOperator, MetaOperator, M
 		return func.shovingApplyAsLong(a1, a2);
 	}
 
-	static long handlingApplyAsLong(long a1, long a2, LLongBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static long handlingApplyAsLong(long a1, long a2, LLongBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsLong(a1, a2, handling);
 	}

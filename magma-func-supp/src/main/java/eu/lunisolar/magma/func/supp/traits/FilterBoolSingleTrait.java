@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface FilterBoolSingleTrait<SELF extends FilterBoolSingleTrait<SELF>> extends FilterBoolTrait<SELF>, IsBoolTrait<SELF> {
 
-	// <editor-fold desc="is">
+	//<editor-fold desc="is">
 
 	@Override
 	default @Nonnull SELF filter(@Nonnull LLogicalOperator operator) {
@@ -95,5 +95,5 @@ public interface FilterBoolSingleTrait<SELF extends FilterBoolSingleTrait<SELF>>
 		return this.isWith(with1, with2, operator) ? fluentCtx() : voidValue();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

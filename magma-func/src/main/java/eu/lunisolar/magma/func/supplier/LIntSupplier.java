@@ -68,11 +68,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.NonThrowing, Codomain<aInt>, Domain0 { // NOSONAR
+public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.NonThrowing, Codomain<aInt>, Domain0 { //NOSONAR
 
 	String DESCRIPTION = "LIntSupplier: int getAsInt()";
 
-	// int getAsInt() ;
 	default int getAsInt() {
 		try {
 			return this.getAsIntX();
@@ -94,7 +93,7 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 	default int handlingGetAsInt(HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.getAsIntX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -106,7 +105,7 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 	default int getAsInt(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.getAsIntX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -114,7 +113,7 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 	default int getAsInt(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.getAsIntX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -122,7 +121,7 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 	default int getAsInt(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.getAsIntX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -130,7 +129,7 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 	default int getAsInt(@Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.getAsIntX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -154,7 +153,7 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 	default int getAsInt(@Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.getAsIntX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -166,7 +165,7 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 	default int getAsIntThen(@Nonnull LToIntFunction<Throwable> handler) {
 		try {
 			return this.getAsIntX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsInt(e);
 		}
@@ -189,7 +188,7 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 	default int shovingGetAsInt() {
 		try {
 			return this.getAsIntX();
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -199,7 +198,7 @@ public interface LIntSupplier extends IntSupplier, MetaSupplier, MetaInterface.N
 		return func.shovingGetAsInt();
 	}
 
-	static int handlingGetAsInt(LIntSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static int handlingGetAsInt(LIntSupplier func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingGetAsInt(handling);
 	}

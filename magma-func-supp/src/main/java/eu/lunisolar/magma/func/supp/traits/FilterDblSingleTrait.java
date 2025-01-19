@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface FilterDblSingleTrait<SELF extends FilterDblSingleTrait<SELF>> extends FilterDblTrait<SELF>, IsDblTrait<SELF> {
 
-	// <editor-fold desc="is">
+	//<editor-fold desc="is">
 
 	@Override
 	default @Nonnull SELF filter(@Nonnull LDblPredicate predicate) {
@@ -95,5 +95,5 @@ public interface FilterDblSingleTrait<SELF extends FilterDblSingleTrait<SELF>> e
 		return this.isWith(with1, with2, predicate) ? fluentCtx() : voidValue();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

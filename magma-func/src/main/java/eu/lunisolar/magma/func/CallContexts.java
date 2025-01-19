@@ -51,12 +51,14 @@ public final class CallContexts {
 
 		@Nullable
 		C doStart() throws Throwable;
+
 		void doEnd(@Nullable C obj, @Nullable Throwable e) throws Throwable;
 
 		@Override
 		default @Nullable Object start() throws Throwable {
 			return doStart();
 		}
+
 		@Override
 		default void end(@Nullable Object obj, @Nullable Throwable e) throws Throwable {
 			doEnd((C) obj, e);
@@ -72,6 +74,7 @@ public final class CallContexts {
 			public @Nullable C doStart() {
 				return starter.shovingGet();
 			}
+
 			@Override
 			public void doEnd(@Nullable C obj, @Nullable Throwable e) {
 				finisher.shovingAccept(obj, e);
@@ -88,6 +91,7 @@ public final class CallContexts {
 			public @Nullable C doStart() {
 				return starter.shovingGet();
 			}
+
 			@Override
 			public void doEnd(@Nullable C obj, @Nullable Throwable e) {
 				finisher.shovingAccept(obj);
@@ -105,6 +109,7 @@ public final class CallContexts {
 				starter.shovingExecute();
 				return null;
 			}
+
 			@Override
 			public void doEnd(@Nullable Void obj, @Nullable Throwable e) {
 				finisher.shovingExecute();

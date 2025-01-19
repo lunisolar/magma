@@ -72,11 +72,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrowing, OFunction<T, aChar>, Codomain<aChar>, Domain1<a<T>> { // NOSONAR
+public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrowing, OFunction<T, aChar>, Codomain<aChar>, Domain1<a<T>> { //NOSONAR
 
 	String DESCRIPTION = "LToCharFunction: char applyAsChar(T a)";
 
-	// char applyAsChar(T a) ;
 	default char applyAsChar(T a) {
 		try {
 			return this.applyAsCharX(a);
@@ -98,7 +97,7 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	default char handlingApplyAsChar(T a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsCharX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -110,7 +109,7 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	default char applyAsChar(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsCharX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -118,7 +117,7 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	default char applyAsChar(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsCharX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -126,7 +125,7 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	default char applyAsChar(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsCharX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -134,7 +133,7 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	default char applyAsChar(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsCharX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -158,7 +157,7 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	default char applyAsChar(T a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsCharX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -170,7 +169,7 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	default char applyAsCharThen(T a, @Nonnull LToCharFunction<Throwable> handler) {
 		try {
 			return this.applyAsCharX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsChar(e);
 		}
@@ -193,7 +192,7 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 	default char shovingApplyAsChar(T a) {
 		try {
 			return this.applyAsCharX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -203,7 +202,7 @@ public interface LToCharFunction<T> extends MetaFunction, MetaInterface.NonThrow
 		return func.shovingApplyAsChar(a);
 	}
 
-	static <T> char handlingApplyAsChar(T a, LToCharFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> char handlingApplyAsChar(T a, LToCharFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsChar(a, handling);
 	}

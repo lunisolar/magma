@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LQuadPredicate.
  */
 public final class LQuadPredicateBuilder<T1, T2, T3, T4> extends PerCaseBuilderWithBoolProduct.Base<LQuadPredicateBuilder<T1, T2, T3, T4>, LQuadPredicate<T1, T2, T3, T4>, LQuadPredicate<T1, T2, T3, T4>> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LQuadPredicate<T1, T2, T3, T4>> consumer;
 
@@ -119,8 +119,8 @@ public final class LQuadPredicateBuilder<T1, T2, T3, T4> extends PerCaseBuilderW
 	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
 	@Nonnull
 	public <V1 extends T1, V2 extends T2, V3 extends T3, V4 extends T4> LQuadPredicateBuilder<T1, T2, T3, T4> casesOf(Class<V1> argC1, Class<V2> argC2, Class<V3> argC3, Class<V4> argC4, Consumer<LQuadPredicateBuilder<V1, V2, V3, V4>> pcpConsumer) {
-		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod((a1, a2, a3, a4) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3))
-				&& (argC4 == null || argC4.isInstance(a4)));
+		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod(
+				(a1, a2, a3, a4) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)) && (argC4 == null || argC4.isInstance(a4)));
 		pc.specifySubCases((Consumer) pcpConsumer);
 		return fluentCtx();
 	}
@@ -128,8 +128,8 @@ public final class LQuadPredicateBuilder<T1, T2, T3, T4> extends PerCaseBuilderW
 	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
 	@Nonnull
 	public <V1 extends T1, V2 extends T2, V3 extends T3, V4 extends T4> LQuadPredicateBuilder<T1, T2, T3, T4> forClass(Class<V1> argC1, Class<V2> argC2, Class<V3> argC3, Class<V4> argC4, LQuadPredicate<V1, V2, V3, V4> function) {
-		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod((a1, a2, a3, a4) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3))
-				&& (argC4 == null || argC4.isInstance(a4)));
+		PartialCaseWithBoolProduct.The pc = partialCaseFactoryMethod(
+				(a1, a2, a3, a4) -> (argC1 == null || argC1.isInstance(a1)) && (argC2 == null || argC2.isInstance(a2)) && (argC3 == null || argC3.isInstance(a3)) && (argC4 == null || argC4.isInstance(a4)));
 		pc.evaluate(function);
 		return fluentCtx();
 	}
@@ -150,7 +150,7 @@ public final class LQuadPredicateBuilder<T1, T2, T3, T4> extends PerCaseBuilderW
 		LQuadPredicate<T1, T2, T3, T4> retval;
 
 		final Case<LQuadPredicate<T1, T2, T3, T4>, LQuadPredicate<T1, T2, T3, T4>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LQuadPredicate.<T1, T2, T3, T4> quadPred((a1, a2, a3, a4) -> {
+		retval = LQuadPredicate.<T1, T2, T3, T4>quadPred((a1, a2, a3, a4) -> {
 			try {
 				for (Case<LQuadPredicate<T1, T2, T3, T4>, LQuadPredicate<T1, T2, T3, T4>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a1, a2, a3, a4)) {
@@ -159,12 +159,12 @@ public final class LQuadPredicateBuilder<T1, T2, T3, T4> extends PerCaseBuilderW
 				}
 
 				return otherwiseFinal.test(a1, a2, a3, a4);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

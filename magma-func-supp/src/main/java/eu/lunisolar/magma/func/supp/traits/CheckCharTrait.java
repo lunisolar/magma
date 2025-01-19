@@ -90,7 +90,7 @@ public interface CheckCharTrait<SELF extends CheckCharTrait<SELF>> extends FailP
 		return X::value;
 	}
 
-	// <editor-fold desc="main methods">
+	//<editor-fold desc="main methods">
 
 	/**   */
 	default @Nonnull SELF must_(@Nonnull LCharPredicate predicate, @Nonnull LCharFunction<String> msgFunc) {
@@ -1859,7 +1859,8 @@ public interface CheckCharTrait<SELF extends CheckCharTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithEx3(@Nonnull LBiObjCharFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWithEx3(@Nonnull LBiObjCharFunction<? super V1, ? super V2, ? extends String> specialPredicate, V1 with1, V2 with2, @Nonnull String message, @Nullable Object param1, @Nullable Object param2,
+			@Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1927,7 +1928,8 @@ public interface CheckCharTrait<SELF extends CheckCharTrait<SELF>> extends FailP
 	}
 
 	/**   */
-	default @Nonnull <V1, V2> SELF mustWithEx3(V1 with1, V2 with2, @Nonnull LBiObjCharFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
+	default @Nonnull <V1, V2> SELF mustWithEx3(V1 with1, V2 with2, @Nonnull LBiObjCharFunction<? super V1, ? super V2, ? extends String> specialPredicate, @Nonnull String message, @Nullable Object param1, @Nullable Object param2,
+			@Nullable Object param3) {
 		Null.nonNullArg(specialPredicate, "specialPredicate");
 		Null.nonNullArg(message, "message");
 		@Nonnull
@@ -1945,7 +1947,7 @@ public interface CheckCharTrait<SELF extends CheckCharTrait<SELF>> extends FailP
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (pred.test(get())) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -1954,7 +1956,7 @@ public interface CheckCharTrait<SELF extends CheckCharTrait<SELF>> extends FailP
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (!pred.test(get())) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -1963,7 +1965,7 @@ public interface CheckCharTrait<SELF extends CheckCharTrait<SELF>> extends FailP
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (pred.test(get(), a2)) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -1972,7 +1974,7 @@ public interface CheckCharTrait<SELF extends CheckCharTrait<SELF>> extends FailP
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (!pred.test(get(), a2)) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -1981,7 +1983,7 @@ public interface CheckCharTrait<SELF extends CheckCharTrait<SELF>> extends FailP
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (pred.test(get(), a2, a3)) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
@@ -1990,15 +1992,16 @@ public interface CheckCharTrait<SELF extends CheckCharTrait<SELF>> extends FailP
 		Null.nonNullArg(conditionalChecks, "conditionalChecks");
 		if (!pred.test(get(), a2, a3)) {
 			conditionalChecks.accept(fluentCtx());
-		};
+		} ;
 		return fluentCtx();
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 	default @Nonnull SELF mustBeEqual(char expected) {
 		return mustEx(Be::equalEx, expected);
 	}
+
 	default @Nonnull SELF mustBeEqual(char expected, String message) {
 		return mustEx0(Be::equalEx, expected, message);
 	}
@@ -2006,6 +2009,7 @@ public interface CheckCharTrait<SELF extends CheckCharTrait<SELF>> extends FailP
 	default @Nonnull SELF mustBeNotEqual(char expected) {
 		return mustEx(Be::notEqualEx, expected);
 	}
+
 	default @Nonnull SELF mustBeNotEqual(char expected, String message) {
 		return mustEx0(Be::notEqualEx, expected, message);
 	}

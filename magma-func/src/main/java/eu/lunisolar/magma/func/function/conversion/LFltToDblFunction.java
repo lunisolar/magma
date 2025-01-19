@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LFltToDblFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aDouble>, Domain1<aFloat> { // NOSONAR
+public interface LFltToDblFunction extends MetaFunction, MetaInterface.NonThrowing, Codomain<aDouble>, Domain1<aFloat> { //NOSONAR
 
 	String DESCRIPTION = "LFltToDblFunction: double applyAsDbl(float a)";
 
-	// double applyAsDbl(float a) ;
 	default double applyAsDbl(float a) {
 		try {
 			return this.applyAsDblX(a);
@@ -96,7 +95,7 @@ public interface LFltToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 	default double handlingApplyAsDbl(float a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsDblX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LFltToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 	default double applyAsDbl(float a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsDblX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LFltToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 	default double applyAsDbl(float a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsDblX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LFltToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 	default double applyAsDbl(float a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsDblX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LFltToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 	default double applyAsDbl(float a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsDblX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LFltToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 	default double applyAsDbl(float a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsDblX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LFltToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 	default double applyAsDblThen(float a, @Nonnull LToDblFunction<Throwable> handler) {
 		try {
 			return this.applyAsDblX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsDbl(e);
 		}
@@ -191,7 +190,7 @@ public interface LFltToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 	default double shovingApplyAsDbl(float a) {
 		try {
 			return this.applyAsDblX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LFltToDblFunction extends MetaFunction, MetaInterface.NonThrowi
 		return func.shovingApplyAsDbl(a);
 	}
 
-	static double handlingApplyAsDbl(float a, LFltToDblFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static double handlingApplyAsDbl(float a, LFltToDblFunction func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsDbl(a, handling);
 	}

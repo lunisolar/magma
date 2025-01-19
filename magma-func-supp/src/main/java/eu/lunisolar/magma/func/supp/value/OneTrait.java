@@ -51,7 +51,7 @@ public interface OneTrait<T> {
 		return state(nullable()).must(Be::notNull, "Value cannot be null!").value();
 	}
 
-	// <editor-fold desc="the...">
+	//<editor-fold desc="the...">
 
 	/** Expectation: there MUST be a value. */
 	default @Nonnull T theValue() {
@@ -204,9 +204,9 @@ public interface OneTrait<T> {
 		return theValue(byte[].class);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="a...">
+	//<editor-fold desc="a...">
 
 	/** Expectation: there might be a value. */
 	default @Nonnull Opt<T> aValue() {
@@ -359,9 +359,9 @@ public interface OneTrait<T> {
 		return aValue(byte[].class);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="filter...">
+	//<editor-fold desc="filter...">
 
 	/** Expectation: there might be a value, it might be of specific type. */
 	default @Nonnull <R> Opt<R> filter(@Nonnull Class<R> clazz) {
@@ -504,9 +504,9 @@ public interface OneTrait<T> {
 		return filter(byte[].class);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="or...">
+	//<editor-fold desc="or...">
 
 	default T orElse(@Nullable T defaultValue) {
 		var value = nullable();
@@ -760,9 +760,9 @@ public interface OneTrait<T> {
 		return orElseByteArr(defaultValue);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="filterElse...">
+	//<editor-fold desc="filterElse...">
 
 	default T filterElse(@Nonnull T defaultValue) {
 		Null.nonNullArg(defaultValue, "defaultValue");
@@ -1017,9 +1017,9 @@ public interface OneTrait<T> {
 		return filterOrElseByteArr(defaultValue);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
-	// <editor-fold desc="enum">
+	//<editor-fold desc="enum">
 
 	/** Expectation: there might be a value, it MUST be of specific type. */
 	default @Nonnull <T extends Enum<T>> Opt<T> aEnum(@Nonnull Class<T> enumClazz) {
@@ -1050,6 +1050,6 @@ public interface OneTrait<T> {
 		return (T) filterEnum(defaultValue.getClass()).orElse(defaultValue);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 
 }

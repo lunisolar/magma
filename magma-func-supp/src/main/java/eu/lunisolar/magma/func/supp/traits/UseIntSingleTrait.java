@@ -57,7 +57,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface UseIntSingleTrait<SELF extends UseIntSingleTrait<SELF>> extends UseIntTrait<SELF>, IntValueTrait<SELF> {
 
-	// <editor-fold desc="doIf">
+	//<editor-fold desc="doIf">
 
 	default @Nonnull SELF use(@Nonnull LIntConsumer consumer) {
 		consumer.accept(value());
@@ -104,5 +104,5 @@ public interface UseIntSingleTrait<SELF extends UseIntSingleTrait<SELF>> extends
 		return useWith(with1, with2, consumer);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

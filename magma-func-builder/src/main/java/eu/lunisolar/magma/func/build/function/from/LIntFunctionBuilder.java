@@ -52,7 +52,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * Builder for LIntFunction.
  */
 public final class LIntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LIntFunctionBuilder<R>, LIntPredicate, LIntFunction<R>, R> {
-	// extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
+	//extends PER_CASE_BUILDER<BUILDER_NAME func.B(the_case.class_args_ref), CASE_PREDICATE func.B(the_case.domain_class_argsX_ref), the_case.name_ref RRR> {
 
 	private Consumer<LIntFunction<R>> consumer;
 
@@ -125,7 +125,7 @@ public final class LIntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 		LIntFunction<R> retval;
 
 		final Case<LIntPredicate, LIntFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntFunction.<R> intFunc(a -> {
+		retval = LIntFunction.<R>intFunc(a -> {
 			try {
 				for (Case<LIntPredicate, LIntFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().test(a)) {
@@ -134,12 +134,12 @@ public final class LIntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 				}
 
 				return otherwiseFinal.apply(a);
-			} catch (Error e) { // NOSONAR
-					throw e;
-				} catch (Throwable e) { // NOSONAR
-					throw Handler.handleOrPropagate(e, handling);
-				}
-			});
+			} catch (Error e) { //NOSONAR
+				throw e;
+			} catch (Throwable e) { //NOSONAR
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);

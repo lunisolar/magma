@@ -56,7 +56,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 public interface FilterSrtTrait<SELF extends FilterSrtTrait<SELF>> extends FluentTrait<SELF> {
 
-	// <editor-fold desc="filtering">
+	//<editor-fold desc="filtering">
 
 	public SELF filter(@Nonnull LSrtPredicate predicate);
 
@@ -110,5 +110,5 @@ public interface FilterSrtTrait<SELF extends FilterSrtTrait<SELF>> extends Fluen
 		return filterWith(with1, with2, predicate);
 	}
 
-	// </editor-fold>
+	//</editor-fold>
 }

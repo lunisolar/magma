@@ -70,11 +70,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrowing, Codomain<aShort>, Domain2<aShort, aShort> { // NOSONAR
+public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrowing, Codomain<aShort>, Domain2<aShort, aShort> { //NOSONAR
 
 	String DESCRIPTION = "LSrtBinaryOperator: short applyAsSrt(short a1,short a2)";
 
-	// short applyAsSrt(short a1,short a2) ;
 	default short applyAsSrt(short a1, short a2) {
 		try {
 			return this.applyAsSrtX(a1, a2);
@@ -96,7 +95,7 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	default short handlingApplyAsSrt(short a1, short a2, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsSrtX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +107,7 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	default short applyAsSrt(short a1, short a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsSrtX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -116,7 +115,7 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	default short applyAsSrt(short a1, short a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsSrtX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -124,7 +123,7 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	default short applyAsSrt(short a1, short a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsSrtX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -132,7 +131,7 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	default short applyAsSrt(short a1, short a2, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsSrtX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -156,7 +155,7 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	default short applyAsSrt(short a1, short a2, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsSrtX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -168,7 +167,7 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	default short applyAsSrtThen(short a1, short a2, @Nonnull LToSrtFunction<Throwable> handler) {
 		try {
 			return this.applyAsSrtX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsSrt(e);
 		}
@@ -191,7 +190,7 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 	default short shovingApplyAsSrt(short a1, short a2) {
 		try {
 			return this.applyAsSrtX(a1, a2);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -201,7 +200,7 @@ public interface LSrtBinaryOperator extends MetaOperator, MetaInterface.NonThrow
 		return func.shovingApplyAsSrt(a1, a2);
 	}
 
-	static short handlingApplyAsSrt(short a1, short a2, LSrtBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static short handlingApplyAsSrt(short a1, short a2, LSrtBinaryOperator func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsSrt(a1, a2, handling);
 	}

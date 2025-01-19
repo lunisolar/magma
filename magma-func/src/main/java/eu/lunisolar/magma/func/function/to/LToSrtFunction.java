@@ -72,11 +72,10 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowing, OFunction<T, aShort>, Codomain<aShort>, Domain1<a<T>> { // NOSONAR
+public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowing, OFunction<T, aShort>, Codomain<aShort>, Domain1<a<T>> { //NOSONAR
 
 	String DESCRIPTION = "LToSrtFunction: short applyAsSrt(T a)";
 
-	// short applyAsSrt(T a) ;
 	default short applyAsSrt(T a) {
 		try {
 			return this.applyAsSrtX(a);
@@ -98,7 +97,7 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	default short handlingApplyAsSrt(T a, HandlingInstructions<Throwable, RuntimeException> handling) {
 		try {
 			return this.applyAsSrtX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -110,7 +109,7 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	default short applyAsSrt(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage) {
 		try {
 			return this.applyAsSrtX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage);
 		}
 	}
@@ -118,7 +117,7 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	default short applyAsSrt(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1) {
 		try {
 			return this.applyAsSrtX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1);
 		}
 	}
@@ -126,7 +125,7 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	default short applyAsSrt(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2) {
 		try {
 			return this.applyAsSrtX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2);
 		}
 	}
@@ -134,7 +133,7 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	default short applyAsSrt(T a, @Nonnull ExWMF<RuntimeException> factory, @Nonnull String newMessage, @Nullable Object param1, @Nullable Object param2, @Nullable Object param3) {
 		try {
 			return this.applyAsSrtX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory, newMessage, param1, param2, param3);
 		}
 	}
@@ -158,7 +157,7 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	default short applyAsSrt(T a, @Nonnull ExWF<RuntimeException> factory) {
 		try {
 			return this.applyAsSrtX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.wrap(e, factory);
 		}
 	}
@@ -170,7 +169,7 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	default short applyAsSrtThen(T a, @Nonnull LToSrtFunction<Throwable> handler) {
 		try {
 			return this.applyAsSrtX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			Handling.handleErrors(e);
 			return handler.applyAsSrt(e);
 		}
@@ -193,7 +192,7 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 	default short shovingApplyAsSrt(T a) {
 		try {
 			return this.applyAsSrtX(a);
-		} catch (Throwable e) { // NOSONAR
+		} catch (Throwable e) { //NOSONAR
 			throw Handling.shoveIt(e);
 		}
 	}
@@ -203,7 +202,7 @@ public interface LToSrtFunction<T> extends MetaFunction, MetaInterface.NonThrowi
 		return func.shovingApplyAsSrt(a);
 	}
 
-	static <T> short handlingApplyAsSrt(T a, LToSrtFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { // <-
+	static <T> short handlingApplyAsSrt(T a, LToSrtFunction<T> func, HandlingInstructions<Throwable, RuntimeException> handling) { //<-
 		Null.nonNullArg(func, "func");
 		return func.handlingApplyAsSrt(a, handling);
 	}
