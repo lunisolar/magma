@@ -22,11 +22,13 @@ import eu.lunisolar.magma.func.action.LAction;
 
 import javax.annotation.Nonnull;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 
 public interface AsyncCallContext {
 
 	public static final @Nonnull AsyncCallContext COMMON_POOL = ctx(ForkJoinPool.commonPool());
+	public static final @Nonnull AsyncCallContext VIRTUAL = ctx(Executors.newVirtualThreadPerTaskExecutor());
 
 	void call(@Nonnull LAction functionCall);
 
@@ -40,6 +42,10 @@ public interface AsyncCallContext {
 
 	static @Nonnull AsyncCallContext commonPool() {
 		return COMMON_POOL;
+	}
+
+	static @Nonnull AsyncCallContext virtual() {
+		return VIRTUAL;
 	}
 
 }
