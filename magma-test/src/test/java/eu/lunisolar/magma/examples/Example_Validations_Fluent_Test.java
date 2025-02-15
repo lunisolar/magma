@@ -236,7 +236,7 @@ public class Example_Validations_Fluent_Test {
         Checks.value(new Object[]{1, 2}).mustEx0(Be::allNullEx, "Array contains non-null elements");
     }
 
-    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: Exception <java.lang.RuntimeException: Message2!> must have message containing <'I'm Expecting this>'.")
+    @Test(expectedExceptions = IllegalValueException.class, expectedExceptionsMessageRegExp = "Value \\[\\?\\]: Exception <java.lang.RuntimeException: Message2!> must have message containing <'I'm Expecting this'>.")
     public void specialPredicates() {
         var e = new Exception("Message1!", new RuntimeException("Message2!"));
 

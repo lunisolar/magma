@@ -18,24 +18,25 @@
 
 package eu.lunisolar.magma.func.supp;
 
-import javax.annotation.Nonnull; // NOSONAR
-import javax.annotation.Nullable; // NOSONAR
-import java.lang.reflect.*; // NOSONAR
-import java.util.*; // NOSONAR
-import java.util.Objects; // NOSONAR
-import java.util.concurrent.*; // NOSONAR
-import eu.lunisolar.magma.basics.*; // NOSONAR
-import eu.lunisolar.magma.basics.builder.*; // NOSONAR
-import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.opt.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.value.*; // NOSONAR
-import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import eu.lunisolar.magma.basics.fluent.*; //NOSONAR
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.lang.reflect.*;
+import java.util.*;
+import java.util.Objects;
+import java.util.concurrent.*;
+import java.util.regex.Pattern;
+import eu.lunisolar.magma.basics.*;
+import eu.lunisolar.magma.basics.builder.*;
+import eu.lunisolar.magma.basics.exceptions.*;
+import eu.lunisolar.magma.basics.meta.*;
+import eu.lunisolar.magma.basics.meta.functional.*;
+import eu.lunisolar.magma.basics.meta.functional.type.*;
+import eu.lunisolar.magma.basics.meta.functional.domain.*;
+import eu.lunisolar.magma.func.*;
+import eu.lunisolar.magma.func.supp.opt.*;
+import eu.lunisolar.magma.func.supp.value.*;
+import eu.lunisolar.magma.func.tuple.*;
+import eu.lunisolar.magma.basics.fluent.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -159,6 +160,62 @@ public class P2 implements FluentSyntax {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return Predicates.notStartWithEx(n, a1);
+	}
+
+	/** Predicate: String <'%s'> must match pattern <'%s'>.*/
+	public static <MP1, MP2> boolean match(@Nonnull String n, @Nonnull Pattern pattern, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(n, "n");
+		Null.nonNullArg(pattern, "pattern");
+		return Predicates.match(n, pattern);
+	}
+
+	/** "Special" predicate: String <'%s'> must match pattern <'%s'>.*/
+	public static <MP1, MP2> @Nullable String matchEx(@Nonnull String n, @Nonnull Pattern pattern, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(n, "n");
+		Null.nonNullArg(pattern, "pattern");
+		return Predicates.matchEx(n, pattern);
+	}
+
+	/** Predicate: String <'%s'> must NOT match pattern <'%s'>.*/
+	public static <MP1, MP2> boolean notMatch(@Nonnull String n, @Nonnull Pattern pattern, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(n, "n");
+		Null.nonNullArg(pattern, "pattern");
+		return Predicates.notMatch(n, pattern);
+	}
+
+	/** "Special" predicate: String <'%s'> must NOT match pattern <'%s'>.*/
+	public static <MP1, MP2> @Nullable String notMatchEx(@Nonnull String n, @Nonnull Pattern pattern, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(n, "n");
+		Null.nonNullArg(pattern, "pattern");
+		return Predicates.notMatchEx(n, pattern);
+	}
+
+	/** Predicate: String <'%s'> must match pattern <'%s'>.*/
+	public static <MP1, MP2> boolean match(@Nonnull String n, @Nonnull String pattern, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(n, "n");
+		Null.nonNullArg(pattern, "pattern");
+		return Predicates.match(n, pattern);
+	}
+
+	/** "Special" predicate: String <'%s'> must match pattern <'%s'>.*/
+	public static <MP1, MP2> @Nullable String matchEx(@Nonnull String n, @Nonnull String pattern, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(n, "n");
+		Null.nonNullArg(pattern, "pattern");
+		return Predicates.matchEx(n, pattern);
+	}
+
+	/** Predicate: String <'%s'> must NOT match pattern <'%s'>.*/
+	public static <MP1, MP2> boolean notMatch(@Nonnull String n, @Nonnull String pattern, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(n, "n");
+		Null.nonNullArg(pattern, "pattern");
+		return Predicates.notMatch(n, pattern);
+	}
+
+	/** "Special" predicate: String <'%s'> must NOT match pattern <'%s'>.*/
+	public static <MP1, MP2> @Nullable String notMatchEx(@Nonnull String n, @Nonnull String pattern, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(n, "n");
+		Null.nonNullArg(pattern, "pattern");
+		return Predicates.notMatchEx(n, pattern);
 	}
 
 	/** Predicate: String <'%s'> must end with <'%s'>.*/
@@ -3425,25 +3482,73 @@ public class P2 implements FluentSyntax {
 		return Predicates.noSuppressedEx(e);
 	}
 
-	/** Predicate: Exception <%s> must have message equal to <'%s>'.*/
+	/** Predicate: Exception <%s> must have suppressed %d other exceptions (actual: %d).*/
+	public static <MP1, MP2> boolean suppressed(@Nonnull Throwable e, int expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(e, "e");
+		return Predicates.suppressed(e, expected);
+	}
+
+	/** "Special" predicate: Exception <%s> must have suppressed %d other exceptions (actual: %d).*/
+	public static <MP1, MP2> @Nullable String suppressedEx(@Nonnull Throwable e, int expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(e, "e");
+		return Predicates.suppressedEx(e, expected);
+	}
+
+	/** Predicate: Exception <%s> must have suppressed other exceptions.*/
+	public static <MP1, MP2> boolean suppressing(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(e, "e");
+		return Predicates.suppressing(e);
+	}
+
+	/** "Special" predicate: Exception <%s> must have suppressed other exceptions.*/
+	public static <MP1, MP2> @Nullable String suppressingEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(e, "e");
+		return Predicates.suppressingEx(e);
+	}
+
+	/** Predicate: Exception <%s> must NOT have suppressed other exceptions.*/
+	public static <MP1, MP2> boolean notSuppressing(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(e, "e");
+		return Predicates.notSuppressing(e);
+	}
+
+	/** "Special" predicate: Exception <%s> must NOT have suppressed other exceptions.*/
+	public static <MP1, MP2> @Nullable String notSuppressingEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(e, "e");
+		return Predicates.notSuppressingEx(e);
+	}
+
+	/** Predicate: Exception <%s> must have suppressed %d other exceptions (actual: %d).*/
+	public static <MP1, MP2> boolean suppressing(@Nonnull Throwable e, int expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(e, "e");
+		return Predicates.suppressing(e, expected);
+	}
+
+	/** "Special" predicate: Exception <%s> must have suppressed %d other exceptions (actual: %d).*/
+	public static <MP1, MP2> @Nullable String suppressingEx(@Nonnull Throwable e, int expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(e, "e");
+		return Predicates.suppressingEx(e, expected);
+	}
+
+	/** Predicate: Exception <%s> must have message equal to <'%s'>.*/
 	public static <MP1, MP2> boolean msgEqual(@Nonnull Throwable e, String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.msgEqual(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must have message equal to <'%s>'.*/
+	/** "Special" predicate: Exception <%s> must have message equal to <'%s'>.*/
 	public static <MP1, MP2> @Nullable String msgEqualEx(@Nonnull Throwable e, String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.msgEqualEx(e, text);
 	}
 
-	/** Predicate: Exception <%s> must NOT have message equal to <'%s>'.*/
+	/** Predicate: Exception <%s> must NOT have message equal to <'%s'>.*/
 	public static <MP1, MP2> boolean msgNotEqual(@Nonnull Throwable e, String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.msgNotEqual(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have message equal to <'%s>'.*/
+	/** "Special" predicate: Exception <%s> must NOT have message equal to <'%s'>.*/
 	public static <MP1, MP2> @Nullable String msgNotEqualEx(@Nonnull Throwable e, String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		return Predicates.msgNotEqualEx(e, text);
@@ -3473,112 +3578,144 @@ public class P2 implements FluentSyntax {
 		return Predicates.noMsgEx(e);
 	}
 
-	/** Predicate: Exception <%s> must have message starting with <'%s>'.*/
+	/** Predicate: Exception <%s> must have message matching pattern <'%s'>.*/
+	public static <MP1, MP2> boolean msgMatch(@Nonnull Throwable e, @Nonnull Pattern pattern, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(pattern, "pattern");
+		return Predicates.msgMatch(e, pattern);
+	}
+
+	/** "Special" predicate: Exception <%s> must have message matching pattern <'%s'>.*/
+	public static <MP1, MP2> @Nullable String msgMatchEx(@Nonnull Throwable e, @Nonnull Pattern pattern, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(pattern, "pattern");
+		return Predicates.msgMatchEx(e, pattern);
+	}
+
+	/** Predicate: Exception <%s> must NOT have message matching pattern <'%s'>.*/
+	public static <MP1, MP2> boolean msgNotMatch(@Nonnull Throwable e, @Nonnull Pattern pattern, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(pattern, "pattern");
+		return Predicates.msgNotMatch(e, pattern);
+	}
+
+	/** "Special" predicate: Exception <%s> must NOT have message matching pattern <'%s'>.*/
+	public static <MP1, MP2> @Nullable String msgNotMatchEx(@Nonnull Throwable e, @Nonnull Pattern pattern, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(pattern, "pattern");
+		return Predicates.msgNotMatchEx(e, pattern);
+	}
+
+	/** Predicate: Exception <%s> must have message matching pattern <'%s'>.*/
+	public static <MP1, MP2> boolean msgMatch(@Nonnull Throwable e, @Nonnull String pattern, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(pattern, "pattern");
+		return Predicates.msgMatch(e, pattern);
+	}
+
+	/** "Special" predicate: Exception <%s> must have message matching pattern <'%s'>.*/
+	public static <MP1, MP2> @Nullable String msgMatchEx(@Nonnull Throwable e, @Nonnull String pattern, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(pattern, "pattern");
+		return Predicates.msgMatchEx(e, pattern);
+	}
+
+	/** Predicate: Exception <%s> must NOT have message matching pattern <'%s'>.*/
+	public static <MP1, MP2> boolean msgNotMatch(@Nonnull Throwable e, @Nonnull String pattern, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(pattern, "pattern");
+		return Predicates.msgNotMatch(e, pattern);
+	}
+
+	/** "Special" predicate: Exception <%s> must NOT have message matching pattern <'%s'>.*/
+	public static <MP1, MP2> @Nullable String msgNotMatchEx(@Nonnull Throwable e, @Nonnull String pattern, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(pattern, "pattern");
+		return Predicates.msgNotMatchEx(e, pattern);
+	}
+
+	/** Predicate: Exception <%s> must have message starting with <'%s'>.*/
 	public static <MP1, MP2> boolean msgStartWith(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return Predicates.msgStartWith(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must have message starting with <'%s>'.*/
+	/** "Special" predicate: Exception <%s> must have message starting with <'%s'>.*/
 	public static <MP1, MP2> @Nullable String msgStartWithEx(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return Predicates.msgStartWithEx(e, text);
 	}
 
-	/** Predicate: Exception <%s> must NOT have message starting with <'%s>'.*/
+	/** Predicate: Exception <%s> must NOT have message starting with <'%s'>.*/
 	public static <MP1, MP2> boolean msgNotStartWith(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return Predicates.msgNotStartWith(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have message starting with <'%s>'.*/
+	/** "Special" predicate: Exception <%s> must NOT have message starting with <'%s'>.*/
 	public static <MP1, MP2> @Nullable String msgNotStartWithEx(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return Predicates.msgNotStartWithEx(e, text);
 	}
 
-	/** Predicate: Exception <%s> must have message containing <'%s>'.*/
+	/** Predicate: Exception <%s> must have message containing <'%s'>.*/
 	public static <MP1, MP2> boolean msgContain(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return Predicates.msgContain(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must have message containing <'%s>'.*/
+	/** "Special" predicate: Exception <%s> must have message containing <'%s'>.*/
 	public static <MP1, MP2> @Nullable String msgContainEx(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return Predicates.msgContainEx(e, text);
 	}
 
-	/** Predicate: Exception <%s> must NOT have message containing <'%s>'.*/
+	/** Predicate: Exception <%s> must NOT have message containing <'%s'>.*/
 	public static <MP1, MP2> boolean msgNotContain(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return Predicates.msgNotContain(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have message containing <'%s>'.*/
+	/** "Special" predicate: Exception <%s> must NOT have message containing <'%s'>.*/
 	public static <MP1, MP2> @Nullable String msgNotContainEx(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return Predicates.msgNotContainEx(e, text);
 	}
 
-	/** Predicate: Exception <%s> must have message ending with <'%s>'.*/
+	/** Predicate: Exception <%s> must have message ending with <'%s'>.*/
 	public static <MP1, MP2> boolean msgEndWith(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return Predicates.msgEndWith(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must have message ending with <'%s>'.*/
+	/** "Special" predicate: Exception <%s> must have message ending with <'%s'>.*/
 	public static <MP1, MP2> @Nullable String msgEndWithEx(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return Predicates.msgEndWithEx(e, text);
 	}
 
-	/** Predicate: Exception <%s> must NOT have message ending with <'%s>'.*/
+	/** Predicate: Exception <%s> must NOT have message ending with <'%s'>.*/
 	public static <MP1, MP2> boolean msgNotEndWith(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return Predicates.msgNotEndWith(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have message ending with <'%s>'.*/
+	/** "Special" predicate: Exception <%s> must NOT have message ending with <'%s'>.*/
 	public static <MP1, MP2> @Nullable String msgNotEndWithEx(@Nonnull Throwable e, @Nonnull String text, MP1 msgParamOnly1, MP2 msgParamOnly2) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return Predicates.msgNotEndWithEx(e, text);
-	}
-
-	/** Predicate: Exception <%s> must have suppressed other exceptions.*/
-	public static <MP1, MP2> boolean suppressing(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(e, "e");
-		return Predicates.suppressing(e);
-	}
-
-	/** "Special" predicate: Exception <%s> must have suppressed other exceptions.*/
-	public static <MP1, MP2> @Nullable String suppressingEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(e, "e");
-		return Predicates.suppressingEx(e);
-	}
-
-	/** Predicate: Exception <%s> must NOT have suppressed other exceptions.*/
-	public static <MP1, MP2> boolean notSuppressing(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(e, "e");
-		return Predicates.notSuppressing(e);
-	}
-
-	/** "Special" predicate: Exception <%s> must NOT have suppressed other exceptions.*/
-	public static <MP1, MP2> @Nullable String notSuppressingEx(@Nonnull Throwable e, MP1 msgParamOnly1, MP2 msgParamOnly2) {
-		Null.nonNullArg(e, "e");
-		return Predicates.notSuppressingEx(e);
 	}
 
 	//</editor-fold>

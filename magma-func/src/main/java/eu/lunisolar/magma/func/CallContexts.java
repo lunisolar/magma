@@ -22,20 +22,25 @@ import eu.lunisolar.magma.basics.exceptions.Handling;
 import eu.lunisolar.magma.func.action.LAction;
 import eu.lunisolar.magma.func.consumer.LBiConsumer;
 import eu.lunisolar.magma.func.consumer.LConsumer;
+import eu.lunisolar.magma.func.function.LBiFunction;
 import eu.lunisolar.magma.func.supplier.LSupplier;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 import java.util.concurrent.locks.Lock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static eu.lunisolar.magma.basics.Null.nonNullArg;
+import static java.util.logging.Level.FINEST;
 
 public final class CallContexts {
+
+	private final static Logger log = Logger.getLogger(CallContexts.class.getName());
 
 	// <editor-fold desc="no-instance">
 	private CallContexts() {
@@ -52,7 +57,8 @@ public final class CallContexts {
 		@Nullable
 		C doStart() throws Throwable;
 
-		void doEnd(@Nullable C obj, @Nullable Throwable e) throws Throwable;
+		@Nullable
+		Throwable doEnd(@Nullable C obj, @Nullable Throwable e) throws Throwable;
 
 		@Override
 		default @Nullable Object start() throws Throwable {
@@ -60,9 +66,26 @@ public final class CallContexts {
 		}
 
 		@Override
-		default void end(@Nullable Object obj, @Nullable Throwable e) throws Throwable {
-			doEnd((C) obj, e);
+		default @Nullable Throwable end(@Nullable Object obj, @Nullable Throwable e) throws Throwable {
+			return doEnd((C) obj, e);
 		}
+	}
+
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public static <C> @Nonnull CallContext ctxHandling(@Nonnull LSupplier</* ? extends */C> starter, @Nonnull LBiFunction</* ? super */C, Throwable, Throwable> finisher) {
+		nonNullArg(starter, "[starter] cannot be null.");
+		nonNullArg(finisher, "[finisher] cannot be null.");
+		return new CallContexts.Easy<C>() {
+			@Override
+			public @Nullable C doStart() {
+				return starter.shovingGet();
+			}
+
+			@Override
+			public @Nullable Throwable doEnd(@Nullable C obj, @Nullable Throwable e) {
+				return finisher.shovingApply(obj, e);
+			}
+		};
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
@@ -76,8 +99,9 @@ public final class CallContexts {
 			}
 
 			@Override
-			public void doEnd(@Nullable C obj, @Nullable Throwable e) {
+			public @Nullable Throwable doEnd(@Nullable C obj, @Nullable Throwable e) {
 				finisher.shovingAccept(obj, e);
+				return null;
 			}
 		};
 	}
@@ -93,8 +117,9 @@ public final class CallContexts {
 			}
 
 			@Override
-			public void doEnd(@Nullable C obj, @Nullable Throwable e) {
+			public @Nullable Throwable doEnd(@Nullable C obj, @Nullable Throwable e) {
 				finisher.shovingAccept(obj);
+				return null;
 			}
 		};
 	}
@@ -111,8 +136,9 @@ public final class CallContexts {
 			}
 
 			@Override
-			public void doEnd(@Nullable Void obj, @Nullable Throwable e) {
+			public @Nullable Throwable doEnd(@Nullable Void obj, @Nullable Throwable e) {
 				finisher.shovingExecute();
+				return null;
 			}
 		};
 	}
@@ -152,7 +178,10 @@ public final class CallContexts {
 
 		if (alreadyInitialized != null) {
 			try {
-				alreadyInitialized.end(state, primary);
+				var newPrimary = alreadyInitialized.end(state, primary);
+				if (newPrimary != null) {
+					primary = newPrimary;
+				}
 			} catch (Throwable e) {
 				// 'primary' is expected to be thrown by a call site.
 				if (primary != null) {
@@ -245,7 +274,7 @@ public final class CallContexts {
 		}
 
 		@Override
-		public void end(@Nullable Object obj, @Nullable Throwable argPrimary) throws Throwable {
+		public @Nullable Throwable end(@Nullable Object obj, @Nullable Throwable argPrimary) throws Throwable {
 			Object[] state = (Object[]) obj;
 
 			var primary = tryFinish(contexts.length, argPrimary, state);
@@ -253,6 +282,7 @@ public final class CallContexts {
 			if (primary != null && primary != argPrimary) {
 				throw primary;
 			} // else - "primary" must be already being handled.
+			return null;
 		}
 	}
 
@@ -274,8 +304,9 @@ public final class CallContexts {
 		}
 
 		@Override
-		public void end(@Nullable Object obj, @Nullable Throwable primary) throws Throwable {
+		public @Nullable Throwable end(@Nullable Object obj, @Nullable Throwable primary) throws Throwable {
 			// NO-OP
+			return null;
 		}
 	}
 
@@ -327,8 +358,9 @@ public final class CallContexts {
 		}
 
 		@Override
-		public void end(@Nullable Object obj, @Nullable Throwable primary) {
+		public @Nullable Throwable end(@Nullable Object obj, @Nullable Throwable primary) {
 			lock.unlock();
+			return null;
 		}
 	}
 
@@ -382,11 +414,184 @@ public final class CallContexts {
 		}
 
 		@Override
-		public void end(@Nullable Object obj, @Nullable Throwable primary) {
+		public @Nullable Throwable end(@Nullable Object obj, @Nullable Throwable primary) {
 			semaphore.release(1);
+			return null;
 		}
 	}
 
 	// </editor-fold>
+
+	//<editor-fold desc="Async">
+
+	public static final @Nonnull AsyncCallContext COMMON_POOL = asyncCtx(ForkJoinPool.commonPool());
+	public static final @Nonnull AsyncCallContext VIRTUAL = asyncCtx(Executors.newVirtualThreadPerTaskExecutor());
+
+	public static AsyncCallContext asyncCtx(@Nonnull AsyncCallContext lambdaCapture) {
+		return lambdaCapture;
+	}
+
+	public static @Nonnull AsyncCallContext asyncCtx(@Nonnull ExecutorService service) {
+		return service::execute;
+	}
+
+	public static @Nonnull AsyncCallContext commonPool() {
+		return COMMON_POOL;
+	}
+
+	public static @Nonnull AsyncCallContext virtual() {
+		return VIRTUAL;
+	}
+
+	//</editor-fold>
+
+	//<editor-fold desc="timeout">
+
+	protected static class TimeoutObservation implements Runnable {
+
+		private static final Thread.Builder OBSERVER_FACTORY = Thread.ofVirtual().name("CallContext.timeout", 0);
+
+		private final TimeUnit unit;
+		private final long timeout;
+		private final boolean diligent;
+		private final WeakReference<Thread> observed;
+		private final WeakReference<Thread> observer;
+		private final long start;
+		private volatile long end = 0;
+		private volatile boolean timedOut = false;
+
+		protected TimeoutObservation(Thread observed, TimeUnit unit, long timeout, boolean diligent) {
+			this.unit = unit;
+			this.timeout = timeout;
+			this.diligent = diligent;
+			var observer = OBSERVER_FACTORY.unstarted(this);
+			this.observer = new WeakReference<>(observer);
+			this.observed = new WeakReference<>(observed);
+			observer.setDaemon(true);
+			this.start = System.nanoTime();
+			observer.start();
+		}
+
+		@Override
+		public void run() {
+			try {
+				if (log.isLoggable(FINEST)) {
+					log.log(FINEST, "Observer: going to sleep for: {0} {1}.", new Object[]{timeout, unit});
+				}
+				unit.sleep(timeout);
+				if (log.isLoggable(FINEST)) {
+					log.log(FINEST, "Observer: sleep ended.");
+				}
+				synchronized (this) {
+					if (end != 0) {
+						if (log.isLoggable(FINEST)) {
+							log.log(FINEST, "Observer: Seems observation ended already. Ignoring timeout.");
+						}
+						return;
+					} else {
+						if (log.isLoggable(FINEST)) {
+							log.log(FINEST, "Observer: Timeout elapsed.");
+						}
+						timedOut = true;
+					}
+				}
+				if (timedOut) {
+					interruptObserved(diligent);
+				}
+			} catch (InterruptedException e) {
+				Handling.ignore(e);
+				if (log.isLoggable(FINEST)) {
+					log.log(FINEST, "Observer: Interrupted.");
+				}
+			}
+		}
+
+		protected long elapsedTimeNanos() {
+			return end - start;
+		}
+
+		protected boolean end() {
+			if (log.isLoggable(FINEST)) {
+				log.log(FINEST, "Ending timeout observation.");
+			}
+			synchronized (this) {
+				if (end == 0) {
+					end = System.nanoTime();
+					interruptThread(observer);
+				}
+				if (timedOut) {
+					//noinspection ResultOfMethodCallIgnored
+					Thread.interrupted(); // Clears interrupted flag - exception should be already thrown (if not, then it is no longer needed).
+				}
+				return timedOut;
+			}
+		}
+
+		private void interruptObserved(boolean diligent) {
+			if (log.isLoggable(FINEST)) {
+				log.log(FINEST, "Starting to interrupting observed thread: {0}", observed.get());
+			}
+
+			interruptObserved();
+
+			if (diligent) {
+				while (end == 0 && observed.get() != null) {
+					Thread.onSpinWait();
+					interruptObserved();
+				}
+			}
+		}
+
+		private void interruptObserved() {
+			synchronized (this) {
+				if (end == 0) {
+					interruptThread(observed);
+				}
+			}
+		}
+
+		private static void interruptThread(WeakReference<Thread> threadRef) {
+			Thread thread = threadRef.get();
+			if (thread != null) {
+				if (log.isLoggable(FINEST)) {
+					log.log(FINEST, "Interrupting thread: {0}", thread);
+				}
+				thread.interrupt();
+			}
+		}
+	}
+
+	public static void checkInterrupted() {
+		if (Thread.interrupted()) {
+			Handling.shoveIt(new InterruptedException());
+		}
+	}
+
+	/**
+	 * Created {@link CallContext} that will observe called function execution and will try to interrupt the thread after a certain amount of time (timeout threshold).
+	 *
+	 * @param timeout Timeout threshold.
+	 * @param diligent False - timeout would interrupt observed thread only once;
+	 *                  True - observing thread will try to interrupt multiple times as long as the call context will not end
+	 *                  (e.g. tu interrupt multiple independent sleep calls).
+	 *
+	 * @apiNote This context follows logic implemented in {@link Thread#sleep(long)} {@link Thread#isInterrupted()}. If the code of block that is called does not
+	 * ever check interruption timeout will never happen. Likewise, all parts of code must react to {@link InterruptedException} and {@link TimeoutException} appropriately.
+	 */
+	public static CallContext timeout(@Nonnull TimeUnit unit, long timeout, boolean diligent) {
+		nonNullArg(unit, "unit");
+		return CallContexts.ctxHandling(() -> new TimeoutObservation(Thread.currentThread(), unit, timeout, diligent), (observation, e) -> {
+			var timedOut = observation.end();
+			if (timedOut && e instanceof InterruptedException interrupted) {
+				// We are claiming it is our InterruptedException.
+				TimeoutException timeoutEx = new TimeoutException("Timeout after %dns (threshold: %d %s).".formatted(observation.elapsedTimeNanos(), timeout, unit.name().toLowerCase()));
+				timeoutEx.addSuppressed(interrupted);
+				return timeoutEx;
+			}
+			return null;
+		});
+	}
+
+	//</editor-fold>
 
 }

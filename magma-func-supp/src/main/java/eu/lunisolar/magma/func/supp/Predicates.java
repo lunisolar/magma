@@ -18,24 +18,25 @@
 
 package eu.lunisolar.magma.func.supp;
 
-import javax.annotation.Nonnull; // NOSONAR
-import javax.annotation.Nullable; // NOSONAR
-import java.lang.reflect.*; // NOSONAR
-import java.util.*; // NOSONAR
-import java.util.Objects; // NOSONAR
-import java.util.concurrent.*; // NOSONAR
-import eu.lunisolar.magma.basics.*; // NOSONAR
-import eu.lunisolar.magma.basics.builder.*; // NOSONAR
-import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.opt.*; // NOSONAR
-import eu.lunisolar.magma.func.supp.value.*; // NOSONAR
-import eu.lunisolar.magma.func.tuple.*; // NOSONAR
-import eu.lunisolar.magma.basics.fluent.*; //NOSONAR
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.lang.reflect.*;
+import java.util.*;
+import java.util.Objects;
+import java.util.concurrent.*;
+import java.util.regex.Pattern;
+import eu.lunisolar.magma.basics.*;
+import eu.lunisolar.magma.basics.builder.*;
+import eu.lunisolar.magma.basics.exceptions.*;
+import eu.lunisolar.magma.basics.meta.*;
+import eu.lunisolar.magma.basics.meta.functional.*;
+import eu.lunisolar.magma.basics.meta.functional.type.*;
+import eu.lunisolar.magma.basics.meta.functional.domain.*;
+import eu.lunisolar.magma.func.*;
+import eu.lunisolar.magma.func.supp.opt.*;
+import eu.lunisolar.magma.func.supp.value.*;
+import eu.lunisolar.magma.func.tuple.*;
+import eu.lunisolar.magma.basics.fluent.*;
 
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
@@ -263,6 +264,62 @@ public class Predicates implements FluentSyntax {
 		Null.nonNullArg(n, "n");
 		Null.nonNullArg(a1, "a1");
 		return notStartWith(n, a1) ? null : String.format("String <'%s'> must NOT start with <'%s'>.", n, a1);
+	}
+
+	/** Predicate: String <'%s'> must match pattern <'%s'>.*/
+	public static boolean match(@Nonnull String n, @Nonnull Pattern pattern) {
+		Null.nonNullArg(n, "n");
+		Null.nonNullArg(pattern, "pattern");
+		return pattern.matcher(n).matches();
+	}
+
+	/** "Special" predicate: String <'%s'> must match pattern <'%s'>.*/
+	public static @Nullable String matchEx(@Nonnull String n, @Nonnull Pattern pattern) {
+		Null.nonNullArg(n, "n");
+		Null.nonNullArg(pattern, "pattern");
+		return match(n, pattern) ? null : String.format("String <'%s'> must match pattern <'%s'>.", n, pattern);
+	}
+
+	/** Predicate: String <'%s'> must NOT match pattern <'%s'>.*/
+	public static boolean notMatch(@Nonnull String n, @Nonnull Pattern pattern) {
+		Null.nonNullArg(n, "n");
+		Null.nonNullArg(pattern, "pattern");
+		return !match(n, pattern);
+	}
+
+	/** "Special" predicate: String <'%s'> must NOT match pattern <'%s'>.*/
+	public static @Nullable String notMatchEx(@Nonnull String n, @Nonnull Pattern pattern) {
+		Null.nonNullArg(n, "n");
+		Null.nonNullArg(pattern, "pattern");
+		return notMatch(n, pattern) ? null : String.format("String <'%s'> must NOT match pattern <'%s'>.", n, pattern);
+	}
+
+	/** Predicate: String <'%s'> must match pattern <'%s'>.*/
+	public static boolean match(@Nonnull String n, @Nonnull String pattern) {
+		Null.nonNullArg(n, "n");
+		Null.nonNullArg(pattern, "pattern");
+		return match(n, Pattern.compile(pattern));
+	}
+
+	/** "Special" predicate: String <'%s'> must match pattern <'%s'>.*/
+	public static @Nullable String matchEx(@Nonnull String n, @Nonnull String pattern) {
+		Null.nonNullArg(n, "n");
+		Null.nonNullArg(pattern, "pattern");
+		return match(n, pattern) ? null : String.format("String <'%s'> must match pattern <'%s'>.", n, pattern);
+	}
+
+	/** Predicate: String <'%s'> must NOT match pattern <'%s'>.*/
+	public static boolean notMatch(@Nonnull String n, @Nonnull String pattern) {
+		Null.nonNullArg(n, "n");
+		Null.nonNullArg(pattern, "pattern");
+		return !match(n, pattern);
+	}
+
+	/** "Special" predicate: String <'%s'> must NOT match pattern <'%s'>.*/
+	public static @Nullable String notMatchEx(@Nonnull String n, @Nonnull String pattern) {
+		Null.nonNullArg(n, "n");
+		Null.nonNullArg(pattern, "pattern");
+		return notMatch(n, pattern) ? null : String.format("String <'%s'> must NOT match pattern <'%s'>.", n, pattern);
 	}
 
 	/** Predicate: String <'%s'> must end with <'%s'>.*/
@@ -4171,28 +4228,76 @@ public class Predicates implements FluentSyntax {
 		return noSuppressed(e) ? null : String.format("Exception <%s> must NOT have suppressed other exceptions.", e);
 	}
 
-	/** Predicate: Exception <%s> must have message equal to <'%s>'.*/
+	/** Predicate: Exception <%s> must have suppressed %d other exceptions (actual: %d).*/
+	public static boolean suppressed(@Nonnull Throwable e, int expected) {
+		Null.nonNullArg(e, "e");
+		return e.getSuppressed().length == expected;
+	}
+
+	/** "Special" predicate: Exception <%s> must have suppressed %d other exceptions (actual: %d).*/
+	public static @Nullable String suppressedEx(@Nonnull Throwable e, int expected) {
+		Null.nonNullArg(e, "e");
+		return suppressed(e, expected) ? null : String.format("Exception <%s> must have suppressed %d other exceptions (actual: %d).", e, expected, e.getSuppressed().length);
+	}
+
+	/** Predicate: Exception <%s> must have suppressed other exceptions.*/
+	public static boolean suppressing(@Nonnull Throwable e) {
+		Null.nonNullArg(e, "e");
+		return e.getSuppressed().length > 0;
+	}
+
+	/** "Special" predicate: Exception <%s> must have suppressed other exceptions.*/
+	public static @Nullable String suppressingEx(@Nonnull Throwable e) {
+		Null.nonNullArg(e, "e");
+		return suppressing(e) ? null : String.format("Exception <%s> must have suppressed other exceptions.", e);
+	}
+
+	/** Predicate: Exception <%s> must NOT have suppressed other exceptions.*/
+	public static boolean notSuppressing(@Nonnull Throwable e) {
+		Null.nonNullArg(e, "e");
+		return !suppressing(e);
+	}
+
+	/** "Special" predicate: Exception <%s> must NOT have suppressed other exceptions.*/
+	public static @Nullable String notSuppressingEx(@Nonnull Throwable e) {
+		Null.nonNullArg(e, "e");
+		return notSuppressing(e) ? null : String.format("Exception <%s> must NOT have suppressed other exceptions.", e);
+	}
+
+	/** Predicate: Exception <%s> must have suppressed %d other exceptions (actual: %d).*/
+	public static boolean suppressing(@Nonnull Throwable e, int expected) {
+		Null.nonNullArg(e, "e");
+		return e.getSuppressed().length == expected;
+	}
+
+	/** "Special" predicate: Exception <%s> must have suppressed %d other exceptions (actual: %d).*/
+	public static @Nullable String suppressingEx(@Nonnull Throwable e, int expected) {
+		Null.nonNullArg(e, "e");
+		return suppressing(e, expected) ? null : String.format("Exception <%s> must have suppressed %d other exceptions (actual: %d).", e, expected, e.getSuppressed().length);
+	}
+
+	/** Predicate: Exception <%s> must have message equal to <'%s'>.*/
 	public static boolean msgEqual(@Nonnull Throwable e, String text) {
 		Null.nonNullArg(e, "e");
 		return Objects.equals(e.getMessage(), text);
 	}
 
-	/** "Special" predicate: Exception <%s> must have message equal to <'%s>'.*/
+	/** "Special" predicate: Exception <%s> must have message equal to <'%s'>.*/
 	public static @Nullable String msgEqualEx(@Nonnull Throwable e, String text) {
 		Null.nonNullArg(e, "e");
-		return msgEqual(e, text) ? null : String.format("Exception <%s> must have message equal to <'%s>'.", e, text);
+		return msgEqual(e, text) ? null : String.format("Exception <%s> must have message equal to <'%s'>.", e, text);
 	}
 
-	/** Predicate: Exception <%s> must NOT have message equal to <'%s>'.*/
+	/** Predicate: Exception <%s> must NOT have message equal to <'%s'>.*/
 	public static boolean msgNotEqual(@Nonnull Throwable e, String text) {
 		Null.nonNullArg(e, "e");
 		return !msgEqual(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have message equal to <'%s>'.*/
+	/** "Special" predicate: Exception <%s> must NOT have message equal to <'%s'>.*/
 	public static @Nullable String msgNotEqualEx(@Nonnull Throwable e, String text) {
 		Null.nonNullArg(e, "e");
-		return msgNotEqual(e, text) ? null : String.format("Exception <%s> must NOT have message equal to <'%s>'.", e, text);
+		return msgNotEqual(e, text) ? null : String.format("Exception <%s> must NOT have message equal to <'%s'>.", e, text);
 	}
 
 	/** Predicate: Exception <%s> must have message (any).*/
@@ -4219,112 +4324,144 @@ public class Predicates implements FluentSyntax {
 		return noMsg(e) ? null : String.format("Exception <%s> must NOT have message (any).", e);
 	}
 
-	/** Predicate: Exception <%s> must have message starting with <'%s>'.*/
+	/** Predicate: Exception <%s> must have message matching pattern <'%s'>.*/
+	public static boolean msgMatch(@Nonnull Throwable e, @Nonnull Pattern pattern) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(pattern, "pattern");
+		return e.getMessage() != null && pattern.matcher(e.getMessage()).matches();
+	}
+
+	/** "Special" predicate: Exception <%s> must have message matching pattern <'%s'>.*/
+	public static @Nullable String msgMatchEx(@Nonnull Throwable e, @Nonnull Pattern pattern) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(pattern, "pattern");
+		return msgMatch(e, pattern) ? null : String.format("Exception <%s> must have message matching pattern <'%s'>.", e, pattern);
+	}
+
+	/** Predicate: Exception <%s> must NOT have message matching pattern <'%s'>.*/
+	public static boolean msgNotMatch(@Nonnull Throwable e, @Nonnull Pattern pattern) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(pattern, "pattern");
+		return !msgMatch(e, pattern);
+	}
+
+	/** "Special" predicate: Exception <%s> must NOT have message matching pattern <'%s'>.*/
+	public static @Nullable String msgNotMatchEx(@Nonnull Throwable e, @Nonnull Pattern pattern) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(pattern, "pattern");
+		return msgNotMatch(e, pattern) ? null : String.format("Exception <%s> must NOT have message matching pattern <'%s'>.", e, pattern);
+	}
+
+	/** Predicate: Exception <%s> must have message matching pattern <'%s'>.*/
+	public static boolean msgMatch(@Nonnull Throwable e, @Nonnull String pattern) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(pattern, "pattern");
+		return msgMatch(e, Pattern.compile(pattern));
+	}
+
+	/** "Special" predicate: Exception <%s> must have message matching pattern <'%s'>.*/
+	public static @Nullable String msgMatchEx(@Nonnull Throwable e, @Nonnull String pattern) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(pattern, "pattern");
+		return msgMatch(e, pattern) ? null : String.format("Exception <%s> must have message matching pattern <'%s'>.", e, pattern);
+	}
+
+	/** Predicate: Exception <%s> must NOT have message matching pattern <'%s'>.*/
+	public static boolean msgNotMatch(@Nonnull Throwable e, @Nonnull String pattern) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(pattern, "pattern");
+		return !msgMatch(e, pattern);
+	}
+
+	/** "Special" predicate: Exception <%s> must NOT have message matching pattern <'%s'>.*/
+	public static @Nullable String msgNotMatchEx(@Nonnull Throwable e, @Nonnull String pattern) {
+		Null.nonNullArg(e, "e");
+		Null.nonNullArg(pattern, "pattern");
+		return msgNotMatch(e, pattern) ? null : String.format("Exception <%s> must NOT have message matching pattern <'%s'>.", e, pattern);
+	}
+
+	/** Predicate: Exception <%s> must have message starting with <'%s'>.*/
 	public static boolean msgStartWith(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return e.getMessage() != null && e.getMessage().startsWith(text);
 	}
 
-	/** "Special" predicate: Exception <%s> must have message starting with <'%s>'.*/
+	/** "Special" predicate: Exception <%s> must have message starting with <'%s'>.*/
 	public static @Nullable String msgStartWithEx(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
-		return msgStartWith(e, text) ? null : String.format("Exception <%s> must have message starting with <'%s>'.", e, text);
+		return msgStartWith(e, text) ? null : String.format("Exception <%s> must have message starting with <'%s'>.", e, text);
 	}
 
-	/** Predicate: Exception <%s> must NOT have message starting with <'%s>'.*/
+	/** Predicate: Exception <%s> must NOT have message starting with <'%s'>.*/
 	public static boolean msgNotStartWith(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return !msgStartWith(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have message starting with <'%s>'.*/
+	/** "Special" predicate: Exception <%s> must NOT have message starting with <'%s'>.*/
 	public static @Nullable String msgNotStartWithEx(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
-		return msgNotStartWith(e, text) ? null : String.format("Exception <%s> must NOT have message starting with <'%s>'.", e, text);
+		return msgNotStartWith(e, text) ? null : String.format("Exception <%s> must NOT have message starting with <'%s'>.", e, text);
 	}
 
-	/** Predicate: Exception <%s> must have message containing <'%s>'.*/
+	/** Predicate: Exception <%s> must have message containing <'%s'>.*/
 	public static boolean msgContain(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return e.getMessage() != null && e.getMessage().contains(text);
 	}
 
-	/** "Special" predicate: Exception <%s> must have message containing <'%s>'.*/
+	/** "Special" predicate: Exception <%s> must have message containing <'%s'>.*/
 	public static @Nullable String msgContainEx(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
-		return msgContain(e, text) ? null : String.format("Exception <%s> must have message containing <'%s>'.", e, text);
+		return msgContain(e, text) ? null : String.format("Exception <%s> must have message containing <'%s'>.", e, text);
 	}
 
-	/** Predicate: Exception <%s> must NOT have message containing <'%s>'.*/
+	/** Predicate: Exception <%s> must NOT have message containing <'%s'>.*/
 	public static boolean msgNotContain(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return !msgContain(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have message containing <'%s>'.*/
+	/** "Special" predicate: Exception <%s> must NOT have message containing <'%s'>.*/
 	public static @Nullable String msgNotContainEx(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
-		return msgNotContain(e, text) ? null : String.format("Exception <%s> must NOT have message containing <'%s>'.", e, text);
+		return msgNotContain(e, text) ? null : String.format("Exception <%s> must NOT have message containing <'%s'>.", e, text);
 	}
 
-	/** Predicate: Exception <%s> must have message ending with <'%s>'.*/
+	/** Predicate: Exception <%s> must have message ending with <'%s'>.*/
 	public static boolean msgEndWith(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return e.getMessage() != null && e.getMessage().endsWith(text);
 	}
 
-	/** "Special" predicate: Exception <%s> must have message ending with <'%s>'.*/
+	/** "Special" predicate: Exception <%s> must have message ending with <'%s'>.*/
 	public static @Nullable String msgEndWithEx(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
-		return msgEndWith(e, text) ? null : String.format("Exception <%s> must have message ending with <'%s>'.", e, text);
+		return msgEndWith(e, text) ? null : String.format("Exception <%s> must have message ending with <'%s'>.", e, text);
 	}
 
-	/** Predicate: Exception <%s> must NOT have message ending with <'%s>'.*/
+	/** Predicate: Exception <%s> must NOT have message ending with <'%s'>.*/
 	public static boolean msgNotEndWith(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
 		return !msgEndWith(e, text);
 	}
 
-	/** "Special" predicate: Exception <%s> must NOT have message ending with <'%s>'.*/
+	/** "Special" predicate: Exception <%s> must NOT have message ending with <'%s'>.*/
 	public static @Nullable String msgNotEndWithEx(@Nonnull Throwable e, @Nonnull String text) {
 		Null.nonNullArg(e, "e");
 		Null.nonNullArg(text, "text");
-		return msgNotEndWith(e, text) ? null : String.format("Exception <%s> must NOT have message ending with <'%s>'.", e, text);
-	}
-
-	/** Predicate: Exception <%s> must have suppressed other exceptions.*/
-	public static boolean suppressing(@Nonnull Throwable e) {
-		Null.nonNullArg(e, "e");
-		return e.getSuppressed().length > 0;
-	}
-
-	/** "Special" predicate: Exception <%s> must have suppressed other exceptions.*/
-	public static @Nullable String suppressingEx(@Nonnull Throwable e) {
-		Null.nonNullArg(e, "e");
-		return suppressing(e) ? null : String.format("Exception <%s> must have suppressed other exceptions.", e);
-	}
-
-	/** Predicate: Exception <%s> must NOT have suppressed other exceptions.*/
-	public static boolean notSuppressing(@Nonnull Throwable e) {
-		Null.nonNullArg(e, "e");
-		return !suppressing(e);
-	}
-
-	/** "Special" predicate: Exception <%s> must NOT have suppressed other exceptions.*/
-	public static @Nullable String notSuppressingEx(@Nonnull Throwable e) {
-		Null.nonNullArg(e, "e");
-		return notSuppressing(e) ? null : String.format("Exception <%s> must NOT have suppressed other exceptions.", e);
+		return msgNotEndWith(e, text) ? null : String.format("Exception <%s> must NOT have message ending with <'%s'>.", e, text);
 	}
 
 	//</editor-fold>

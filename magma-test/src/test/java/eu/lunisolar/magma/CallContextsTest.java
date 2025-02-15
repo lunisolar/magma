@@ -49,13 +49,16 @@ import static java.util.concurrent.ForkJoinPool.commonPool;
 
 public class CallContextsTest {
 
+    public static final int SHORT_TIME = 100;
+    public static final int LONG_TIME  = 1000;
+
     @Test
     public void lockContextWithTimeout() {
 
-        test().given(()-> new TestFlow.Stage() {
-            final Lock lock = new ReentrantLock();
-            final CallContext callContext = CallContexts.lockContext(lock, 100, TimeUnit.MILLISECONDS);
-            LIntSingle.Mut<?> count = LIntSingle.atomicOf();
+        test().given(() -> new TestFlow.Stage() {
+            final Lock        lock        = new ReentrantLock();
+            final CallContext callContext = CallContexts.lockContext(lock, SHORT_TIME, TimeUnit.MILLISECONDS);
+            LIntSingle.Mut<?>       count = LIntSingle.atomicOf();
             Checks.Check<Throwable> thrown;
         }).precondition(stage -> {
             // We just need to get the lock in another thread, so the test execution thread will have timeout.
@@ -75,7 +78,7 @@ public class CallContextsTest {
                             .mustEx(Have::causeEx)
                             .check(Throwable::getCause, cause -> {
                                 cause.mustBeExactlyInstanceOf(TimeoutException.class)
-                                     .mustEx(Have::msgStartWithEx, "Lock acquisition timeout:");
+                                        .mustEx(Have::msgStartWithEx, "Lock acquisition timeout:");
                             });
                     attest(stage.count).check(LIntSingle::value, value -> value.mustBeEqual(0));
                 })
@@ -97,10 +100,10 @@ public class CallContextsTest {
     @Test
     public void semaphoreContext() {
 
-        test().given(()-> new TestFlow.Stage() {
-            final Semaphore semaphore = new Semaphore(1);
-            final CallContext callContext = CallContexts.semaphoreContext(1, semaphore, 100, TimeUnit.MILLISECONDS);
-            LIntSingle.Mut<?> count = LIntSingle.atomicOf();
+        test().given(() -> new TestFlow.Stage() {
+            final Semaphore   semaphore   = new Semaphore(1);
+            final CallContext callContext = CallContexts.semaphoreContext(1, semaphore, SHORT_TIME, TimeUnit.MILLISECONDS);
+            LIntSingle.Mut<?>       count = LIntSingle.atomicOf();
             Checks.Check<Throwable> thrown;
         }).precondition(stage -> {
             LIntConsumer.tryAccept(1, stage.semaphore::acquire);
@@ -116,7 +119,7 @@ public class CallContextsTest {
                             .mustEx(Have::causeEx)
                             .check(Throwable::getCause, cause -> {
                                 cause.mustBeExactlyInstanceOf(TimeoutException.class)
-                                     .mustEx(Have::msgStartWithEx, "Semaphore acquisition timeout:");
+                                        .mustEx(Have::msgStartWithEx, "Semaphore acquisition timeout:");
                             });
                     attest(stage.count).check(LIntSingle::value, value -> value.mustBeEqual(0));
                 })
@@ -201,9 +204,9 @@ public class CallContextsTest {
             exChecker.accept(check);
         } else {
             check.mustEx(Be::exactlyInstanceOfAnyEx, NestedException.class, MyError.class)
-                 .mustEx(Have::noSuppressedEx)
-                 .mustEx(Have::causeEx)
-                 .check(Throwable::getCause, exChecker::accept);
+                    .mustEx(Have::noSuppressedEx)
+                    .mustEx(Have::causeEx)
+                    .check(Throwable::getCause, exChecker::accept);
         }
 
         attest(l()).mustAEx(P::containExactlyEx, expectedLog);
@@ -221,9 +224,9 @@ public class CallContextsTest {
 
         // then
         check.mustEx(Be::instanceOfEx, UnsupportedOperationException.class)
-             .mustEx(Have::msgEqualEx, "unsupported")
-             .mustEx(Have::noCauseEx)
-             .mustEx(Have::noSuppressedEx);
+                .mustEx(Have::msgEqualEx, "unsupported")
+                .mustEx(Have::noCauseEx)
+                .mustEx(Have::noSuppressedEx);
     }
 
     @DataProvider(name = "simpleTest_statesData")
@@ -245,7 +248,7 @@ public class CallContextsTest {
         }), CallContexts.ctx(() -> {
             l().add(i2Log);
             return state2Value;
-        },  (state, e) -> {
+        }, (state, e) -> {
             l().add(f2Log);
             attest(state).mustBeSame(state2Value);
         }));
@@ -257,5 +260,281 @@ public class CallContextsTest {
         attest(l()).mustAEx(P::containExactlyEx, i1Log, i2Log, "1", "2", f2Log, f1Log);
     }
 
+    @Test
+    void timeoutIsTriggered() {
+        checkThisThreadIsNotInterrupted();
+        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+
+        attestThrownBy(() -> LSupplier.shovingGet(ctx, () -> {
+            Thread.sleep(LONG_TIME);
+            return "done";
+        }))
+                .mustBeInstanceOf(TimeoutException.class)
+                .mustEx(Have::msgMatchEx, "Timeout after [0-9]*ns \\(threshold: 100 milliseconds\\).")
+                .mustEx(Have::suppressedEx)
+                .check(e -> e.getSuppressed()[0], ex -> ex.mustBeExactlyInstanceOf(InterruptedException.class));
+        checkThisThreadIsNotInterrupted();
+    }
+
+    @Test
+    void timeoutIsTriggeredAndThenInnerCtxThrows() {
+        checkThisThreadIsNotInterrupted();
+        var ctx      = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+        var innerCtx = CallContexts.ctx(() -> null, (state, e) -> {throw new IllegalArgumentException("InnerEndException");});
+
+        attestThrownBy(() -> LSupplier.shovingGet(ctx, innerCtx, () -> {
+            Thread.sleep(LONG_TIME);
+            return "done";
+        }))
+                .mustBeInstanceOf(TimeoutException.class)
+                .mustEx(Have::msgMatchEx, "Timeout after [0-9]*ns \\(threshold: 100 milliseconds\\).")
+                .mustEx(Have::suppressedEx)
+                .check(e -> e.getSuppressed()[0], ex -> ex.mustBeExactlyInstanceOf(InterruptedException.class));
+        checkThisThreadIsNotInterrupted();
+    }
+
+    @Test
+    void timeoutIsTriggeredInnerCtxAtStart() {
+        checkThisThreadIsNotInterrupted();
+        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+        {
+            var innerCtx = CallContexts.ctx(() -> {
+                Thread.sleep(LONG_TIME);
+                return null;
+            }, (state, e) -> {
+                // this exception will not be thrown (inner context will have no time to initialize)
+                throw new IllegalArgumentException("InnerEndException");
+            });
+
+            Checks.Check<Throwable> throwableCheck = attestThrownBy(() -> LSupplier.shovingGet(ctx, innerCtx, () -> {
+                return "done";
+            }));
+
+            throwableCheck
+                    .mustBeInstanceOf(TimeoutException.class)
+                    .mustEx(Have::msgMatchEx, "Timeout after [0-9]*ns \\(threshold: 100 milliseconds\\).")
+                    .mustEx(Have::suppressedEx)
+                    .check(e -> e.getSuppressed()[0], ex -> ex.mustBeExactlyInstanceOf(InterruptedException.class));
+        }
+        checkThisThreadIsNotInterrupted();
+    }
+
+    @Test
+    void timeoutIsTriggeredInnerCtxAtEnd() {
+        checkThisThreadIsNotInterrupted();
+        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+        {
+            var innerCtx = CallContexts.ctx(() -> null, (state, e) -> Thread.sleep(LONG_TIME));
+
+            attestThrownBy(() -> LSupplier.shovingGet(ctx, innerCtx, () -> {
+                return "done";
+            }))
+                    .mustBeInstanceOf(TimeoutException.class)
+                    .mustEx(Have::msgMatchEx, "Timeout after [0-9]*ns \\(threshold: 100 milliseconds\\).")
+                    .mustEx(Have::suppressedEx)
+                    .check(e -> e.getSuppressed()[0], ex -> ex.mustBeExactlyInstanceOf(InterruptedException.class));
+        }
+
+        checkThisThreadIsNotInterrupted();
+    }
+
+
+    @Test
+    void timeoutIsTriggeredWithInnerExceptionAtEnd() {
+        checkThisThreadIsNotInterrupted();
+        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+        {
+            var innerCtx = CallContexts.ctx(() -> {
+                return null;
+            }, (state, e) -> {
+                throw new IllegalArgumentException("InnerEndException");
+            });
+
+            Checks.Check<Throwable> throwableCheck = attestThrownBy(() -> LSupplier.shovingGet(ctx, innerCtx, () -> {
+                Thread.sleep(LONG_TIME);
+                return "done";
+            }));
+
+            throwableCheck
+                    .mustBeInstanceOf(TimeoutException.class)
+                    .mustEx(Have::msgMatchEx, "Timeout after [0-9]*ns \\(threshold: 100 milliseconds\\).")
+                    .mustEx(Have::suppressedEx)
+                    .check(e -> e.getSuppressed()[0], ex -> ex
+                            .mustBeExactlyInstanceOf(InterruptedException.class)
+                            .mustEx(Have::suppressedEx)
+                            .check(e -> e.getSuppressed()[0], ex2 -> ex2
+                                    .mustBeExactlyInstanceOf(IllegalArgumentException.class)
+                                    .mustEx(Have::msgEqualEx, "InnerEndException")
+                            )
+                    );
+        }
+        checkThisThreadIsNotInterrupted();
+    }
+
+    @Test
+    void timeoutIsTriggeredWithOuterExceptionAtEnd() {
+        checkThisThreadIsNotInterrupted();
+        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+        {
+            var outerCtx = CallContexts.ctx(() -> {
+                return null;
+            }, (state, e) -> {
+                throw new IllegalArgumentException("InnerEndException");
+            });
+
+            Checks.Check<Throwable> throwableCheck = attestThrownBy(() -> LSupplier.shovingGet(outerCtx, ctx, () -> {
+                Thread.sleep(LONG_TIME);
+                return "done";
+            }));
+
+            throwableCheck
+                    .mustBeInstanceOf(TimeoutException.class)
+                    .mustEx(Have::msgMatchEx, "Timeout after [0-9]*ns \\(threshold: 100 milliseconds\\).")
+                    .mustEx(Have::suppressedEx, 2)
+                    .check(e -> e.getSuppressed()[0], ex -> ex
+                            .mustBeExactlyInstanceOf(InterruptedException.class)
+                            .mustEx(Have::noSuppressedEx)
+                            .mustEx(Have::noCauseEx)
+                    )
+                    .check(e -> e.getSuppressed()[1], ex -> ex
+                            .mustBeExactlyInstanceOf(IllegalArgumentException.class)
+                            .mustEx(Have::msgEqualEx, "InnerEndException")
+                            .mustEx(Have::noSuppressedEx)
+                            .mustEx(Have::noCauseEx)
+                    );
+        }
+        checkThisThreadIsNotInterrupted();
+    }
+
+    @Test
+    void timeoutIsTriggeredOnlyOnce() {
+        checkThisThreadIsNotInterrupted();
+        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+
+        attest(LSupplier.shovingGet(ctx, () -> {
+            try {
+                Thread.sleep(LONG_TIME);
+            } catch (InterruptedException e) {
+                // We could go to sleep again, and for hours!
+                Thread.sleep(SHORT_TIME);
+                return "OK";
+            }
+            return "done";
+        })).mustBeEqual("OK");
+        checkThisThreadIsNotInterrupted();
+    }
+
+    @Test
+    void timeoutIsTriggeredDiligently() {
+        checkThisThreadIsNotInterrupted();
+        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, true);
+
+        attestThrownBy(() -> LSupplier.shovingGet(ctx, () -> {
+            try {
+                Thread.sleep(LONG_TIME);
+            } catch (InterruptedException e) {
+                Thread.sleep(LONG_TIME);
+                Thread.sleep(LONG_TIME);
+                Thread.sleep(LONG_TIME);
+                Thread.sleep(LONG_TIME);
+                return "OK";
+            }
+            return "done";
+        }))
+                .mustBeInstanceOf(TimeoutException.class)
+                .mustEx(Have::msgMatchEx, "Timeout after [0-9]*ns \\(threshold: 100 milliseconds\\).")
+                .mustEx(Have::suppressedEx)
+                .check(e -> e.getSuppressed()[0], ex -> ex.mustBeExactlyInstanceOf(InterruptedException.class));
+        checkThisThreadIsNotInterrupted();
+    }
+
+    @Test
+    void timeoutDoesNotInterrupt() {
+        checkThisThreadIsNotInterrupted();
+        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, LONG_TIME, false);
+        attest(
+                LSupplier.shovingGet(ctx, () -> {
+                    Thread.sleep(SHORT_TIME);
+                    return "done";
+                })
+        ).mustBeEqual("done");
+        checkThisThreadIsNotInterrupted();
+    }
+
+
+    @Test
+    void timeoutDoesNotInterruptException() {
+        checkThisThreadIsNotInterrupted();
+        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, LONG_TIME, false);
+        attestThrownBy(() -> LSupplier.shovingGet(ctx, () -> {
+                           throw new RuntimeException("done");
+                       })
+        ).mustBeExactlyInstanceOf(RuntimeException.class)
+                .mustEx(Have::msgEqualEx, "done");
+        checkThisThreadIsNotInterrupted();
+    }
+
+    @Test
+    void timeoutIsNotClaimed() {
+        checkThisThreadIsNotInterrupted();
+        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+
+        attestThrownBy(() -> LSupplier.shovingGet(ctx, () -> {
+            throw new InterruptedException("done");
+        }))
+                .mustBeInstanceOf(InterruptedException.class, "Exception must be the original one that is thrown in called block. TimeoutException would mean that it was claimed as timeout.")
+                .mustEx(Have::msgEqualEx, "done")
+                .mustEx(Have::noSuppressedEx)
+                .mustEx(Have::noCauseEx);
+        checkThisThreadIsNotInterrupted();
+    }
+
+    @Test
+    void timeoutIsTriggeredFromCustomInterruptCheck() {
+        checkThisThreadIsNotInterrupted();
+        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+
+        attestThrownBy(() -> LSupplier.shovingGet(ctx, () -> {
+            var start = System.currentTimeMillis();
+            while (System.currentTimeMillis() - start < LONG_TIME) {
+                Thread.onSpinWait();
+                CallContexts.checkInterrupted();
+            }
+            return "done";
+        }))
+                .mustBeInstanceOf(TimeoutException.class)
+                .mustEx(Have::msgMatchEx, "Timeout after [0-9]*ns \\(threshold: 100 milliseconds\\).")
+                .mustEx(Have::suppressedEx)
+                .check(e -> e.getSuppressed()[0], ex -> ex.mustBeExactlyInstanceOf(InterruptedException.class));
+        checkThisThreadIsNotInterrupted();
+    }
+
+    @Test
+    void timeoutDoesNotTriggerIsNothingIsCheckingForInterruption() {
+        checkThisThreadIsNotInterrupted();
+        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+
+        attest(LSupplier.shovingGet(ctx, () -> {
+            var start = System.currentTimeMillis();
+            while (System.currentTimeMillis() - start < SHORT_TIME * 2) {
+                Thread.onSpinWait();
+            }
+            return "done";
+        })).mustBeEqual("done");
+
+        checkThisThreadIsNotInterrupted();
+    }
+
+    private static void checkThisThreadIsNotInterrupted() {
+        LAction check = () -> {
+            if (Thread.currentThread().isInterrupted()) {
+                throw new AssertionError("This test is executed in already interrupted thread!");
+            }
+        };
+
+        check.execute();
+        LAction.tryExecuteThen(() -> {Thread.sleep(SHORT_TIME + (SHORT_TIME / 2));}, e -> {throw new IllegalStateException(e);});
+        check.execute();
+    }
 
 }

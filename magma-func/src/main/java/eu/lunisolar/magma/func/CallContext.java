@@ -51,7 +51,10 @@ public interface CallContext {
 	 *                {@link CallContext#end(Object, Throwable)} is allowed to throw its own exception.
 	 *                Propagation and suppression of exceptions is also carried outside of the {@link CallContext}
 	 *                (see {@link CallContexts#tryInit(Object, CallContext)} and {@link CallContexts#tryFinish(Throwable, CallContext, Object)}})
+	 * @return Instance of exception, if the primary exception is to be overridden. It is the responsibility of the CallContext to keep the new exception
+	 *         connected with the cause (or simply use {@link Exception#addSuppressed(Throwable)}.
 	 */
-	void end(@Nullable Object obj, @Nullable Throwable primary) throws Throwable;
+	@Nullable
+	Throwable end(@Nullable Object obj, @Nullable Throwable primary) throws Throwable;
 
 }

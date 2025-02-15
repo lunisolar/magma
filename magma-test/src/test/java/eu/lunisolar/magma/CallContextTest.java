@@ -158,7 +158,7 @@ public class CallContextTest {
         // given
         LSupplier<Thread> function = () -> Thread.currentThread();
         l().clear();
-        var asyncCtx = AsyncCallContext.ctx(call -> CompletableFuture.runAsync(call::execute));
+        var asyncCtx = CallContexts.asyncCtx(call -> CompletableFuture.runAsync(call::execute));
 
         // when
         var unitTestThread = function.get();
@@ -174,7 +174,7 @@ public class CallContextTest {
         LSupplier<Thread> function  = () -> {throw X.unsupported("unsupported");};
         var               capturedL = l();
         capturedL.clear();
-        var asyncCtx = AsyncCallContext.ctx(call -> CompletableFuture.runAsync(call::execute));
+        var asyncCtx = CallContexts.asyncCtx(call -> CompletableFuture.runAsync(call::execute));
         var ctx1     = CallContexts.ctx(() -> capturedL.add(i1Log), () -> capturedL.add(f1Log));
         var future   = LSupplier.asyncGet(asyncCtx, function);
 
@@ -219,7 +219,7 @@ public class CallContextTest {
         l().clear();
         var capturedL = l();
         var otherL    = LValue.<List<String>>objValue(null);
-        var asyncCtx  = AsyncCallContext.ctx(call -> CompletableFuture.runAsync(call::execute));
+        var asyncCtx  = CallContexts.asyncCtx(call -> CompletableFuture.runAsync(call::execute));
         var ctx1 = CallContexts.ctx(() -> {
             capturedL.add(i1Log);
             l().clear();
@@ -250,7 +250,7 @@ public class CallContextTest {
         l().clear();
         var capturedL = l();
         var otherL    = LValue.<List<String>>objValue(null);
-        var asyncCtx  = AsyncCallContext.ctx(call -> CompletableFuture.runAsync(call::execute));
+        var asyncCtx  = CallContexts.asyncCtx(call -> CompletableFuture.runAsync(call::execute));
         var ctx1 = CallContexts.ctx(() -> {
             capturedL.add(i1Log);
             l().clear();
