@@ -263,7 +263,7 @@ public class CallContextsTest {
     @Test
     void timeoutIsTriggered() {
         checkThisThreadIsNotInterrupted();
-        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+        var ctx = CallContexts.timeout(SHORT_TIME, TimeUnit.MILLISECONDS, false);
 
         attestThrownBy(() -> LSupplier.shovingGet(ctx, () -> {
             Thread.sleep(LONG_TIME);
@@ -279,7 +279,7 @@ public class CallContextsTest {
     @Test
     void timeoutIsTriggeredAndThenInnerCtxThrows() {
         checkThisThreadIsNotInterrupted();
-        var ctx      = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+        var ctx      = CallContexts.timeout(SHORT_TIME, TimeUnit.MILLISECONDS, false);
         var innerCtx = CallContexts.ctx(() -> null, (state, e) -> {throw new IllegalArgumentException("InnerEndException");});
 
         attestThrownBy(() -> LSupplier.shovingGet(ctx, innerCtx, () -> {
@@ -296,7 +296,7 @@ public class CallContextsTest {
     @Test
     void timeoutIsTriggeredInnerCtxAtStart() {
         checkThisThreadIsNotInterrupted();
-        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+        var ctx = CallContexts.timeout(SHORT_TIME, TimeUnit.MILLISECONDS, false);
         {
             var innerCtx = CallContexts.ctx(() -> {
                 Thread.sleep(LONG_TIME);
@@ -322,7 +322,7 @@ public class CallContextsTest {
     @Test
     void timeoutIsTriggeredInnerCtxAtEnd() {
         checkThisThreadIsNotInterrupted();
-        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+        var ctx = CallContexts.timeout(SHORT_TIME, TimeUnit.MILLISECONDS, false);
         {
             var innerCtx = CallContexts.ctx(() -> null, (state, e) -> Thread.sleep(LONG_TIME));
 
@@ -342,7 +342,7 @@ public class CallContextsTest {
     @Test
     void timeoutIsTriggeredWithInnerExceptionAtEnd() {
         checkThisThreadIsNotInterrupted();
-        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+        var ctx = CallContexts.timeout(SHORT_TIME, TimeUnit.MILLISECONDS, false);
         {
             var innerCtx = CallContexts.ctx(() -> {
                 return null;
@@ -374,7 +374,7 @@ public class CallContextsTest {
     @Test
     void timeoutIsTriggeredWithOuterExceptionAtEnd() {
         checkThisThreadIsNotInterrupted();
-        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+        var ctx = CallContexts.timeout(SHORT_TIME, TimeUnit.MILLISECONDS, false);
         {
             var outerCtx = CallContexts.ctx(() -> {
                 return null;
@@ -409,7 +409,7 @@ public class CallContextsTest {
     @Test
     void timeoutIsTriggeredOnlyOnce() {
         checkThisThreadIsNotInterrupted();
-        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+        var ctx = CallContexts.timeout(SHORT_TIME, TimeUnit.MILLISECONDS, false);
 
         attest(LSupplier.shovingGet(ctx, () -> {
             try {
@@ -427,7 +427,7 @@ public class CallContextsTest {
     @Test
     void timeoutIsTriggeredDiligently() {
         checkThisThreadIsNotInterrupted();
-        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, true);
+        var ctx = CallContexts.timeout(SHORT_TIME, TimeUnit.MILLISECONDS, true);
 
         attestThrownBy(() -> LSupplier.shovingGet(ctx, () -> {
             try {
@@ -451,7 +451,7 @@ public class CallContextsTest {
     @Test
     void timeoutDoesNotInterrupt() {
         checkThisThreadIsNotInterrupted();
-        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, LONG_TIME, false);
+        var ctx = CallContexts.timeout(LONG_TIME, TimeUnit.MILLISECONDS, false);
         attest(
                 LSupplier.shovingGet(ctx, () -> {
                     Thread.sleep(SHORT_TIME);
@@ -465,7 +465,7 @@ public class CallContextsTest {
     @Test
     void timeoutDoesNotInterruptException() {
         checkThisThreadIsNotInterrupted();
-        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, LONG_TIME, false);
+        var ctx = CallContexts.timeout(LONG_TIME, TimeUnit.MILLISECONDS, false);
         attestThrownBy(() -> LSupplier.shovingGet(ctx, () -> {
                            throw new RuntimeException("done");
                        })
@@ -477,7 +477,7 @@ public class CallContextsTest {
     @Test
     void timeoutIsNotClaimed() {
         checkThisThreadIsNotInterrupted();
-        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+        var ctx = CallContexts.timeout(SHORT_TIME, TimeUnit.MILLISECONDS, false);
 
         attestThrownBy(() -> LSupplier.shovingGet(ctx, () -> {
             throw new InterruptedException("done");
@@ -492,7 +492,7 @@ public class CallContextsTest {
     @Test
     void timeoutIsTriggeredFromCustomInterruptCheck() {
         checkThisThreadIsNotInterrupted();
-        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+        var ctx = CallContexts.timeout(SHORT_TIME, TimeUnit.MILLISECONDS, false);
 
         attestThrownBy(() -> LSupplier.shovingGet(ctx, () -> {
             var start = System.currentTimeMillis();
@@ -512,7 +512,7 @@ public class CallContextsTest {
     @Test
     void timeoutDoesNotTriggerIsNothingIsCheckingForInterruption() {
         checkThisThreadIsNotInterrupted();
-        var ctx = CallContexts.timeout(TimeUnit.MILLISECONDS, SHORT_TIME, false);
+        var ctx = CallContexts.timeout(SHORT_TIME, TimeUnit.MILLISECONDS, false);
 
         attest(LSupplier.shovingGet(ctx, () -> {
             var start = System.currentTimeMillis();

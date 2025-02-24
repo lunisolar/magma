@@ -460,7 +460,7 @@ public final class CallContexts {
 		private volatile long end = 0;
 		private volatile boolean timedOut = false;
 
-		protected TimeoutObservation(Thread observed, TimeUnit unit, long timeout, boolean diligent) {
+		protected TimeoutObservation(Thread observed, long timeout, TimeUnit unit, boolean diligent) {
 			this.unit = unit;
 			this.timeout = timeout;
 			this.diligent = diligent;
@@ -578,9 +578,9 @@ public final class CallContexts {
 	 * @apiNote This context follows logic implemented in {@link Thread#sleep(long)} {@link Thread#isInterrupted()}. If the code of block that is called does not
 	 * ever check interruption timeout will never happen. Likewise, all parts of code must react to {@link InterruptedException} and {@link TimeoutException} appropriately.
 	 */
-	public static CallContext timeout(@Nonnull TimeUnit unit, long timeout, boolean diligent) {
+	public static CallContext timeout(long timeout, @Nonnull TimeUnit unit, boolean diligent) {
 		nonNullArg(unit, "unit");
-		return CallContexts.ctxHandling(() -> new TimeoutObservation(Thread.currentThread(), unit, timeout, diligent), (observation, e) -> {
+		return CallContexts.ctxHandling(() -> new TimeoutObservation(Thread.currentThread(), timeout, unit, diligent), (observation, e) -> {
 			var timedOut = observation.end();
 			if (timedOut && e instanceof InterruptedException interrupted) {
 				// We are claiming it is our InterruptedException.
