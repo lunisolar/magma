@@ -594,4 +594,21 @@ public final class CallContexts {
 
 	//</editor-fold>
 
+	public static CallContext logThrowable(LBiConsumer<String, Throwable> logger) {
+		nonNullArg(logger, "logger");
+		return CallContexts.ctxHandling(() -> null, (__, e) -> {
+			logger.accept(e.getMessage(), e);
+			return null;
+		});
+	}
+
+	public static CallContext logThrowable(String message, LBiConsumer<String, Throwable> logger) {
+		nonNullArg(message, "message");
+		nonNullArg(logger, "logger");
+		return CallContexts.ctxHandling(() -> null, (__, e) -> {
+			logger.accept(message.formatted(e.getMessage()), e);
+			return null;
+		});
+	}
+
 }
