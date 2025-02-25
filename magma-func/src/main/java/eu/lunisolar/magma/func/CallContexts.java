@@ -611,4 +611,20 @@ public final class CallContexts {
 		});
 	}
 
+	public static CallContext logBoundary(String name, LConsumer<String> logger) {
+		nonNullArg(name, "name");
+		nonNullArg(logger, "logger");
+		return CallContexts.ctxHandling(() -> {
+			logger.accept("%s - start".formatted(name));
+			return null;
+		}, (__, e) -> {
+			if (e != null) {
+				logger.accept("%s - end with exception %s: %s".formatted(name, e.getClass().getName(), e.getMessage()));
+			} else {
+				logger.accept("%s - end".formatted(name));
+			}
+			return null;
+		});
+	}
+
 }
