@@ -4708,4 +4708,444 @@ public class P2 implements FluentSyntax {
 
 	//</editor-fold>
 
+	//<editor-fold desc="LSingle">
+
+	/** Predicate: LBoolSingle <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> boolean singleEqual(@Nonnull LBoolSingle single, boolean expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleEqual(single, expected);
+	}
+
+	/** "Special" predicate: LBoolSingle <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String singleEqualEx(@Nonnull LBoolSingle single, boolean expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleEqualEx(single, expected);
+	}
+
+	/** Predicate: LBoolSingle <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> boolean singleNotEqual(@Nonnull LBoolSingle single, boolean expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleNotEqual(single, expected);
+	}
+
+	/** "Special" predicate: LBoolSingle <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String singleNotEqualEx(@Nonnull LBoolSingle single, boolean expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleNotEqualEx(single, expected);
+	}
+
+	/** Predicate: LByteSingle <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> boolean singleEqual(@Nonnull LByteSingle single, byte expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleEqual(single, expected);
+	}
+
+	/** "Special" predicate: LByteSingle <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String singleEqualEx(@Nonnull LByteSingle single, byte expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleEqualEx(single, expected);
+	}
+
+	/** Predicate: LByteSingle <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> boolean singleNotEqual(@Nonnull LByteSingle single, byte expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleNotEqual(single, expected);
+	}
+
+	/** "Special" predicate: LByteSingle <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String singleNotEqualEx(@Nonnull LByteSingle single, byte expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleNotEqualEx(single, expected);
+	}
+
+	/** Predicate: LDblSingle <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> boolean singleEqual(@Nonnull LDblSingle single, double expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleEqual(single, expected);
+	}
+
+	/** "Special" predicate: LDblSingle <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String singleEqualEx(@Nonnull LDblSingle single, double expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleEqualEx(single, expected);
+	}
+
+	/** Predicate: LDblSingle <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> boolean singleNotEqual(@Nonnull LDblSingle single, double expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleNotEqual(single, expected);
+	}
+
+	/** "Special" predicate: LDblSingle <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String singleNotEqualEx(@Nonnull LDblSingle single, double expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleNotEqualEx(single, expected);
+	}
+
+	/** Predicate: LCharSingle <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> boolean singleEqual(@Nonnull LCharSingle single, char expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleEqual(single, expected);
+	}
+
+	/** "Special" predicate: LCharSingle <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String singleEqualEx(@Nonnull LCharSingle single, char expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleEqualEx(single, expected);
+	}
+
+	/** Predicate: LCharSingle <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> boolean singleNotEqual(@Nonnull LCharSingle single, char expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleNotEqual(single, expected);
+	}
+
+	/** "Special" predicate: LCharSingle <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String singleNotEqualEx(@Nonnull LCharSingle single, char expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleNotEqualEx(single, expected);
+	}
+
+	/** Predicate: LSrtSingle <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> boolean singleEqual(@Nonnull LSrtSingle single, short expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleEqual(single, expected);
+	}
+
+	/** "Special" predicate: LSrtSingle <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String singleEqualEx(@Nonnull LSrtSingle single, short expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleEqualEx(single, expected);
+	}
+
+	/** Predicate: LSrtSingle <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> boolean singleNotEqual(@Nonnull LSrtSingle single, short expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleNotEqual(single, expected);
+	}
+
+	/** "Special" predicate: LSrtSingle <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String singleNotEqualEx(@Nonnull LSrtSingle single, short expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleNotEqualEx(single, expected);
+	}
+
+	/** Predicate: LFltSingle <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> boolean singleEqual(@Nonnull LFltSingle single, float expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleEqual(single, expected);
+	}
+
+	/** "Special" predicate: LFltSingle <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String singleEqualEx(@Nonnull LFltSingle single, float expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleEqualEx(single, expected);
+	}
+
+	/** Predicate: LFltSingle <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> boolean singleNotEqual(@Nonnull LFltSingle single, float expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleNotEqual(single, expected);
+	}
+
+	/** "Special" predicate: LFltSingle <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String singleNotEqualEx(@Nonnull LFltSingle single, float expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleNotEqualEx(single, expected);
+	}
+
+	/** Predicate: LIntSingle <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> boolean singleEqual(@Nonnull LIntSingle single, int expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleEqual(single, expected);
+	}
+
+	/** "Special" predicate: LIntSingle <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String singleEqualEx(@Nonnull LIntSingle single, int expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleEqualEx(single, expected);
+	}
+
+	/** Predicate: LIntSingle <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> boolean singleNotEqual(@Nonnull LIntSingle single, int expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleNotEqual(single, expected);
+	}
+
+	/** "Special" predicate: LIntSingle <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String singleNotEqualEx(@Nonnull LIntSingle single, int expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleNotEqualEx(single, expected);
+	}
+
+	/** Predicate: LLongSingle <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> boolean singleEqual(@Nonnull LLongSingle single, long expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleEqual(single, expected);
+	}
+
+	/** "Special" predicate: LLongSingle <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String singleEqualEx(@Nonnull LLongSingle single, long expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleEqualEx(single, expected);
+	}
+
+	/** Predicate: LLongSingle <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> boolean singleNotEqual(@Nonnull LLongSingle single, long expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleNotEqual(single, expected);
+	}
+
+	/** "Special" predicate: LLongSingle <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String singleNotEqualEx(@Nonnull LLongSingle single, long expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleNotEqualEx(single, expected);
+	}
+
+	/** Predicate: LSingle<T> <%s> must have value equal <%s>.*/
+	public static <T, MP1, MP2> boolean singleEqual(@Nonnull LSingle<T> single, T expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleEqual(single, expected);
+	}
+
+	/** "Special" predicate: LSingle<T> <%s> must have value equal <%s>.*/
+	public static <T, MP1, MP2> @Nullable String singleEqualEx(@Nonnull LSingle<T> single, T expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleEqualEx(single, expected);
+	}
+
+	/** Predicate: LSingle<T> <%s> must NOT have value equal <%s>.*/
+	public static <T, MP1, MP2> boolean singleNotEqual(@Nonnull LSingle<T> single, T expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleNotEqual(single, expected);
+	}
+
+	/** "Special" predicate: LSingle<T> <%s> must NOT have value equal <%s>.*/
+	public static <T, MP1, MP2> @Nullable String singleNotEqualEx(@Nonnull LSingle<T> single, T expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(single, "single");
+		return Predicates.singleNotEqualEx(single, expected);
+	}
+
+	//</editor-fold>
+
+	//<editor-fold desc="LValue">
+
+	/** Predicate: LBoolean <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> boolean valueEqual(@Nonnull LBoolean lValue, boolean expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LBoolean <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String valueEqualEx(@Nonnull LBoolean lValue, boolean expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueEqualEx(lValue, expected);
+	}
+
+	/** Predicate: LBoolean <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> boolean valueNotEqual(@Nonnull LBoolean lValue, boolean expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueNotEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LBoolean <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull LBoolean lValue, boolean expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueNotEqualEx(lValue, expected);
+	}
+
+	/** Predicate: LByte <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> boolean valueEqual(@Nonnull LByte lValue, byte expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LByte <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String valueEqualEx(@Nonnull LByte lValue, byte expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueEqualEx(lValue, expected);
+	}
+
+	/** Predicate: LByte <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> boolean valueNotEqual(@Nonnull LByte lValue, byte expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueNotEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LByte <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull LByte lValue, byte expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueNotEqualEx(lValue, expected);
+	}
+
+	/** Predicate: LDouble <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> boolean valueEqual(@Nonnull LDouble lValue, double expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LDouble <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String valueEqualEx(@Nonnull LDouble lValue, double expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueEqualEx(lValue, expected);
+	}
+
+	/** Predicate: LDouble <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> boolean valueNotEqual(@Nonnull LDouble lValue, double expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueNotEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LDouble <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull LDouble lValue, double expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueNotEqualEx(lValue, expected);
+	}
+
+	/** Predicate: LCharacter <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> boolean valueEqual(@Nonnull LCharacter lValue, char expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LCharacter <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String valueEqualEx(@Nonnull LCharacter lValue, char expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueEqualEx(lValue, expected);
+	}
+
+	/** Predicate: LCharacter <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> boolean valueNotEqual(@Nonnull LCharacter lValue, char expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueNotEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LCharacter <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull LCharacter lValue, char expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueNotEqualEx(lValue, expected);
+	}
+
+	/** Predicate: LShort <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> boolean valueEqual(@Nonnull LShort lValue, short expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LShort <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String valueEqualEx(@Nonnull LShort lValue, short expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueEqualEx(lValue, expected);
+	}
+
+	/** Predicate: LShort <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> boolean valueNotEqual(@Nonnull LShort lValue, short expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueNotEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LShort <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull LShort lValue, short expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueNotEqualEx(lValue, expected);
+	}
+
+	/** Predicate: LFloat <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> boolean valueEqual(@Nonnull LFloat lValue, float expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LFloat <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String valueEqualEx(@Nonnull LFloat lValue, float expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueEqualEx(lValue, expected);
+	}
+
+	/** Predicate: LFloat <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> boolean valueNotEqual(@Nonnull LFloat lValue, float expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueNotEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LFloat <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull LFloat lValue, float expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueNotEqualEx(lValue, expected);
+	}
+
+	/** Predicate: LInteger <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> boolean valueEqual(@Nonnull LInteger lValue, int expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LInteger <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String valueEqualEx(@Nonnull LInteger lValue, int expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueEqualEx(lValue, expected);
+	}
+
+	/** Predicate: LInteger <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> boolean valueNotEqual(@Nonnull LInteger lValue, int expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueNotEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LInteger <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull LInteger lValue, int expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueNotEqualEx(lValue, expected);
+	}
+
+	/** Predicate: LLong <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> boolean valueEqual(@Nonnull LLong lValue, long expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LLong <%s> must have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String valueEqualEx(@Nonnull LLong lValue, long expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueEqualEx(lValue, expected);
+	}
+
+	/** Predicate: LLong <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> boolean valueNotEqual(@Nonnull LLong lValue, long expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueNotEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LLong <%s> must NOT have value equal <%s>.*/
+	public static <MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull LLong lValue, long expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueNotEqualEx(lValue, expected);
+	}
+
+	/** Predicate: LValue<T> <%s> must have value equal <%s>.*/
+	public static <T, MP1, MP2> boolean valueEqual(@Nonnull LValue<T> lValue, T expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LValue<T> <%s> must have value equal <%s>.*/
+	public static <T, MP1, MP2> @Nullable String valueEqualEx(@Nonnull LValue<T> lValue, T expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueEqualEx(lValue, expected);
+	}
+
+	/** Predicate: LValue<T> <%s> must NOT have value equal <%s>.*/
+	public static <T, MP1, MP2> boolean valueNotEqual(@Nonnull LValue<T> lValue, T expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueNotEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LValue<T> <%s> must NOT have value equal <%s>.*/
+	public static <T, MP1, MP2> @Nullable String valueNotEqualEx(@Nonnull LValue<T> lValue, T expected, MP1 msgParamOnly1, MP2 msgParamOnly2) {
+		Null.nonNullArg(lValue, "lValue");
+		return Predicates.valueNotEqualEx(lValue, expected);
+	}
+
+	//</editor-fold>
+
 }

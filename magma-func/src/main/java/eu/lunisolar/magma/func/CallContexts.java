@@ -23,6 +23,7 @@ import eu.lunisolar.magma.func.action.LAction;
 import eu.lunisolar.magma.func.consumer.LBiConsumer;
 import eu.lunisolar.magma.func.consumer.LConsumer;
 import eu.lunisolar.magma.func.function.LBiFunction;
+import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.supplier.LSupplier;
 
 import javax.annotation.Nonnull;
@@ -596,25 +597,19 @@ public final class CallContexts {
 
 	public static CallContext logThrowable(LBiConsumer<String, Throwable> logger) {
 		nonNullArg(logger, "logger");
-		return CallContexts.ctxHandling(() -> null, (__, e) -> {
-			logger.accept(e.getMessage(), e);
-			return null;
-		});
+		return CallContexts.ctx(() -> null, (__, e) -> logger.accept(e.getMessage(), e));
 	}
 
 	public static CallContext logThrowable(String message, LBiConsumer<String, Throwable> logger) {
 		nonNullArg(message, "message");
 		nonNullArg(logger, "logger");
-		return CallContexts.ctxHandling(() -> null, (__, e) -> {
-			logger.accept(message.formatted(e.getMessage()), e);
-			return null;
-		});
+		return CallContexts.ctx(() -> null, (__, e) -> logger.accept(message.formatted(e.getMessage()), e));
 	}
 
 	public static CallContext logBoundary(String name, LConsumer<String> logger) {
 		nonNullArg(name, "name");
 		nonNullArg(logger, "logger");
-		return CallContexts.ctxHandling(() -> {
+		return CallContexts.ctx(() -> {
 			logger.accept("%s - start".formatted(name));
 			return null;
 		}, (__, e) -> {
@@ -623,7 +618,30 @@ public final class CallContexts {
 			} else {
 				logger.accept("%s - end".formatted(name));
 			}
-			return null;
+		});
+	}
+
+	public static CallContext threadName(LFunction<String, String> nameComposer) {
+		nonNullArg(nameComposer, "nameComposer");
+		return CallContexts.ctx(() -> {
+			Thread thread = Thread.currentThread();
+			var oldName = thread.getName();
+			thread.setName(nameComposer.apply(oldName));
+			return oldName;
+		}, (oldName, e) -> {
+			Thread.currentThread().setName(oldName);
+		});
+	}
+
+	public static CallContext threadNameFormat(String format) {
+		nonNullArg(format, "format");
+		return CallContexts.ctx(() -> {
+			Thread thread = Thread.currentThread();
+			var oldName = thread.getName();
+			thread.setName(format.formatted(oldName));
+			return oldName;
+		}, (oldName, e) -> {
+			Thread.currentThread().setName(oldName);
 		});
 	}
 

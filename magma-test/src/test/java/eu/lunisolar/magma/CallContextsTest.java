@@ -33,6 +33,7 @@ import eu.lunisolar.magma.func.supp.P;
 import eu.lunisolar.magma.func.supp.check.Checks;
 import eu.lunisolar.magma.func.supplier.LSupplier;
 import eu.lunisolar.magma.func.tuple.LIntSingle;
+import eu.lunisolar.magma.func.tuple.LSingle;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -535,6 +536,37 @@ public class CallContextsTest {
         check.execute();
         LAction.tryExecuteThen(() -> {Thread.sleep(SHORT_TIME + (SHORT_TIME / 2));}, e -> {throw new IllegalStateException(e);});
         check.execute();
+    }
+
+    @Test
+    void threadName() {
+
+        final var startingName = Thread.currentThread().getName();
+        var ctx = CallContexts.threadName(old-> "new");
+        final var capturedName = LSingle.<String>atomicOf();
+
+        LAction.nestingExecute(ctx, () -> {
+            capturedName.value(Thread.currentThread().getName());
+        });
+
+        attest(capturedName).mustEx(Have::singleEqualEx, "new");
+        attest(Thread.currentThread().getName()).mustBeEqual(startingName);
+    }
+
+    @Test
+    void threadNameFormat() {
+
+        final var old = Thread.currentThread().getName();
+        final var startingName = Thread.currentThread().getName();
+        var ctx = CallContexts.threadNameFormat("%s - new");
+        final var capturedName = LSingle.<String>atomicOf();
+
+        LAction.nestingExecute(ctx, () -> {
+            capturedName.value(Thread.currentThread().getName());
+        });
+
+        attest(capturedName).mustEx(Have::singleEqualEx, old + " - new");
+        attest(Thread.currentThread().getName()).mustBeEqual(startingName);
     }
 
 }

@@ -8998,4 +8998,444 @@ public class Predicates implements FluentSyntax {
 
 	//</editor-fold>
 
+	//<editor-fold desc="LSingle">
+
+	/** Predicate: LBoolSingle <%s> must have value equal <%s>.*/
+	public static boolean singleEqual(@Nonnull LBoolSingle single, boolean expected) {
+		Null.nonNullArg(single, "single");
+		return single.value() == expected;
+	}
+
+	/** "Special" predicate: LBoolSingle <%s> must have value equal <%s>.*/
+	public static @Nullable String singleEqualEx(@Nonnull LBoolSingle single, boolean expected) {
+		Null.nonNullArg(single, "single");
+		return singleEqual(single, expected) ? null : String.format("LBoolSingle <%s> must have value equal <%s>.", single, expected);
+	}
+
+	/** Predicate: LBoolSingle <%s> must NOT have value equal <%s>.*/
+	public static boolean singleNotEqual(@Nonnull LBoolSingle single, boolean expected) {
+		Null.nonNullArg(single, "single");
+		return !singleEqual(single, expected);
+	}
+
+	/** "Special" predicate: LBoolSingle <%s> must NOT have value equal <%s>.*/
+	public static @Nullable String singleNotEqualEx(@Nonnull LBoolSingle single, boolean expected) {
+		Null.nonNullArg(single, "single");
+		return singleNotEqual(single, expected) ? null : String.format("LBoolSingle <%s> must NOT have value equal <%s>.", single, expected);
+	}
+
+	/** Predicate: LByteSingle <%s> must have value equal <%s>.*/
+	public static boolean singleEqual(@Nonnull LByteSingle single, byte expected) {
+		Null.nonNullArg(single, "single");
+		return single.value() == expected;
+	}
+
+	/** "Special" predicate: LByteSingle <%s> must have value equal <%s>.*/
+	public static @Nullable String singleEqualEx(@Nonnull LByteSingle single, byte expected) {
+		Null.nonNullArg(single, "single");
+		return singleEqual(single, expected) ? null : String.format("LByteSingle <%s> must have value equal <%s>.", single, expected);
+	}
+
+	/** Predicate: LByteSingle <%s> must NOT have value equal <%s>.*/
+	public static boolean singleNotEqual(@Nonnull LByteSingle single, byte expected) {
+		Null.nonNullArg(single, "single");
+		return !singleEqual(single, expected);
+	}
+
+	/** "Special" predicate: LByteSingle <%s> must NOT have value equal <%s>.*/
+	public static @Nullable String singleNotEqualEx(@Nonnull LByteSingle single, byte expected) {
+		Null.nonNullArg(single, "single");
+		return singleNotEqual(single, expected) ? null : String.format("LByteSingle <%s> must NOT have value equal <%s>.", single, expected);
+	}
+
+	/** Predicate: LDblSingle <%s> must have value equal <%s>.*/
+	public static boolean singleEqual(@Nonnull LDblSingle single, double expected) {
+		Null.nonNullArg(single, "single");
+		return single.value() == expected;
+	}
+
+	/** "Special" predicate: LDblSingle <%s> must have value equal <%s>.*/
+	public static @Nullable String singleEqualEx(@Nonnull LDblSingle single, double expected) {
+		Null.nonNullArg(single, "single");
+		return singleEqual(single, expected) ? null : String.format("LDblSingle <%s> must have value equal <%s>.", single, expected);
+	}
+
+	/** Predicate: LDblSingle <%s> must NOT have value equal <%s>.*/
+	public static boolean singleNotEqual(@Nonnull LDblSingle single, double expected) {
+		Null.nonNullArg(single, "single");
+		return !singleEqual(single, expected);
+	}
+
+	/** "Special" predicate: LDblSingle <%s> must NOT have value equal <%s>.*/
+	public static @Nullable String singleNotEqualEx(@Nonnull LDblSingle single, double expected) {
+		Null.nonNullArg(single, "single");
+		return singleNotEqual(single, expected) ? null : String.format("LDblSingle <%s> must NOT have value equal <%s>.", single, expected);
+	}
+
+	/** Predicate: LCharSingle <%s> must have value equal <%s>.*/
+	public static boolean singleEqual(@Nonnull LCharSingle single, char expected) {
+		Null.nonNullArg(single, "single");
+		return single.value() == expected;
+	}
+
+	/** "Special" predicate: LCharSingle <%s> must have value equal <%s>.*/
+	public static @Nullable String singleEqualEx(@Nonnull LCharSingle single, char expected) {
+		Null.nonNullArg(single, "single");
+		return singleEqual(single, expected) ? null : String.format("LCharSingle <%s> must have value equal <%s>.", single, expected);
+	}
+
+	/** Predicate: LCharSingle <%s> must NOT have value equal <%s>.*/
+	public static boolean singleNotEqual(@Nonnull LCharSingle single, char expected) {
+		Null.nonNullArg(single, "single");
+		return !singleEqual(single, expected);
+	}
+
+	/** "Special" predicate: LCharSingle <%s> must NOT have value equal <%s>.*/
+	public static @Nullable String singleNotEqualEx(@Nonnull LCharSingle single, char expected) {
+		Null.nonNullArg(single, "single");
+		return singleNotEqual(single, expected) ? null : String.format("LCharSingle <%s> must NOT have value equal <%s>.", single, expected);
+	}
+
+	/** Predicate: LSrtSingle <%s> must have value equal <%s>.*/
+	public static boolean singleEqual(@Nonnull LSrtSingle single, short expected) {
+		Null.nonNullArg(single, "single");
+		return single.value() == expected;
+	}
+
+	/** "Special" predicate: LSrtSingle <%s> must have value equal <%s>.*/
+	public static @Nullable String singleEqualEx(@Nonnull LSrtSingle single, short expected) {
+		Null.nonNullArg(single, "single");
+		return singleEqual(single, expected) ? null : String.format("LSrtSingle <%s> must have value equal <%s>.", single, expected);
+	}
+
+	/** Predicate: LSrtSingle <%s> must NOT have value equal <%s>.*/
+	public static boolean singleNotEqual(@Nonnull LSrtSingle single, short expected) {
+		Null.nonNullArg(single, "single");
+		return !singleEqual(single, expected);
+	}
+
+	/** "Special" predicate: LSrtSingle <%s> must NOT have value equal <%s>.*/
+	public static @Nullable String singleNotEqualEx(@Nonnull LSrtSingle single, short expected) {
+		Null.nonNullArg(single, "single");
+		return singleNotEqual(single, expected) ? null : String.format("LSrtSingle <%s> must NOT have value equal <%s>.", single, expected);
+	}
+
+	/** Predicate: LFltSingle <%s> must have value equal <%s>.*/
+	public static boolean singleEqual(@Nonnull LFltSingle single, float expected) {
+		Null.nonNullArg(single, "single");
+		return single.value() == expected;
+	}
+
+	/** "Special" predicate: LFltSingle <%s> must have value equal <%s>.*/
+	public static @Nullable String singleEqualEx(@Nonnull LFltSingle single, float expected) {
+		Null.nonNullArg(single, "single");
+		return singleEqual(single, expected) ? null : String.format("LFltSingle <%s> must have value equal <%s>.", single, expected);
+	}
+
+	/** Predicate: LFltSingle <%s> must NOT have value equal <%s>.*/
+	public static boolean singleNotEqual(@Nonnull LFltSingle single, float expected) {
+		Null.nonNullArg(single, "single");
+		return !singleEqual(single, expected);
+	}
+
+	/** "Special" predicate: LFltSingle <%s> must NOT have value equal <%s>.*/
+	public static @Nullable String singleNotEqualEx(@Nonnull LFltSingle single, float expected) {
+		Null.nonNullArg(single, "single");
+		return singleNotEqual(single, expected) ? null : String.format("LFltSingle <%s> must NOT have value equal <%s>.", single, expected);
+	}
+
+	/** Predicate: LIntSingle <%s> must have value equal <%s>.*/
+	public static boolean singleEqual(@Nonnull LIntSingle single, int expected) {
+		Null.nonNullArg(single, "single");
+		return single.value() == expected;
+	}
+
+	/** "Special" predicate: LIntSingle <%s> must have value equal <%s>.*/
+	public static @Nullable String singleEqualEx(@Nonnull LIntSingle single, int expected) {
+		Null.nonNullArg(single, "single");
+		return singleEqual(single, expected) ? null : String.format("LIntSingle <%s> must have value equal <%s>.", single, expected);
+	}
+
+	/** Predicate: LIntSingle <%s> must NOT have value equal <%s>.*/
+	public static boolean singleNotEqual(@Nonnull LIntSingle single, int expected) {
+		Null.nonNullArg(single, "single");
+		return !singleEqual(single, expected);
+	}
+
+	/** "Special" predicate: LIntSingle <%s> must NOT have value equal <%s>.*/
+	public static @Nullable String singleNotEqualEx(@Nonnull LIntSingle single, int expected) {
+		Null.nonNullArg(single, "single");
+		return singleNotEqual(single, expected) ? null : String.format("LIntSingle <%s> must NOT have value equal <%s>.", single, expected);
+	}
+
+	/** Predicate: LLongSingle <%s> must have value equal <%s>.*/
+	public static boolean singleEqual(@Nonnull LLongSingle single, long expected) {
+		Null.nonNullArg(single, "single");
+		return single.value() == expected;
+	}
+
+	/** "Special" predicate: LLongSingle <%s> must have value equal <%s>.*/
+	public static @Nullable String singleEqualEx(@Nonnull LLongSingle single, long expected) {
+		Null.nonNullArg(single, "single");
+		return singleEqual(single, expected) ? null : String.format("LLongSingle <%s> must have value equal <%s>.", single, expected);
+	}
+
+	/** Predicate: LLongSingle <%s> must NOT have value equal <%s>.*/
+	public static boolean singleNotEqual(@Nonnull LLongSingle single, long expected) {
+		Null.nonNullArg(single, "single");
+		return !singleEqual(single, expected);
+	}
+
+	/** "Special" predicate: LLongSingle <%s> must NOT have value equal <%s>.*/
+	public static @Nullable String singleNotEqualEx(@Nonnull LLongSingle single, long expected) {
+		Null.nonNullArg(single, "single");
+		return singleNotEqual(single, expected) ? null : String.format("LLongSingle <%s> must NOT have value equal <%s>.", single, expected);
+	}
+
+	/** Predicate: LSingle<T> <%s> must have value equal <%s>.*/
+	public static <T> boolean singleEqual(@Nonnull LSingle<T> single, T expected) {
+		Null.nonNullArg(single, "single");
+		return Objects.equals(single.value(), expected);
+	}
+
+	/** "Special" predicate: LSingle<T> <%s> must have value equal <%s>.*/
+	public static <T> @Nullable String singleEqualEx(@Nonnull LSingle<T> single, T expected) {
+		Null.nonNullArg(single, "single");
+		return singleEqual(single, expected) ? null : String.format("LSingle<T> <%s> must have value equal <%s>.", single, expected);
+	}
+
+	/** Predicate: LSingle<T> <%s> must NOT have value equal <%s>.*/
+	public static <T> boolean singleNotEqual(@Nonnull LSingle<T> single, T expected) {
+		Null.nonNullArg(single, "single");
+		return !singleEqual(single, expected);
+	}
+
+	/** "Special" predicate: LSingle<T> <%s> must NOT have value equal <%s>.*/
+	public static <T> @Nullable String singleNotEqualEx(@Nonnull LSingle<T> single, T expected) {
+		Null.nonNullArg(single, "single");
+		return singleNotEqual(single, expected) ? null : String.format("LSingle<T> <%s> must NOT have value equal <%s>.", single, expected);
+	}
+
+	//</editor-fold>
+
+	//<editor-fold desc="LValue">
+
+	/** Predicate: LBoolean <%s> must have value equal <%s>.*/
+	public static boolean valueEqual(@Nonnull LBoolean lValue, boolean expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return lValue.value() == expected;
+	}
+
+	/** "Special" predicate: LBoolean <%s> must have value equal <%s>.*/
+	public static @Nullable String valueEqualEx(@Nonnull LBoolean lValue, boolean expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return valueEqual(lValue, expected) ? null : String.format("LBoolean <%s> must have value equal <%s>.", lValue, expected);
+	}
+
+	/** Predicate: LBoolean <%s> must NOT have value equal <%s>.*/
+	public static boolean valueNotEqual(@Nonnull LBoolean lValue, boolean expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return !valueEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LBoolean <%s> must NOT have value equal <%s>.*/
+	public static @Nullable String valueNotEqualEx(@Nonnull LBoolean lValue, boolean expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return valueNotEqual(lValue, expected) ? null : String.format("LBoolean <%s> must NOT have value equal <%s>.", lValue, expected);
+	}
+
+	/** Predicate: LByte <%s> must have value equal <%s>.*/
+	public static boolean valueEqual(@Nonnull LByte lValue, byte expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return lValue.value() == expected;
+	}
+
+	/** "Special" predicate: LByte <%s> must have value equal <%s>.*/
+	public static @Nullable String valueEqualEx(@Nonnull LByte lValue, byte expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return valueEqual(lValue, expected) ? null : String.format("LByte <%s> must have value equal <%s>.", lValue, expected);
+	}
+
+	/** Predicate: LByte <%s> must NOT have value equal <%s>.*/
+	public static boolean valueNotEqual(@Nonnull LByte lValue, byte expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return !valueEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LByte <%s> must NOT have value equal <%s>.*/
+	public static @Nullable String valueNotEqualEx(@Nonnull LByte lValue, byte expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return valueNotEqual(lValue, expected) ? null : String.format("LByte <%s> must NOT have value equal <%s>.", lValue, expected);
+	}
+
+	/** Predicate: LDouble <%s> must have value equal <%s>.*/
+	public static boolean valueEqual(@Nonnull LDouble lValue, double expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return lValue.value() == expected;
+	}
+
+	/** "Special" predicate: LDouble <%s> must have value equal <%s>.*/
+	public static @Nullable String valueEqualEx(@Nonnull LDouble lValue, double expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return valueEqual(lValue, expected) ? null : String.format("LDouble <%s> must have value equal <%s>.", lValue, expected);
+	}
+
+	/** Predicate: LDouble <%s> must NOT have value equal <%s>.*/
+	public static boolean valueNotEqual(@Nonnull LDouble lValue, double expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return !valueEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LDouble <%s> must NOT have value equal <%s>.*/
+	public static @Nullable String valueNotEqualEx(@Nonnull LDouble lValue, double expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return valueNotEqual(lValue, expected) ? null : String.format("LDouble <%s> must NOT have value equal <%s>.", lValue, expected);
+	}
+
+	/** Predicate: LCharacter <%s> must have value equal <%s>.*/
+	public static boolean valueEqual(@Nonnull LCharacter lValue, char expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return lValue.value() == expected;
+	}
+
+	/** "Special" predicate: LCharacter <%s> must have value equal <%s>.*/
+	public static @Nullable String valueEqualEx(@Nonnull LCharacter lValue, char expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return valueEqual(lValue, expected) ? null : String.format("LCharacter <%s> must have value equal <%s>.", lValue, expected);
+	}
+
+	/** Predicate: LCharacter <%s> must NOT have value equal <%s>.*/
+	public static boolean valueNotEqual(@Nonnull LCharacter lValue, char expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return !valueEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LCharacter <%s> must NOT have value equal <%s>.*/
+	public static @Nullable String valueNotEqualEx(@Nonnull LCharacter lValue, char expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return valueNotEqual(lValue, expected) ? null : String.format("LCharacter <%s> must NOT have value equal <%s>.", lValue, expected);
+	}
+
+	/** Predicate: LShort <%s> must have value equal <%s>.*/
+	public static boolean valueEqual(@Nonnull LShort lValue, short expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return lValue.value() == expected;
+	}
+
+	/** "Special" predicate: LShort <%s> must have value equal <%s>.*/
+	public static @Nullable String valueEqualEx(@Nonnull LShort lValue, short expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return valueEqual(lValue, expected) ? null : String.format("LShort <%s> must have value equal <%s>.", lValue, expected);
+	}
+
+	/** Predicate: LShort <%s> must NOT have value equal <%s>.*/
+	public static boolean valueNotEqual(@Nonnull LShort lValue, short expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return !valueEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LShort <%s> must NOT have value equal <%s>.*/
+	public static @Nullable String valueNotEqualEx(@Nonnull LShort lValue, short expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return valueNotEqual(lValue, expected) ? null : String.format("LShort <%s> must NOT have value equal <%s>.", lValue, expected);
+	}
+
+	/** Predicate: LFloat <%s> must have value equal <%s>.*/
+	public static boolean valueEqual(@Nonnull LFloat lValue, float expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return lValue.value() == expected;
+	}
+
+	/** "Special" predicate: LFloat <%s> must have value equal <%s>.*/
+	public static @Nullable String valueEqualEx(@Nonnull LFloat lValue, float expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return valueEqual(lValue, expected) ? null : String.format("LFloat <%s> must have value equal <%s>.", lValue, expected);
+	}
+
+	/** Predicate: LFloat <%s> must NOT have value equal <%s>.*/
+	public static boolean valueNotEqual(@Nonnull LFloat lValue, float expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return !valueEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LFloat <%s> must NOT have value equal <%s>.*/
+	public static @Nullable String valueNotEqualEx(@Nonnull LFloat lValue, float expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return valueNotEqual(lValue, expected) ? null : String.format("LFloat <%s> must NOT have value equal <%s>.", lValue, expected);
+	}
+
+	/** Predicate: LInteger <%s> must have value equal <%s>.*/
+	public static boolean valueEqual(@Nonnull LInteger lValue, int expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return lValue.value() == expected;
+	}
+
+	/** "Special" predicate: LInteger <%s> must have value equal <%s>.*/
+	public static @Nullable String valueEqualEx(@Nonnull LInteger lValue, int expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return valueEqual(lValue, expected) ? null : String.format("LInteger <%s> must have value equal <%s>.", lValue, expected);
+	}
+
+	/** Predicate: LInteger <%s> must NOT have value equal <%s>.*/
+	public static boolean valueNotEqual(@Nonnull LInteger lValue, int expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return !valueEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LInteger <%s> must NOT have value equal <%s>.*/
+	public static @Nullable String valueNotEqualEx(@Nonnull LInteger lValue, int expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return valueNotEqual(lValue, expected) ? null : String.format("LInteger <%s> must NOT have value equal <%s>.", lValue, expected);
+	}
+
+	/** Predicate: LLong <%s> must have value equal <%s>.*/
+	public static boolean valueEqual(@Nonnull LLong lValue, long expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return lValue.value() == expected;
+	}
+
+	/** "Special" predicate: LLong <%s> must have value equal <%s>.*/
+	public static @Nullable String valueEqualEx(@Nonnull LLong lValue, long expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return valueEqual(lValue, expected) ? null : String.format("LLong <%s> must have value equal <%s>.", lValue, expected);
+	}
+
+	/** Predicate: LLong <%s> must NOT have value equal <%s>.*/
+	public static boolean valueNotEqual(@Nonnull LLong lValue, long expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return !valueEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LLong <%s> must NOT have value equal <%s>.*/
+	public static @Nullable String valueNotEqualEx(@Nonnull LLong lValue, long expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return valueNotEqual(lValue, expected) ? null : String.format("LLong <%s> must NOT have value equal <%s>.", lValue, expected);
+	}
+
+	/** Predicate: LValue<T> <%s> must have value equal <%s>.*/
+	public static <T> boolean valueEqual(@Nonnull LValue<T> lValue, T expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return Objects.equals(lValue.value(), expected);
+	}
+
+	/** "Special" predicate: LValue<T> <%s> must have value equal <%s>.*/
+	public static <T> @Nullable String valueEqualEx(@Nonnull LValue<T> lValue, T expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return valueEqual(lValue, expected) ? null : String.format("LValue<T> <%s> must have value equal <%s>.", lValue, expected);
+	}
+
+	/** Predicate: LValue<T> <%s> must NOT have value equal <%s>.*/
+	public static <T> boolean valueNotEqual(@Nonnull LValue<T> lValue, T expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return !valueEqual(lValue, expected);
+	}
+
+	/** "Special" predicate: LValue<T> <%s> must NOT have value equal <%s>.*/
+	public static <T> @Nullable String valueNotEqualEx(@Nonnull LValue<T> lValue, T expected) {
+		Null.nonNullArg(lValue, "lValue");
+		return valueNotEqual(lValue, expected) ? null : String.format("LValue<T> <%s> must NOT have value equal <%s>.", lValue, expected);
+	}
+
+	//</editor-fold>
+
 }
