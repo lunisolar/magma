@@ -859,20 +859,11 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LQuadPredicate.testX(c1, a1, a2, a3, a4, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LQuadPredicate.testX(c1, a1, a2, a3, a4, function);
+
+		});
 	}
 
 	static <T1, T2, T3, T4> boolean nestingTest(@Nullable CallContext c1, @Nullable CallContext c2, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadPredicate<T1, T2, T3, T4> function) {
@@ -923,20 +914,11 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LQuadPredicate.testX(c1, c2, a1, a2, a3, a4, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LQuadPredicate.testX(c1, c2, a1, a2, a3, a4, function);
+
+		});
 	}
 
 	static <T1, T2, T3, T4> boolean nestingTest(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadPredicate<T1, T2, T3, T4> function) {
@@ -989,20 +971,11 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LQuadPredicate.testX(c1, c2, c3, a1, a2, a3, a4, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LQuadPredicate.testX(c1, c2, c3, a1, a2, a3, a4, function);
+
+		});
 	}
 
 	static <T1, T2, T3, T4> boolean nestingTest(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadPredicate<T1, T2, T3, T4> function) {
@@ -1058,40 +1031,22 @@ public interface LQuadPredicate<T1, T2, T3, T4> extends MetaPredicate, MetaInter
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LQuadPredicate.testX(c1, c2, c3, c4, a1, a2, a3, a4, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LQuadPredicate.testX(c1, c2, c3, c4, a1, a2, a3, a4, function);
+
+		});
 	}
 
 	static <T1, T2, T3, T4> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, T1 a1, T2 a2, T3 a3, T4 a4, @Nonnull LQuadPredicate<T1, T2, T3, T4> function) {
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = function.testX(a1, a2, a3, a4);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return function.testX(a1, a2, a3, a4);
+
+		});
 	}
 
 	//</editor-fold>

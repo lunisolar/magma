@@ -18,6 +18,7 @@
 
 package eu.lunisolar.magma.func;
 
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.basics.exceptions.Handling;
 import eu.lunisolar.magma.func.action.LAction;
 import eu.lunisolar.magma.func.consumer.LBiConsumer;
@@ -33,7 +34,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.Lock;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static eu.lunisolar.magma.basics.Null.nonNullArg;
@@ -428,12 +428,23 @@ public final class CallContexts {
 	public static final @Nonnull AsyncCallContext COMMON_POOL = asyncCtx(ForkJoinPool.commonPool());
 	public static final @Nonnull AsyncCallContext VIRTUAL = asyncCtx(Executors.newVirtualThreadPerTaskExecutor());
 
-	public static AsyncCallContext asyncCtx(@Nonnull AsyncCallContext lambdaCapture) {
+	public static @Nonnull AsyncCallContext asyncCtxLambda(@Nonnull AsyncCallContext lambdaCapture) {
 		return lambdaCapture;
 	}
 
 	public static @Nonnull AsyncCallContext asyncCtx(@Nonnull ExecutorService service) {
-		return service::execute;
+		Null.nonNullArg(service, "service");
+		return supplier -> CompletableFuture.supplyAsync(supplier, service);
+	}
+
+	public static @Nonnull AsyncCallContext asyncCtx(@Nonnull Executor service) {
+		Null.nonNullArg(service, "service");
+		return supplier -> CompletableFuture.supplyAsync(supplier, service);
+	}
+
+	public static @Nonnull AsyncCallContext asyncCtxFrom(@Nonnull LConsumer<LAction> service) {
+		Null.nonNullArg(service, "service");
+		return asyncCtx(runnable -> service.shovingAccept(LAction.wrap(runnable)));
 	}
 
 	public static @Nonnull AsyncCallContext commonPool() {

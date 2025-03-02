@@ -361,20 +361,11 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LSupplier.getX(c1, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LSupplier.getX(c1, function);
+
+		});
 	}
 
 	static <T> T nestingGet(@Nullable CallContext c1, @Nullable CallContext c2, @Nonnull LSupplier<T> function) {
@@ -425,20 +416,11 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LSupplier.getX(c1, c2, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LSupplier.getX(c1, c2, function);
+
+		});
 	}
 
 	static <T> T nestingGet(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nonnull LSupplier<T> function) {
@@ -491,20 +473,11 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LSupplier.getX(c1, c2, c3, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LSupplier.getX(c1, c2, c3, function);
+
+		});
 	}
 
 	static <T> T nestingGet(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, @Nonnull LSupplier<T> function) {
@@ -559,40 +532,22 @@ public interface LSupplier<T> extends Supplier<T>, MetaSupplier, MetaInterface.N
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LSupplier.getX(c1, c2, c3, c4, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LSupplier.getX(c1, c2, c3, c4, function);
+
+		});
 	}
 
 	static <T> CompletableFuture<T> asyncGet(@Nonnull AsyncCallContext async, @Nonnull LSupplier<T> function) {
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = function.getX();
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return function.getX();
+
+		});
 	}
 
 	//</editor-fold>

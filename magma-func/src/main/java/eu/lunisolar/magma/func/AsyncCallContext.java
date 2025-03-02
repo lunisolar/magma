@@ -18,12 +18,18 @@
 
 package eu.lunisolar.magma.func;
 
-import eu.lunisolar.magma.func.action.LAction;
+import eu.lunisolar.magma.func.supplier.LSupplier;
 
 import javax.annotation.Nonnull;
+import java.util.concurrent.CompletableFuture;
 
 public interface AsyncCallContext {
 
-	void call(@Nonnull LAction functionCall);
+	@Nonnull
+	CompletableFuture<?> call_(@Nonnull LSupplier<?> functionCall);
+
+	default <T> @Nonnull CompletableFuture<T> call(@Nonnull LSupplier<T> functionCall) {
+		return (CompletableFuture<T>) call_(functionCall);
+	}
 
 }

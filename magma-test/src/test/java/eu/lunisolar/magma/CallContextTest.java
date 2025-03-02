@@ -22,7 +22,6 @@ import eu.lunisolar.magma.basics.exceptions.NestedException;
 import eu.lunisolar.magma.basics.exceptions.X;
 import eu.lunisolar.magma.func.AsyncCallContext;
 import eu.lunisolar.magma.func.CallContexts;
-import eu.lunisolar.magma.func.action.LAction;
 import eu.lunisolar.magma.func.consumer.LBiConsumer;
 import eu.lunisolar.magma.func.consumer.LConsumer;
 import eu.lunisolar.magma.func.function.LBiFunction;
@@ -37,9 +36,9 @@ import eu.lunisolar.magma.func.supplier.LSupplier;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.*;
+import java.util.List;
 import java.util.concurrent.*;
-import java.util.function.*;
+import java.util.function.Consumer;
 
 import static eu.lunisolar.magma.CallContextShared.*;
 import static eu.lunisolar.magma.func.supp.check.Checks.attest;
@@ -153,12 +152,23 @@ public class CallContextTest {
         attest(l()).mustAEx(P::containExactlyEx, expectedLog);
     }
 
-    @Test
-    public void asyncSupplier() {
+    @DataProvider(name = "asyncCtxs")
+    public static Object[][] asyncCtxs() {
+        return new Object[][]{
+                new Object[]{CallContexts.asyncCtxLambda(call -> CompletableFuture.supplyAsync(call::get))},
+                new Object[]{CallContexts.commonPool()},
+                new Object[]{CallContexts.virtual()},
+                new Object[]{CallContexts.asyncCtx((ExecutorService) ForkJoinPool.commonPool())},
+                new Object[]{CallContexts.asyncCtx((Executor) ForkJoinPool.commonPool())},
+                new Object[]{CallContexts.asyncCtxFrom(action -> ForkJoinPool.commonPool().submit(action))}
+        };
+    }
+
+    @Test(dataProvider = "asyncCtxs")
+    public void asyncSupplier(AsyncCallContext asyncCtx) {
         // given
         LSupplier<Thread> function = () -> Thread.currentThread();
         l().clear();
-        var asyncCtx = CallContexts.asyncCtx(call -> CompletableFuture.runAsync(call::execute));
 
         // when
         var unitTestThread = function.get();
@@ -168,13 +178,12 @@ public class CallContextTest {
         attest(futureThread.join()).mustEx(Be::notSameEx, unitTestThread);
     }
 
-    @Test
-    public void asyncSupplier_exception() {
+    @Test(dataProvider = "asyncCtxs")
+    public void asyncSupplier_exception(AsyncCallContext asyncCtx) {
         // given
         LSupplier<Thread> function  = () -> {throw X.unsupported("unsupported");};
         var               capturedL = l();
         capturedL.clear();
-        var asyncCtx = CallContexts.asyncCtx(call -> CompletableFuture.runAsync(call::execute));
         var ctx1     = CallContexts.ctx(() -> capturedL.add(i1Log), () -> capturedL.add(f1Log));
         var future   = LSupplier.asyncGet(asyncCtx, function);
 
@@ -210,8 +219,8 @@ public class CallContextTest {
              .mustEx(Have::noSuppressedEx);
     }
 
-    @Test
-    public void asyncConsumer() {
+    @Test(dataProvider = "asyncCtxs")
+    public void asyncConsumer(AsyncCallContext asyncCtx) {
         // given
         LConsumer<List<String>> function = list -> {
             list.add("F");
@@ -219,7 +228,6 @@ public class CallContextTest {
         l().clear();
         var capturedL = l();
         var otherL    = LValue.<List<String>>objValue(null);
-        var asyncCtx  = CallContexts.asyncCtx(call -> CompletableFuture.runAsync(call::execute));
         var ctx1 = CallContexts.ctx(() -> {
             capturedL.add(i1Log);
             l().clear();
@@ -250,7 +258,7 @@ public class CallContextTest {
         l().clear();
         var capturedL = l();
         var otherL    = LValue.<List<String>>objValue(null);
-        var asyncCtx  = CallContexts.asyncCtx(call -> CompletableFuture.runAsync(call::execute));
+        var asyncCtx  = CallContexts.asyncCtxLambda(call -> CompletableFuture.supplyAsync(call::get));
         var ctx1 = CallContexts.ctx(() -> {
             capturedL.add(i1Log);
             l().clear();

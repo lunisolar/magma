@@ -355,20 +355,12 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					LConsumer.acceptX(c1, a, function);
-					future.complete(null);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			LConsumer.acceptX(c1, a, function);
+			return null;
+
+		});
 	}
 
 	static <T> void nestingAccept(@Nullable CallContext c1, @Nullable CallContext c2, T a, @Nonnull LConsumer<T> function) {
@@ -419,20 +411,12 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					LConsumer.acceptX(c1, c2, a, function);
-					future.complete(null);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			LConsumer.acceptX(c1, c2, a, function);
+			return null;
+
+		});
 	}
 
 	static <T> void nestingAccept(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T a, @Nonnull LConsumer<T> function) {
@@ -485,20 +469,12 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					LConsumer.acceptX(c1, c2, c3, a, function);
-					future.complete(null);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			LConsumer.acceptX(c1, c2, c3, a, function);
+			return null;
+
+		});
 	}
 
 	static <T> void nestingAccept(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T a, @Nonnull LConsumer<T> function) {
@@ -553,40 +529,24 @@ public interface LConsumer<T> extends Consumer<T>, MetaConsumer, MetaInterface.N
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					LConsumer.acceptX(c1, c2, c3, c4, a, function);
-					future.complete(null);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			LConsumer.acceptX(c1, c2, c3, c4, a, function);
+			return null;
+
+		});
 	}
 
 	static <T> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, T a, @Nonnull LConsumer<T> function) {
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					function.acceptX(a);
-					future.complete(null);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			function.acceptX(a);
+			return null;
+
+		});
 	}
 
 	//</editor-fold>

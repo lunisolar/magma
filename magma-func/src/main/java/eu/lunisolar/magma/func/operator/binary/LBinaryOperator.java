@@ -385,20 +385,11 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LBinaryOperator.applyX(c1, a1, a2, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LBinaryOperator.applyX(c1, a1, a2, function);
+
+		});
 	}
 
 	static <T> T nestingApply(@Nullable CallContext c1, @Nullable CallContext c2, T a1, T a2, @Nonnull LBinaryOperator<T> function) {
@@ -449,20 +440,11 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LBinaryOperator.applyX(c1, c2, a1, a2, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LBinaryOperator.applyX(c1, c2, a1, a2, function);
+
+		});
 	}
 
 	static <T> T nestingApply(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T a1, T a2, @Nonnull LBinaryOperator<T> function) {
@@ -515,20 +497,11 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LBinaryOperator.applyX(c1, c2, c3, a1, a2, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LBinaryOperator.applyX(c1, c2, c3, a1, a2, function);
+
+		});
 	}
 
 	static <T> T nestingApply(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T a1, T a2, @Nonnull LBinaryOperator<T> function) {
@@ -583,40 +556,22 @@ public interface LBinaryOperator<T> extends BinaryOperator<T>, MetaOperator, Met
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LBinaryOperator.applyX(c1, c2, c3, c4, a1, a2, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LBinaryOperator.applyX(c1, c2, c3, c4, a1, a2, function);
+
+		});
 	}
 
 	static <T> CompletableFuture<T> asyncApply(@Nonnull AsyncCallContext async, T a1, T a2, @Nonnull LBinaryOperator<T> function) {
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = function.applyX(a1, a2);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return function.applyX(a1, a2);
+
+		});
 	}
 
 	//</editor-fold>

@@ -176,7 +176,7 @@ public class CallContext_Perf {
         CallContext CTX3 = CallContexts.ctx(C3::enterContext, C3::exitContext);
         CallContext CTX4 = CallContexts.ctx(C4::enterContext, C4::exitContext);
 
-        AsyncCallContext FAKE_ASYNC = LAction::execute;
+        AsyncCallContext FAKE_ASYNC = action -> CompletableFuture.completedFuture(action.get());
 
         CallContext[] ARRAY = new CallContext[]{CTX1, CTX2, CTX3, CTX4};
 

@@ -373,20 +373,11 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LUnaryOperator.applyX(c1, a, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LUnaryOperator.applyX(c1, a, function);
+
+		});
 	}
 
 	static <T> T nestingApply(@Nullable CallContext c1, @Nullable CallContext c2, T a, @Nonnull LUnaryOperator<T> function) {
@@ -437,20 +428,11 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LUnaryOperator.applyX(c1, c2, a, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LUnaryOperator.applyX(c1, c2, a, function);
+
+		});
 	}
 
 	static <T> T nestingApply(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T a, @Nonnull LUnaryOperator<T> function) {
@@ -503,20 +485,11 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LUnaryOperator.applyX(c1, c2, c3, a, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LUnaryOperator.applyX(c1, c2, c3, a, function);
+
+		});
 	}
 
 	static <T> T nestingApply(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T a, @Nonnull LUnaryOperator<T> function) {
@@ -571,40 +544,22 @@ public interface LUnaryOperator<T> extends UnaryOperator<T>, MetaOperator, MetaI
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LUnaryOperator.applyX(c1, c2, c3, c4, a, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LUnaryOperator.applyX(c1, c2, c3, c4, a, function);
+
+		});
 	}
 
 	static <T> CompletableFuture<T> asyncApply(@Nonnull AsyncCallContext async, T a, @Nonnull LUnaryOperator<T> function) {
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = function.applyX(a);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return function.applyX(a);
+
+		});
 	}
 
 	//</editor-fold>

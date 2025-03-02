@@ -393,20 +393,11 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LTernaryOperator.applyX(c1, a1, a2, a3, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LTernaryOperator.applyX(c1, a1, a2, a3, function);
+
+		});
 	}
 
 	static <T> T nestingApply(@Nullable CallContext c1, @Nullable CallContext c2, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
@@ -457,20 +448,11 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LTernaryOperator.applyX(c1, c2, a1, a2, a3, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LTernaryOperator.applyX(c1, c2, a1, a2, a3, function);
+
+		});
 	}
 
 	static <T> T nestingApply(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
@@ -523,20 +505,11 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LTernaryOperator.applyX(c1, c2, c3, a1, a2, a3, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LTernaryOperator.applyX(c1, c2, c3, a1, a2, a3, function);
+
+		});
 	}
 
 	static <T> T nestingApply(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
@@ -591,40 +564,22 @@ public interface LTernaryOperator<T> extends MetaOperator, MetaInterface.NonThro
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LTernaryOperator.applyX(c1, c2, c3, c4, a1, a2, a3, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LTernaryOperator.applyX(c1, c2, c3, c4, a1, a2, a3, function);
+
+		});
 	}
 
 	static <T> CompletableFuture<T> asyncApply(@Nonnull AsyncCallContext async, T a1, T a2, T a3, @Nonnull LTernaryOperator<T> function) {
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<T> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = function.applyX(a1, a2, a3);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return function.applyX(a1, a2, a3);
+
+		});
 	}
 
 	//</editor-fold>

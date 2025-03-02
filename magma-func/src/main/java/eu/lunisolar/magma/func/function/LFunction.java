@@ -387,20 +387,11 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<R> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LFunction.applyX(c1, a, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LFunction.applyX(c1, a, function);
+
+		});
 	}
 
 	static <T, R> R nestingApply(@Nullable CallContext c1, @Nullable CallContext c2, T a, @Nonnull LFunction<T, R> function) {
@@ -451,20 +442,11 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<R> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LFunction.applyX(c1, c2, a, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LFunction.applyX(c1, c2, a, function);
+
+		});
 	}
 
 	static <T, R> R nestingApply(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T a, @Nonnull LFunction<T, R> function) {
@@ -517,20 +499,11 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<R> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LFunction.applyX(c1, c2, c3, a, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LFunction.applyX(c1, c2, c3, a, function);
+
+		});
 	}
 
 	static <T, R> R nestingApply(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T a, @Nonnull LFunction<T, R> function) {
@@ -585,40 +558,22 @@ public interface LFunction<T, R> extends Function<T, R>, MetaFunction, MetaInter
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<R> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LFunction.applyX(c1, c2, c3, c4, a, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LFunction.applyX(c1, c2, c3, c4, a, function);
+
+		});
 	}
 
 	static <T, R> CompletableFuture<R> asyncApply(@Nonnull AsyncCallContext async, T a, @Nonnull LFunction<T, R> function) {
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<R> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = function.applyX(a);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return function.applyX(a);
+
+		});
 	}
 
 	//</editor-fold>

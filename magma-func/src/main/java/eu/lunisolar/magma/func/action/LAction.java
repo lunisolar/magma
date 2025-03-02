@@ -347,20 +347,12 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					LAction.executeX(c1, function);
-					future.complete(null);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			LAction.executeX(c1, function);
+			return null;
+
+		});
 	}
 
 	static void nestingExecute(@Nullable CallContext c1, @Nullable CallContext c2, @Nonnull LAction function) {
@@ -411,20 +403,12 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					LAction.executeX(c1, c2, function);
-					future.complete(null);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			LAction.executeX(c1, c2, function);
+			return null;
+
+		});
 	}
 
 	static void nestingExecute(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nonnull LAction function) {
@@ -477,20 +461,12 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					LAction.executeX(c1, c2, c3, function);
-					future.complete(null);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			LAction.executeX(c1, c2, c3, function);
+			return null;
+
+		});
 	}
 
 	static void nestingExecute(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, @Nonnull LAction function) {
@@ -545,40 +521,24 @@ public interface LAction extends Runnable, MetaAction, MetaInterface.NonThrowing
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					LAction.executeX(c1, c2, c3, c4, function);
-					future.complete(null);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			LAction.executeX(c1, c2, c3, c4, function);
+			return null;
+
+		});
 	}
 
 	static CompletableFuture<Void> asyncExecute(@Nonnull AsyncCallContext async, @Nonnull LAction function) {
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					function.executeX();
-					future.complete(null);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			function.executeX();
+			return null;
+
+		});
 	}
 
 	//</editor-fold>

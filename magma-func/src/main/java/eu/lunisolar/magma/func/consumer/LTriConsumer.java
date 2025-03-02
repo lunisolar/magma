@@ -377,20 +377,12 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					LTriConsumer.acceptX(c1, a1, a2, a3, function);
-					future.complete(null);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			LTriConsumer.acceptX(c1, a1, a2, a3, function);
+			return null;
+
+		});
 	}
 
 	static <T1, T2, T3> void nestingAccept(@Nullable CallContext c1, @Nullable CallContext c2, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
@@ -441,20 +433,12 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					LTriConsumer.acceptX(c1, c2, a1, a2, a3, function);
-					future.complete(null);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			LTriConsumer.acceptX(c1, c2, a1, a2, a3, function);
+			return null;
+
+		});
 	}
 
 	static <T1, T2, T3> void nestingAccept(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
@@ -507,20 +491,12 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					LTriConsumer.acceptX(c1, c2, c3, a1, a2, a3, function);
-					future.complete(null);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			LTriConsumer.acceptX(c1, c2, c3, a1, a2, a3, function);
+			return null;
+
+		});
 	}
 
 	static <T1, T2, T3> void nestingAccept(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
@@ -576,40 +552,24 @@ public interface LTriConsumer<T1, T2, T3> extends MetaConsumer, MetaInterface.No
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					LTriConsumer.acceptX(c1, c2, c3, c4, a1, a2, a3, function);
-					future.complete(null);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			LTriConsumer.acceptX(c1, c2, c3, c4, a1, a2, a3, function);
+			return null;
+
+		});
 	}
 
 	static <T1, T2, T3> CompletableFuture<Void> asyncAccept(@Nonnull AsyncCallContext async, T1 a1, T2 a2, T3 a3, @Nonnull LTriConsumer<T1, T2, T3> function) {
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Void> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					function.acceptX(a1, a2, a3);
-					future.complete(null);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			function.acceptX(a1, a2, a3);
+			return null;
+
+		});
 	}
 
 	//</editor-fold>

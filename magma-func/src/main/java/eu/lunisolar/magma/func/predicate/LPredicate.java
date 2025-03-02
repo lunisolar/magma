@@ -658,20 +658,11 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LPredicate.testX(c1, a, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LPredicate.testX(c1, a, function);
+
+		});
 	}
 
 	static <T> boolean nestingTest(@Nullable CallContext c1, @Nullable CallContext c2, T a, @Nonnull LPredicate<T> function) {
@@ -722,20 +713,11 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LPredicate.testX(c1, c2, a, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LPredicate.testX(c1, c2, a, function);
+
+		});
 	}
 
 	static <T> boolean nestingTest(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, T a, @Nonnull LPredicate<T> function) {
@@ -788,20 +770,11 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LPredicate.testX(c1, c2, c3, a, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LPredicate.testX(c1, c2, c3, a, function);
+
+		});
 	}
 
 	static <T> boolean nestingTest(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, T a, @Nonnull LPredicate<T> function) {
@@ -856,40 +829,22 @@ public interface LPredicate<T> extends Predicate<T>, MetaPredicate, MetaInterfac
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LPredicate.testX(c1, c2, c3, c4, a, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LPredicate.testX(c1, c2, c3, c4, a, function);
+
+		});
 	}
 
 	static <T> CompletableFuture<Boolean> asyncTest(@Nonnull AsyncCallContext async, T a, @Nonnull LPredicate<T> function) {
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = function.testX(a);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return function.testX(a);
+
+		});
 	}
 
 	//</editor-fold>

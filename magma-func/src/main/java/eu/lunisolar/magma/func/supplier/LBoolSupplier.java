@@ -366,20 +366,11 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LBoolSupplier.getAsBoolX(c1, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LBoolSupplier.getAsBoolX(c1, function);
+
+		});
 	}
 
 	static boolean nestingGetAsBool(@Nullable CallContext c1, @Nullable CallContext c2, @Nonnull LBoolSupplier function) {
@@ -430,20 +421,11 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LBoolSupplier.getAsBoolX(c1, c2, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LBoolSupplier.getAsBoolX(c1, c2, function);
+
+		});
 	}
 
 	static boolean nestingGetAsBool(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nonnull LBoolSupplier function) {
@@ -496,20 +478,11 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LBoolSupplier.getAsBoolX(c1, c2, c3, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LBoolSupplier.getAsBoolX(c1, c2, c3, function);
+
+		});
 	}
 
 	static boolean nestingGetAsBool(@Nullable CallContext c1, @Nullable CallContext c2, @Nullable CallContext c3, @Nullable CallContext c4, @Nonnull LBoolSupplier function) {
@@ -564,40 +537,22 @@ public interface LBoolSupplier extends BooleanSupplier, MetaSupplier, MetaInterf
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = LBoolSupplier.getAsBoolX(c1, c2, c3, c4, function);
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return LBoolSupplier.getAsBoolX(c1, c2, c3, c4, function);
+
+		});
 	}
 
 	static CompletableFuture<Boolean> asyncGetAsBool(@Nonnull AsyncCallContext async, @Nonnull LBoolSupplier function) {
 		Null.nonNullArg(async, "async");
 		Null.nonNullArg(function, "function");
 		CompletableFuture<Boolean> future = new CompletableFuture<>();
-		try {
-			async.call(() -> {
-				try {
-					var v = function.getAsBoolX();
-					future.complete(v);
-				} catch (Throwable e) {
-					Handling.handleErrors(e);
-					future.completeExceptionally(e);
-				}
-			});
-		} catch (Throwable e) {
-			throw Handling.nestCheckedAndThrow(e);
-		}
-		return future;
+		//noinspection unchecked,rawtypes
+		return (CompletableFuture) async.call_(() -> {
+			return function.getAsBoolX();
+
+		});
 	}
 
 	//</editor-fold>
