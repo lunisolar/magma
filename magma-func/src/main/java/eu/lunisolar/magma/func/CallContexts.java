@@ -24,8 +24,10 @@ import eu.lunisolar.magma.func.action.LAction;
 import eu.lunisolar.magma.func.consumer.LBiConsumer;
 import eu.lunisolar.magma.func.consumer.LConsumer;
 import eu.lunisolar.magma.func.function.LBiFunction;
-import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.supplier.LSupplier;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -34,14 +36,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.Lock;
-import java.util.logging.Logger;
 
 import static eu.lunisolar.magma.basics.Null.nonNullArg;
-import static java.util.logging.Level.FINEST;
+import static org.apache.logging.log4j.Level.TRACE;
 
 public final class CallContexts {
 
-	private final static Logger log = Logger.getLogger(CallContexts.class.getName());
+	private final static Logger log = LogManager.getLogger(CallContexts.class.getName());
+	public static final Level LEVEL = TRACE;
 
 	// <editor-fold desc="no-instance">
 	private CallContexts() {
@@ -487,23 +489,18 @@ public final class CallContexts {
 		@Override
 		public void run() {
 			try {
-				if (log.isLoggable(FINEST)) {
-					log.log(FINEST, "Observer: going to sleep for: {0} {1}.", new Object[]{timeout, unit});
+				if (log.isEnabled(LEVEL)) {
+					log.log(LEVEL, "Observer: going to sleep for: {} {}.", timeout, unit);
 				}
 				unit.sleep(timeout);
-				if (log.isLoggable(FINEST)) {
-					log.log(FINEST, "Observer: sleep ended.");
-				}
+
+				log.log(LEVEL, "Observer: sleep ended.");
 				synchronized (this) {
 					if (end != 0) {
-						if (log.isLoggable(FINEST)) {
-							log.log(FINEST, "Observer: Seems observation ended already. Ignoring timeout.");
-						}
+						log.log(LEVEL, "Observer: Seems observation ended already. Ignoring timeout.");
 						return;
 					} else {
-						if (log.isLoggable(FINEST)) {
-							log.log(FINEST, "Observer: Timeout elapsed.");
-						}
+						log.log(LEVEL, "Observer: Timeout elapsed.");
 						timedOut = true;
 					}
 				}
@@ -512,9 +509,7 @@ public final class CallContexts {
 				}
 			} catch (InterruptedException e) {
 				Handling.ignore(e);
-				if (log.isLoggable(FINEST)) {
-					log.log(FINEST, "Observer: Interrupted.");
-				}
+				log.log(LEVEL, "Observer: Interrupted.");
 			}
 		}
 
@@ -523,9 +518,7 @@ public final class CallContexts {
 		}
 
 		protected boolean end() {
-			if (log.isLoggable(FINEST)) {
-				log.log(FINEST, "Ending timeout observation.");
-			}
+			log.log(LEVEL, "Ending timeout observation.");
 			synchronized (this) {
 				if (end == 0) {
 					end = System.nanoTime();
@@ -540,8 +533,8 @@ public final class CallContexts {
 		}
 
 		private void interruptObserved(boolean diligent) {
-			if (log.isLoggable(FINEST)) {
-				log.log(FINEST, "Starting to interrupting observed thread: {0}", observed.get());
+			if (log.isEnabled(LEVEL)) {
+				log.log(LEVEL, "Starting to interrupting observed thread: {}", observed.get());
 			}
 
 			interruptObserved();
@@ -565,9 +558,7 @@ public final class CallContexts {
 		private static void interruptThread(WeakReference<Thread> threadRef) {
 			Thread thread = threadRef.get();
 			if (thread != null) {
-				if (log.isLoggable(FINEST)) {
-					log.log(FINEST, "Interrupting thread: {0}", thread);
-				}
+				log.log(LEVEL, "Interrupting thread: {}", thread);
 				thread.interrupt();
 			}
 		}
@@ -606,54 +597,54 @@ public final class CallContexts {
 
 	//</editor-fold>
 
-	public static CallContext logThrowable(LBiConsumer<String, Throwable> logger) {
-		nonNullArg(logger, "logger");
-		return CallContexts.ctx(() -> null, (__, e) -> logger.accept(e.getMessage(), e));
+	public static CallContext logThrowable(Level level) {
+		return logThrowable(log, level);
 	}
 
-	public static CallContext logThrowable(String message, LBiConsumer<String, Throwable> logger) {
-		nonNullArg(message, "message");
+	public static CallContext logThrowable(Logger logger, Level level) {
 		nonNullArg(logger, "logger");
-		return CallContexts.ctx(() -> null, (__, e) -> logger.accept(message.formatted(e.getMessage()), e));
+		nonNullArg(level, "level");
+		return CallContexts.ctx(() -> null, (__, e) -> logger.log(level, e.getMessage(), e));
 	}
 
-	public static CallContext logBoundary(String name, LConsumer<String> logger) {
+	public static CallContext logBoundary(Level level, String name) {
+		return logBoundary(log, level, name);
+	}
+
+	public static CallContext logBoundary(Logger logger, Level level, String name) {
+		nonNullArg(logger, "logger");
+		nonNullArg(level, "level");
 		nonNullArg(name, "name");
-		nonNullArg(logger, "logger");
 		return CallContexts.ctx(() -> {
-			logger.accept("%s - start".formatted(name));
+			logger.log(level, "{} - call start", name);
 			return null;
 		}, (__, e) -> {
 			if (e != null) {
-				logger.accept("%s - end with exception %s: %s".formatted(name, e.getClass().getName(), e.getMessage()));
+				logger.log(level, () -> "%s - call end, with exception %s: %s".formatted(name, e.getClass().getName(), e.getMessage()), e);
 			} else {
-				logger.accept("%s - end".formatted(name));
+				logger.log(level, "{} - call end", name);
 			}
 		});
 	}
 
-	public static CallContext threadName(LFunction<String, String> nameComposer) {
-		nonNullArg(nameComposer, "nameComposer");
+	public static CallContext renameThread(String name) {
+		nonNullArg(name, "name");
 		return CallContexts.ctx(() -> {
 			Thread thread = Thread.currentThread();
 			var oldName = thread.getName();
-			thread.setName(nameComposer.apply(oldName));
+			thread.setName("%s - %s".formatted(oldName, name));
 			return oldName;
 		}, (oldName, e) -> {
 			Thread.currentThread().setName(oldName);
 		});
 	}
 
-	public static CallContext threadNameFormat(String format) {
-		nonNullArg(format, "format");
-		return CallContexts.ctx(() -> {
-			Thread thread = Thread.currentThread();
-			var oldName = thread.getName();
-			thread.setName(format.formatted(oldName));
-			return oldName;
-		}, (oldName, e) -> {
-			Thread.currentThread().setName(oldName);
-		});
+	public static CallContext debug(Level level, String name) {
+		return debug(log, level, name);
+	}
+
+	public static CallContext debug(Logger logger, Level level, String name) {
+		return CallContexts.merge(renameThread(name), logBoundary(logger, level, name));
 	}
 
 }

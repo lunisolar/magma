@@ -539,26 +539,11 @@ public class CallContextsTest {
     }
 
     @Test
-    void threadName() {
-
-        final var startingName = Thread.currentThread().getName();
-        var ctx = CallContexts.threadName(old-> "new");
-        final var capturedName = LSingle.<String>atomicOf();
-
-        LAction.nestingExecute(ctx, () -> {
-            capturedName.value(Thread.currentThread().getName());
-        });
-
-        attest(capturedName).mustEx(Have::singleEqualEx, "new");
-        attest(Thread.currentThread().getName()).mustBeEqual(startingName);
-    }
-
-    @Test
-    void threadNameFormat() {
+    void renameThreadFormat() {
 
         final var old = Thread.currentThread().getName();
         final var startingName = Thread.currentThread().getName();
-        var ctx = CallContexts.threadNameFormat("%s - new");
+        var ctx = CallContexts.renameThread("new");
         final var capturedName = LSingle.<String>atomicOf();
 
         LAction.nestingExecute(ctx, () -> {
