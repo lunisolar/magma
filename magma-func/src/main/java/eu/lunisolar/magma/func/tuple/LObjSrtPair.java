@@ -51,10 +51,6 @@ public interface LObjSrtPair<T> extends LTuple<Object> {
 
 	short second();
 
-	default short value() {
-		return second();
-	}
-
 	@Override
 	default Object get(int index) {
 		switch (index) {
@@ -71,10 +67,6 @@ public interface LObjSrtPair<T> extends LTuple<Object> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
-	}
-
-	default short getValue() {
-		return second();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LObjSrtPair and calculates hash from it. */
@@ -193,58 +185,47 @@ public interface LObjSrtPair<T> extends LTuple<Object> {
 		SELF second(short second);
 
 		/** Sets value if predicate(current) is true */
-		default SELF setFirstIf(T first, LPredicate<T> predicate) {
+		default SELF setFirstIfCurrent(T first, LPredicate<T> predicate) {//1
 			if (predicate.test(this.first())) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setFirstIf(T first, LBiPredicate<T, T> predicate) {
-			if (predicate.test(first, this.first())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setFirstIfNew(T first, LPredicate<T> predicate) {//1
+			if (predicate.test(first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setFirstIf(LBiPredicate<T, T> predicate, T first) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setFirstIf(T first, LBiPredicate<T, T> predicate) {//2
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		default LObjSrtPair<T> value(short value) {
-			second(value);
-			return this;
-		}
-
-		default short setValue(short value) {
-			var old = second();
-			second(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setSecondIf(short second, LSrtPredicate predicate) {
+		default SELF setSecondIfCurrent(short second, LSrtPredicate predicate) {//1
 			if (predicate.test(this.second())) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setSecondIf(short second, LBiSrtPredicate predicate) {
-			if (predicate.test(second, this.second())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setSecondIfNew(short second, LSrtPredicate predicate) {//1
+			if (predicate.test(second)) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setSecondIf(LBiSrtPredicate predicate, short second) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setSecondIf(short second, LBiSrtPredicate predicate) {//2
 			if (predicate.test(this.second(), second)) {
 				return this.second(second);
 			}

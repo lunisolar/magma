@@ -76,10 +76,6 @@ public interface LDblSingle extends LTuple<Double>, Comparable<LDblSingle> {
 		return SIZE;
 	}
 
-	default double getValue() {
-		return value();
-	}
-
 	/** Static hashCode() implementation method that takes same arguments as fields of the LDblSingle and calculates hash from it. */
 	static int argHashCode(double a) {
 		final int prime = 31;
@@ -232,30 +228,24 @@ public interface LDblSingle extends LTuple<Double>, Comparable<LDblSingle> {
 
 		SELF value(double value);
 
-		default double setValue(double value) {
-			var old = value();
-			value(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setValueIf(double value, LDblPredicate predicate) {
+		default SELF setValueIfCurrent(double value, LDblPredicate predicate) {//1
 			if (predicate.test(this.value())) {
 				return this.value(value);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setValueIf(double value, LBiDblPredicate predicate) {
-			if (predicate.test(value, this.value())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setValueIfNew(double value, LDblPredicate predicate) {//1
+			if (predicate.test(value)) {
 				return this.value(value);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setValueIf(LBiDblPredicate predicate, double value) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setValueIf(double value, LBiDblPredicate predicate) {//2
 			if (predicate.test(this.value(), value)) {
 				return this.value(value);
 			}
@@ -587,7 +577,7 @@ public interface LDblSingle extends LTuple<Double>, Comparable<LDblSingle> {
 		}
 
 		/** Sets value if predicate(current) is true */
-		public @Override AtomicDblSingle setValueIf(double value, LDblPredicate predicate) {
+		public @Override AtomicDblSingle setValueIfCurrent(double value, LDblPredicate predicate) {
 			getAndAccumulate(value, (current, newValue) -> {
 				if (predicate.test(current)) {
 					return newValue;
@@ -598,20 +588,8 @@ public interface LDblSingle extends LTuple<Double>, Comparable<LDblSingle> {
 			return this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		public @Override AtomicDblSingle setValueIf(double value, LBiDblPredicate predicate) {
-			getAndAccumulate(value, (current, newValue) -> {
-				if (predicate.test(newValue, current)) {
-					return newValue;
-				} else {
-					return current;
-				}
-			});
-			return this;
-		}
-
 		/** Sets new value if predicate predicate(current, newValue) is true. */
-		public @Override AtomicDblSingle setValueIf(LBiDblPredicate predicate, double value) {
+		public @Override AtomicDblSingle setValueIf(double value, LBiDblPredicate predicate) {
 			getAndAccumulate(value, (current, newValue) -> {
 				if (predicate.test(current, newValue)) {
 					return newValue;

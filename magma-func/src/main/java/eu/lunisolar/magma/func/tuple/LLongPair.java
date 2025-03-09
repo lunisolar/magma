@@ -51,10 +51,6 @@ public interface LLongPair extends LTuple<Long>, Comparable<LLongPair> {
 
 	long second();
 
-	default long value() {
-		return second();
-	}
-
 	@Override
 	default Long get(int index) {
 		switch (index) {
@@ -82,10 +78,6 @@ public interface LLongPair extends LTuple<Long>, Comparable<LLongPair> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
-	}
-
-	default long getValue() {
-		return second();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LLongPair and calculates hash from it. */
@@ -219,58 +211,47 @@ public interface LLongPair extends LTuple<Long>, Comparable<LLongPair> {
 		SELF second(long second);
 
 		/** Sets value if predicate(current) is true */
-		default SELF setFirstIf(long first, LLongPredicate predicate) {
+		default SELF setFirstIfCurrent(long first, LLongPredicate predicate) {//1
 			if (predicate.test(this.first())) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setFirstIf(long first, LBiLongPredicate predicate) {
-			if (predicate.test(first, this.first())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setFirstIfNew(long first, LLongPredicate predicate) {//1
+			if (predicate.test(first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setFirstIf(LBiLongPredicate predicate, long first) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setFirstIf(long first, LBiLongPredicate predicate) {//2
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		default LLongPair value(long value) {
-			second(value);
-			return this;
-		}
-
-		default long setValue(long value) {
-			var old = second();
-			second(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setSecondIf(long second, LLongPredicate predicate) {
+		default SELF setSecondIfCurrent(long second, LLongPredicate predicate) {//1
 			if (predicate.test(this.second())) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setSecondIf(long second, LBiLongPredicate predicate) {
-			if (predicate.test(second, this.second())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setSecondIfNew(long second, LLongPredicate predicate) {//1
+			if (predicate.test(second)) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setSecondIf(LBiLongPredicate predicate, long second) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setSecondIf(long second, LBiLongPredicate predicate) {//2
 			if (predicate.test(this.second(), second)) {
 				return this.second(second);
 			}

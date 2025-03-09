@@ -76,10 +76,6 @@ public interface LLongSingle extends LTuple<Long>, Comparable<LLongSingle> {
 		return SIZE;
 	}
 
-	default long getValue() {
-		return value();
-	}
-
 	/** Static hashCode() implementation method that takes same arguments as fields of the LLongSingle and calculates hash from it. */
 	static int argHashCode(long a) {
 		final int prime = 31;
@@ -232,30 +228,24 @@ public interface LLongSingle extends LTuple<Long>, Comparable<LLongSingle> {
 
 		SELF value(long value);
 
-		default long setValue(long value) {
-			var old = value();
-			value(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setValueIf(long value, LLongPredicate predicate) {
+		default SELF setValueIfCurrent(long value, LLongPredicate predicate) {//1
 			if (predicate.test(this.value())) {
 				return this.value(value);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setValueIf(long value, LBiLongPredicate predicate) {
-			if (predicate.test(value, this.value())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setValueIfNew(long value, LLongPredicate predicate) {//1
+			if (predicate.test(value)) {
 				return this.value(value);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setValueIf(LBiLongPredicate predicate, long value) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setValueIf(long value, LBiLongPredicate predicate) {//2
 			if (predicate.test(this.value(), value)) {
 				return this.value(value);
 			}

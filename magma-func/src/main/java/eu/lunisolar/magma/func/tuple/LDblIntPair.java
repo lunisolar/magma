@@ -51,10 +51,6 @@ public interface LDblIntPair extends LTuple<Number> {
 
 	int second();
 
-	default int value() {
-		return second();
-	}
-
 	@Override
 	default Number get(int index) {
 		switch (index) {
@@ -71,10 +67,6 @@ public interface LDblIntPair extends LTuple<Number> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
-	}
-
-	default int getValue() {
-		return second();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LDblIntPair and calculates hash from it. */
@@ -193,58 +185,47 @@ public interface LDblIntPair extends LTuple<Number> {
 		SELF second(int second);
 
 		/** Sets value if predicate(current) is true */
-		default SELF setFirstIf(double first, LDblPredicate predicate) {
+		default SELF setFirstIfCurrent(double first, LDblPredicate predicate) {//1
 			if (predicate.test(this.first())) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setFirstIf(double first, LBiDblPredicate predicate) {
-			if (predicate.test(first, this.first())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setFirstIfNew(double first, LDblPredicate predicate) {//1
+			if (predicate.test(first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setFirstIf(LBiDblPredicate predicate, double first) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setFirstIf(double first, LBiDblPredicate predicate) {//2
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		default LDblIntPair value(int value) {
-			second(value);
-			return this;
-		}
-
-		default int setValue(int value) {
-			var old = second();
-			second(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setSecondIf(int second, LIntPredicate predicate) {
+		default SELF setSecondIfCurrent(int second, LIntPredicate predicate) {//1
 			if (predicate.test(this.second())) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setSecondIf(int second, LBiIntPredicate predicate) {
-			if (predicate.test(second, this.second())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setSecondIfNew(int second, LIntPredicate predicate) {//1
+			if (predicate.test(second)) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setSecondIf(LBiIntPredicate predicate, int second) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setSecondIf(int second, LBiIntPredicate predicate) {//2
 			if (predicate.test(this.second(), second)) {
 				return this.second(second);
 			}

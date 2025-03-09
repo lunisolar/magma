@@ -76,10 +76,6 @@ public interface LFltSingle extends LTuple<Float>, Comparable<LFltSingle> {
 		return SIZE;
 	}
 
-	default float getValue() {
-		return value();
-	}
-
 	/** Static hashCode() implementation method that takes same arguments as fields of the LFltSingle and calculates hash from it. */
 	static int argHashCode(float a) {
 		final int prime = 31;
@@ -232,30 +228,24 @@ public interface LFltSingle extends LTuple<Float>, Comparable<LFltSingle> {
 
 		SELF value(float value);
 
-		default float setValue(float value) {
-			var old = value();
-			value(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setValueIf(float value, LFltPredicate predicate) {
+		default SELF setValueIfCurrent(float value, LFltPredicate predicate) {//1
 			if (predicate.test(this.value())) {
 				return this.value(value);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setValueIf(float value, LBiFltPredicate predicate) {
-			if (predicate.test(value, this.value())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setValueIfNew(float value, LFltPredicate predicate) {//1
+			if (predicate.test(value)) {
 				return this.value(value);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setValueIf(LBiFltPredicate predicate, float value) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setValueIf(float value, LBiFltPredicate predicate) {//2
 			if (predicate.test(this.value(), value)) {
 				return this.value(value);
 			}
@@ -587,7 +577,7 @@ public interface LFltSingle extends LTuple<Float>, Comparable<LFltSingle> {
 		}
 
 		/** Sets value if predicate(current) is true */
-		public @Override AtomicFltSingle setValueIf(float value, LFltPredicate predicate) {
+		public @Override AtomicFltSingle setValueIfCurrent(float value, LFltPredicate predicate) {
 			getAndAccumulate(value, (current, newValue) -> {
 				if (predicate.test(current)) {
 					return newValue;
@@ -598,20 +588,8 @@ public interface LFltSingle extends LTuple<Float>, Comparable<LFltSingle> {
 			return this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		public @Override AtomicFltSingle setValueIf(float value, LBiFltPredicate predicate) {
-			getAndAccumulate(value, (current, newValue) -> {
-				if (predicate.test(newValue, current)) {
-					return newValue;
-				} else {
-					return current;
-				}
-			});
-			return this;
-		}
-
 		/** Sets new value if predicate predicate(current, newValue) is true. */
-		public @Override AtomicFltSingle setValueIf(LBiFltPredicate predicate, float value) {
+		public @Override AtomicFltSingle setValueIf(float value, LBiFltPredicate predicate) {
 			getAndAccumulate(value, (current, newValue) -> {
 				if (predicate.test(current, newValue)) {
 					return newValue;

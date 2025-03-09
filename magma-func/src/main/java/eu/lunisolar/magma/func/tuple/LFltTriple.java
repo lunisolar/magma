@@ -53,10 +53,6 @@ public interface LFltTriple extends LTuple<Float>, Comparable<LFltTriple> {
 
 	float third();
 
-	default float value() {
-		return third();
-	}
-
 	@Override
 	default Float get(int index) {
 		switch (index) {
@@ -88,10 +84,6 @@ public interface LFltTriple extends LTuple<Float>, Comparable<LFltTriple> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
-	}
-
-	default float getValue() {
-		return third();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LFltTriple and calculates hash from it. */
@@ -232,23 +224,23 @@ public interface LFltTriple extends LTuple<Float>, Comparable<LFltTriple> {
 		SELF third(float third);
 
 		/** Sets value if predicate(current) is true */
-		default SELF setFirstIf(float first, LFltPredicate predicate) {
+		default SELF setFirstIfCurrent(float first, LFltPredicate predicate) {//1
 			if (predicate.test(this.first())) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setFirstIf(float first, LBiFltPredicate predicate) {
-			if (predicate.test(first, this.first())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setFirstIfNew(float first, LFltPredicate predicate) {//1
+			if (predicate.test(first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setFirstIf(LBiFltPredicate predicate, float first) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setFirstIf(float first, LBiFltPredicate predicate) {//2
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
@@ -256,58 +248,47 @@ public interface LFltTriple extends LTuple<Float>, Comparable<LFltTriple> {
 		}
 
 		/** Sets value if predicate(current) is true */
-		default SELF setSecondIf(float second, LFltPredicate predicate) {
+		default SELF setSecondIfCurrent(float second, LFltPredicate predicate) {//1
 			if (predicate.test(this.second())) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setSecondIf(float second, LBiFltPredicate predicate) {
-			if (predicate.test(second, this.second())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setSecondIfNew(float second, LFltPredicate predicate) {//1
+			if (predicate.test(second)) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setSecondIf(LBiFltPredicate predicate, float second) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setSecondIf(float second, LBiFltPredicate predicate) {//2
 			if (predicate.test(this.second(), second)) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		default LFltTriple value(float value) {
-			third(value);
-			return this;
-		}
-
-		default float setValue(float value) {
-			var old = third();
-			third(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setThirdIf(float third, LFltPredicate predicate) {
+		default SELF setThirdIfCurrent(float third, LFltPredicate predicate) {//1
 			if (predicate.test(this.third())) {
 				return this.third(third);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setThirdIf(float third, LBiFltPredicate predicate) {
-			if (predicate.test(third, this.third())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setThirdIfNew(float third, LFltPredicate predicate) {//1
+			if (predicate.test(third)) {
 				return this.third(third);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setThirdIf(LBiFltPredicate predicate, float third) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setThirdIf(float third, LBiFltPredicate predicate) {//2
 			if (predicate.test(this.third(), third)) {
 				return this.third(third);
 			}

@@ -53,10 +53,6 @@ public interface LSrtTriple extends LTuple<Short>, Comparable<LSrtTriple> {
 
 	short third();
 
-	default short value() {
-		return third();
-	}
-
 	@Override
 	default Short get(int index) {
 		switch (index) {
@@ -88,10 +84,6 @@ public interface LSrtTriple extends LTuple<Short>, Comparable<LSrtTriple> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
-	}
-
-	default short getValue() {
-		return third();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LSrtTriple and calculates hash from it. */
@@ -232,23 +224,23 @@ public interface LSrtTriple extends LTuple<Short>, Comparable<LSrtTriple> {
 		SELF third(short third);
 
 		/** Sets value if predicate(current) is true */
-		default SELF setFirstIf(short first, LSrtPredicate predicate) {
+		default SELF setFirstIfCurrent(short first, LSrtPredicate predicate) {//1
 			if (predicate.test(this.first())) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setFirstIf(short first, LBiSrtPredicate predicate) {
-			if (predicate.test(first, this.first())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setFirstIfNew(short first, LSrtPredicate predicate) {//1
+			if (predicate.test(first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setFirstIf(LBiSrtPredicate predicate, short first) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setFirstIf(short first, LBiSrtPredicate predicate) {//2
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
@@ -256,58 +248,47 @@ public interface LSrtTriple extends LTuple<Short>, Comparable<LSrtTriple> {
 		}
 
 		/** Sets value if predicate(current) is true */
-		default SELF setSecondIf(short second, LSrtPredicate predicate) {
+		default SELF setSecondIfCurrent(short second, LSrtPredicate predicate) {//1
 			if (predicate.test(this.second())) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setSecondIf(short second, LBiSrtPredicate predicate) {
-			if (predicate.test(second, this.second())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setSecondIfNew(short second, LSrtPredicate predicate) {//1
+			if (predicate.test(second)) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setSecondIf(LBiSrtPredicate predicate, short second) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setSecondIf(short second, LBiSrtPredicate predicate) {//2
 			if (predicate.test(this.second(), second)) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		default LSrtTriple value(short value) {
-			third(value);
-			return this;
-		}
-
-		default short setValue(short value) {
-			var old = third();
-			third(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setThirdIf(short third, LSrtPredicate predicate) {
+		default SELF setThirdIfCurrent(short third, LSrtPredicate predicate) {//1
 			if (predicate.test(this.third())) {
 				return this.third(third);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setThirdIf(short third, LBiSrtPredicate predicate) {
-			if (predicate.test(third, this.third())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setThirdIfNew(short third, LSrtPredicate predicate) {//1
+			if (predicate.test(third)) {
 				return this.third(third);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setThirdIf(LBiSrtPredicate predicate, short third) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setThirdIf(short third, LBiSrtPredicate predicate) {//2
 			if (predicate.test(this.third(), third)) {
 				return this.third(third);
 			}

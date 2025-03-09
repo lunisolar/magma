@@ -18,6 +18,7 @@
 
 package eu.lunisolar.magma.func.tuple;
 
+import eu.lunisolar.magma.func.supp.Is;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -44,11 +45,24 @@ public class TupleTest {
         attest(tuple.value()).mustBeEqual(V1);
 
         if ( tuple instanceof LSingle.Mut mut) {
-            attest(mut.setValue("setValue")).mustBeEqual(V1);
-            attest(mut.getValue()).mustBeEqual("setValue");
 
             attest(mut.value("setValue2")).mustBeExactlyInstanceOf(tuple.getClass());
             attest(mut.value()).mustBeEqual("setValue2");
+
+            mut.setValueIf("conditionalValue", (o, n)  -> n == null);
+            attest(mut.value()).mustBeEqual("setValue2");
+            mut.setValueIf("conditionalValue2", (o, n)  -> n != null);
+            attest(mut.value()).mustBeEqual("conditionalValue2");
+
+            mut.setValueIfNew(null, Is::notNull);
+            attest(mut.value()).mustBeEqual("conditionalValue2");
+            mut.setValueIfNew(null, Is::Null);
+            attest(mut.value()).mustBeEqual(null);
+
+            mut.setValueIfCurrent("conditionalValue3", Is::notNull);
+            attest(mut.value()).mustBeEqual(null);
+            mut.setValueIfCurrent("conditionalValue3", Is::Null);
+            attest(mut.value()).mustBeEqual("conditionalValue3");
         }
     }
 
@@ -66,7 +80,6 @@ public class TupleTest {
         attest(tuple.first()).mustBeEqual(V1);
         attest(tuple.second()).mustBeEqual(V2);
 
-        attest(tuple.value()).mustBeEqual(V2);
         attest(tuple.getValue()).mustBeEqual(V2);
         attest(tuple.getKey()).mustBeEqual(V1);
 
@@ -74,8 +87,20 @@ public class TupleTest {
             attest(mut.setValue("setValue")).mustBeEqual(V2);
             attest(mut.getValue()).mustBeEqual("setValue");
 
-            attest(mut.value("setValue2")).mustBeExactlyInstanceOf(tuple.getClass());
-            attest(mut.value()).mustBeEqual("setValue2");
+            mut.setSecondIf("conditionalValue", (o, n)  -> n == null);
+            attest(mut.second()).mustBeEqual("setValue");
+            mut.setSecondIf("conditionalValue2", (o, n)  -> n != null);
+            attest(mut.second()).mustBeEqual("conditionalValue2");
+
+            mut.setSecondIfNew(null, Is::notNull);
+            attest(mut.second()).mustBeEqual("conditionalValue2");
+            mut.setSecondIfNew(null, Is::Null);
+            attest(mut.second()).mustBeEqual(null);
+
+            mut.setSecondIfCurrent("conditionalValue3", Is::notNull);
+            attest(mut.second()).mustBeEqual(null);
+            mut.setSecondIfCurrent("conditionalValue3", Is::Null);
+            attest(mut.second()).mustBeEqual("conditionalValue3");
         }
     }
 
@@ -94,16 +119,22 @@ public class TupleTest {
         attest(tuple.second()).mustBeEqual(V2);
         attest(tuple.third()).mustBeEqual(V3);
 
-        attest(tuple.value()).mustBeEqual(V3);
-        attest(tuple.getValue()).mustBeEqual(V3);
-        attest(tuple.getKey()).mustBeEqual(V2);
-
         if ( tuple instanceof LTriple.Mut mut) {
-            attest(mut.setValue("setValue")).mustBeEqual(V3);
-            attest(mut.getValue()).mustBeEqual("setValue");
 
-            attest(mut.value("setValue2")).mustBeExactlyInstanceOf(tuple.getClass());
-            attest(mut.value()).mustBeEqual("setValue2");
+            mut.setThirdIf("conditionalValue", (o, n)  -> n == null);
+            attest(mut.third()).mustBeEqual(V3);
+            mut.setThirdIf("conditionalValue2", (o, n)  -> n != null);
+            attest(mut.third()).mustBeEqual("conditionalValue2");
+
+            mut.setThirdIfNew(null, Is::notNull);
+            attest(mut.third()).mustBeEqual("conditionalValue2");
+            mut.setThirdIfNew(null, Is::Null);
+            attest(mut.third()).mustBeEqual(null);
+
+            mut.setThirdIfCurrent("conditionalValue3", Is::notNull);
+            attest(mut.third()).mustBeEqual(null);
+            mut.setThirdIfCurrent("conditionalValue3", Is::Null);
+            attest(mut.third()).mustBeEqual("conditionalValue3");
         }
     }
 
@@ -123,16 +154,22 @@ public class TupleTest {
         attest(tuple.third()).mustBeEqual(V3);
         attest(tuple.fourth()).mustBeEqual(V4);
 
-        attest(tuple.value()).mustBeEqual(V4);
-        attest(tuple.getValue()).mustBeEqual(V4);
-        attest(tuple.getKey()).mustBeEqual(V3);
-
         if ( tuple instanceof LQuad.Mut mut) {
-            attest(mut.setValue("setValue")).mustBeEqual(V4);
-            attest(mut.getValue()).mustBeEqual("setValue");
 
-            attest(mut.value("setValue2")).mustBeExactlyInstanceOf(tuple.getClass());
-            attest(mut.value()).mustBeEqual("setValue2");
+            mut.setFourthIf("conditionalValue", (o, n)  -> n == null);
+            attest(mut.fourth()).mustBeEqual(V4);
+            mut.setFourthIf("conditionalValue2", (o, n)  -> n != null);
+            attest(mut.fourth()).mustBeEqual("conditionalValue2");
+
+            mut.setFourthIfNew(null, Is::notNull);
+            attest(mut.fourth()).mustBeEqual("conditionalValue2");
+            mut.setFourthIfNew(null, Is::Null);
+            attest(mut.fourth()).mustBeEqual(null);
+
+            mut.setFourthIfCurrent("conditionalValue3", Is::notNull);
+            attest(mut.fourth()).mustBeEqual(null);
+            mut.setFourthIfCurrent("conditionalValue3", Is::Null);
+            attest(mut.fourth()).mustBeEqual("conditionalValue3");
         }
     }
 

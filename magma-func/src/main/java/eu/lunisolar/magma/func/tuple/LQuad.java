@@ -43,7 +43,7 @@ import java.util.stream.*;
  * Exact equivalent of input parameters used in LQuadConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, Map.Entry<T3, T4> {
+public interface LQuad<T1, T2, T3, T4> extends LTuple<Object> {
 
 	int SIZE = 4;
 
@@ -54,10 +54,6 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, Map.Entry<T3, T4>
 	T3 third();
 
 	T4 fourth();
-
-	default T4 value() {
-		return fourth();
-	}
 
 	@Override
 	default Object get(int index) {
@@ -80,27 +76,6 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, Map.Entry<T3, T4>
 	default int tupleSize() {
 		return SIZE;
 	}
-
-	/** Returns value as Entry.getValue(). */
-	@Override
-	default T4 getValue() {
-		return fourth();
-	}
-
-	//<editor-fold desc="Map.Entry">
-
-	/** Returns key as Entry.getKey() */
-	@Override
-	default T3 getKey() {
-		return third();
-	}
-
-	@Override
-	default T4 setValue(T4 value) {
-		throw new UnsupportedOperationException();
-	}
-
-	//</editor-fold>
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LQuad and calculates hash from it. */
 	static <T1, T2, T3, T4> int argHashCode(T1 a1, T2 a2, T3 a3, T4 a4) {
@@ -232,23 +207,23 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, Map.Entry<T3, T4>
 		SELF fourth(T4 fourth);
 
 		/** Sets value if predicate(current) is true */
-		default SELF setFirstIf(T1 first, LPredicate<T1> predicate) {
+		default SELF setFirstIfCurrent(T1 first, LPredicate<T1> predicate) {//1
 			if (predicate.test(this.first())) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setFirstIf(T1 first, LBiPredicate<T1, T1> predicate) {
-			if (predicate.test(first, this.first())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setFirstIfNew(T1 first, LPredicate<T1> predicate) {//1
+			if (predicate.test(first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setFirstIf(LBiPredicate<T1, T1> predicate, T1 first) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setFirstIf(T1 first, LBiPredicate<T1, T1> predicate) {//2
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
@@ -256,23 +231,23 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, Map.Entry<T3, T4>
 		}
 
 		/** Sets value if predicate(current) is true */
-		default SELF setSecondIf(T2 second, LPredicate<T2> predicate) {
+		default SELF setSecondIfCurrent(T2 second, LPredicate<T2> predicate) {//1
 			if (predicate.test(this.second())) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setSecondIf(T2 second, LBiPredicate<T2, T2> predicate) {
-			if (predicate.test(second, this.second())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setSecondIfNew(T2 second, LPredicate<T2> predicate) {//1
+			if (predicate.test(second)) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setSecondIf(LBiPredicate<T2, T2> predicate, T2 second) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setSecondIf(T2 second, LBiPredicate<T2, T2> predicate) {//2
 			if (predicate.test(this.second(), second)) {
 				return this.second(second);
 			}
@@ -280,58 +255,47 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, Map.Entry<T3, T4>
 		}
 
 		/** Sets value if predicate(current) is true */
-		default SELF setThirdIf(T3 third, LPredicate<T3> predicate) {
+		default SELF setThirdIfCurrent(T3 third, LPredicate<T3> predicate) {//1
 			if (predicate.test(this.third())) {
 				return this.third(third);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setThirdIf(T3 third, LBiPredicate<T3, T3> predicate) {
-			if (predicate.test(third, this.third())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setThirdIfNew(T3 third, LPredicate<T3> predicate) {//1
+			if (predicate.test(third)) {
 				return this.third(third);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setThirdIf(LBiPredicate<T3, T3> predicate, T3 third) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setThirdIf(T3 third, LBiPredicate<T3, T3> predicate) {//2
 			if (predicate.test(this.third(), third)) {
 				return this.third(third);
 			}
 			return (SELF) this;
 		}
 
-		default LQuad<T1, T2, T3, T4> value(T4 value) {
-			fourth(value);
-			return this;
-		}
-
-		default T4 setValue(T4 value) {
-			var old = fourth();
-			fourth(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setFourthIf(T4 fourth, LPredicate<T4> predicate) {
+		default SELF setFourthIfCurrent(T4 fourth, LPredicate<T4> predicate) {//1
 			if (predicate.test(this.fourth())) {
 				return this.fourth(fourth);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setFourthIf(T4 fourth, LBiPredicate<T4, T4> predicate) {
-			if (predicate.test(fourth, this.fourth())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setFourthIfNew(T4 fourth, LPredicate<T4> predicate) {//1
+			if (predicate.test(fourth)) {
 				return this.fourth(fourth);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setFourthIf(LBiPredicate<T4, T4> predicate, T4 fourth) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setFourthIf(T4 fourth, LBiPredicate<T4, T4> predicate) {//2
 			if (predicate.test(this.fourth(), fourth)) {
 				return this.fourth(fourth);
 			}

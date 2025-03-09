@@ -53,10 +53,6 @@ public interface LCharTriple extends LTuple<Character>, Comparable<LCharTriple> 
 
 	char third();
 
-	default char value() {
-		return third();
-	}
-
 	@Override
 	default Character get(int index) {
 		switch (index) {
@@ -88,10 +84,6 @@ public interface LCharTriple extends LTuple<Character>, Comparable<LCharTriple> 
 	@Override
 	default int tupleSize() {
 		return SIZE;
-	}
-
-	default char getValue() {
-		return third();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LCharTriple and calculates hash from it. */
@@ -232,23 +224,23 @@ public interface LCharTriple extends LTuple<Character>, Comparable<LCharTriple> 
 		SELF third(char third);
 
 		/** Sets value if predicate(current) is true */
-		default SELF setFirstIf(char first, LCharPredicate predicate) {
+		default SELF setFirstIfCurrent(char first, LCharPredicate predicate) {//1
 			if (predicate.test(this.first())) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setFirstIf(char first, LBiCharPredicate predicate) {
-			if (predicate.test(first, this.first())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setFirstIfNew(char first, LCharPredicate predicate) {//1
+			if (predicate.test(first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setFirstIf(LBiCharPredicate predicate, char first) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setFirstIf(char first, LBiCharPredicate predicate) {//2
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
@@ -256,58 +248,47 @@ public interface LCharTriple extends LTuple<Character>, Comparable<LCharTriple> 
 		}
 
 		/** Sets value if predicate(current) is true */
-		default SELF setSecondIf(char second, LCharPredicate predicate) {
+		default SELF setSecondIfCurrent(char second, LCharPredicate predicate) {//1
 			if (predicate.test(this.second())) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setSecondIf(char second, LBiCharPredicate predicate) {
-			if (predicate.test(second, this.second())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setSecondIfNew(char second, LCharPredicate predicate) {//1
+			if (predicate.test(second)) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setSecondIf(LBiCharPredicate predicate, char second) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setSecondIf(char second, LBiCharPredicate predicate) {//2
 			if (predicate.test(this.second(), second)) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		default LCharTriple value(char value) {
-			third(value);
-			return this;
-		}
-
-		default char setValue(char value) {
-			var old = third();
-			third(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setThirdIf(char third, LCharPredicate predicate) {
+		default SELF setThirdIfCurrent(char third, LCharPredicate predicate) {//1
 			if (predicate.test(this.third())) {
 				return this.third(third);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setThirdIf(char third, LBiCharPredicate predicate) {
-			if (predicate.test(third, this.third())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setThirdIfNew(char third, LCharPredicate predicate) {//1
+			if (predicate.test(third)) {
 				return this.third(third);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setThirdIf(LBiCharPredicate predicate, char third) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setThirdIf(char third, LBiCharPredicate predicate) {//2
 			if (predicate.test(this.third(), third)) {
 				return this.third(third);
 			}

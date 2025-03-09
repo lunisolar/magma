@@ -53,10 +53,6 @@ public interface LIntTriple extends LTuple<Integer>, Comparable<LIntTriple> {
 
 	int third();
 
-	default int value() {
-		return third();
-	}
-
 	@Override
 	default Integer get(int index) {
 		switch (index) {
@@ -88,10 +84,6 @@ public interface LIntTriple extends LTuple<Integer>, Comparable<LIntTriple> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
-	}
-
-	default int getValue() {
-		return third();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LIntTriple and calculates hash from it. */
@@ -232,23 +224,23 @@ public interface LIntTriple extends LTuple<Integer>, Comparable<LIntTriple> {
 		SELF third(int third);
 
 		/** Sets value if predicate(current) is true */
-		default SELF setFirstIf(int first, LIntPredicate predicate) {
+		default SELF setFirstIfCurrent(int first, LIntPredicate predicate) {//1
 			if (predicate.test(this.first())) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setFirstIf(int first, LBiIntPredicate predicate) {
-			if (predicate.test(first, this.first())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setFirstIfNew(int first, LIntPredicate predicate) {//1
+			if (predicate.test(first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setFirstIf(LBiIntPredicate predicate, int first) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setFirstIf(int first, LBiIntPredicate predicate) {//2
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
@@ -256,58 +248,47 @@ public interface LIntTriple extends LTuple<Integer>, Comparable<LIntTriple> {
 		}
 
 		/** Sets value if predicate(current) is true */
-		default SELF setSecondIf(int second, LIntPredicate predicate) {
+		default SELF setSecondIfCurrent(int second, LIntPredicate predicate) {//1
 			if (predicate.test(this.second())) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setSecondIf(int second, LBiIntPredicate predicate) {
-			if (predicate.test(second, this.second())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setSecondIfNew(int second, LIntPredicate predicate) {//1
+			if (predicate.test(second)) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setSecondIf(LBiIntPredicate predicate, int second) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setSecondIf(int second, LBiIntPredicate predicate) {//2
 			if (predicate.test(this.second(), second)) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		default LIntTriple value(int value) {
-			third(value);
-			return this;
-		}
-
-		default int setValue(int value) {
-			var old = third();
-			third(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setThirdIf(int third, LIntPredicate predicate) {
+		default SELF setThirdIfCurrent(int third, LIntPredicate predicate) {//1
 			if (predicate.test(this.third())) {
 				return this.third(third);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setThirdIf(int third, LBiIntPredicate predicate) {
-			if (predicate.test(third, this.third())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setThirdIfNew(int third, LIntPredicate predicate) {//1
+			if (predicate.test(third)) {
 				return this.third(third);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setThirdIf(LBiIntPredicate predicate, int third) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setThirdIf(int third, LBiIntPredicate predicate) {//2
 			if (predicate.test(this.third(), third)) {
 				return this.third(third);
 			}

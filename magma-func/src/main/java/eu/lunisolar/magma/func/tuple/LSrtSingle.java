@@ -76,10 +76,6 @@ public interface LSrtSingle extends LTuple<Short>, Comparable<LSrtSingle> {
 		return SIZE;
 	}
 
-	default short getValue() {
-		return value();
-	}
-
 	/** Static hashCode() implementation method that takes same arguments as fields of the LSrtSingle and calculates hash from it. */
 	static int argHashCode(short a) {
 		final int prime = 31;
@@ -232,30 +228,24 @@ public interface LSrtSingle extends LTuple<Short>, Comparable<LSrtSingle> {
 
 		SELF value(short value);
 
-		default short setValue(short value) {
-			var old = value();
-			value(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setValueIf(short value, LSrtPredicate predicate) {
+		default SELF setValueIfCurrent(short value, LSrtPredicate predicate) {//1
 			if (predicate.test(this.value())) {
 				return this.value(value);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setValueIf(short value, LBiSrtPredicate predicate) {
-			if (predicate.test(value, this.value())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setValueIfNew(short value, LSrtPredicate predicate) {//1
+			if (predicate.test(value)) {
 				return this.value(value);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setValueIf(LBiSrtPredicate predicate, short value) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setValueIf(short value, LBiSrtPredicate predicate) {//2
 			if (predicate.test(this.value(), value)) {
 				return this.value(value);
 			}
@@ -587,7 +577,7 @@ public interface LSrtSingle extends LTuple<Short>, Comparable<LSrtSingle> {
 		}
 
 		/** Sets value if predicate(current) is true */
-		public @Override AtomicSrtSingle setValueIf(short value, LSrtPredicate predicate) {
+		public @Override AtomicSrtSingle setValueIfCurrent(short value, LSrtPredicate predicate) {
 			getAndAccumulate(value, (current, newValue) -> {
 				if (predicate.test(current)) {
 					return newValue;
@@ -598,20 +588,8 @@ public interface LSrtSingle extends LTuple<Short>, Comparable<LSrtSingle> {
 			return this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		public @Override AtomicSrtSingle setValueIf(short value, LBiSrtPredicate predicate) {
-			getAndAccumulate(value, (current, newValue) -> {
-				if (predicate.test(newValue, current)) {
-					return newValue;
-				} else {
-					return current;
-				}
-			});
-			return this;
-		}
-
 		/** Sets new value if predicate predicate(current, newValue) is true. */
-		public @Override AtomicSrtSingle setValueIf(LBiSrtPredicate predicate, short value) {
+		public @Override AtomicSrtSingle setValueIf(short value, LBiSrtPredicate predicate) {
 			getAndAccumulate(value, (current, newValue) -> {
 				if (predicate.test(current, newValue)) {
 					return newValue;

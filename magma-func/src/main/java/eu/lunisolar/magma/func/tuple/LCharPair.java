@@ -51,10 +51,6 @@ public interface LCharPair extends LTuple<Character>, Comparable<LCharPair> {
 
 	char second();
 
-	default char value() {
-		return second();
-	}
-
 	@Override
 	default Character get(int index) {
 		switch (index) {
@@ -82,10 +78,6 @@ public interface LCharPair extends LTuple<Character>, Comparable<LCharPair> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
-	}
-
-	default char getValue() {
-		return second();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LCharPair and calculates hash from it. */
@@ -219,58 +211,47 @@ public interface LCharPair extends LTuple<Character>, Comparable<LCharPair> {
 		SELF second(char second);
 
 		/** Sets value if predicate(current) is true */
-		default SELF setFirstIf(char first, LCharPredicate predicate) {
+		default SELF setFirstIfCurrent(char first, LCharPredicate predicate) {//1
 			if (predicate.test(this.first())) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setFirstIf(char first, LBiCharPredicate predicate) {
-			if (predicate.test(first, this.first())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setFirstIfNew(char first, LCharPredicate predicate) {//1
+			if (predicate.test(first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setFirstIf(LBiCharPredicate predicate, char first) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setFirstIf(char first, LBiCharPredicate predicate) {//2
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		default LCharPair value(char value) {
-			second(value);
-			return this;
-		}
-
-		default char setValue(char value) {
-			var old = second();
-			second(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setSecondIf(char second, LCharPredicate predicate) {
+		default SELF setSecondIfCurrent(char second, LCharPredicate predicate) {//1
 			if (predicate.test(this.second())) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setSecondIf(char second, LBiCharPredicate predicate) {
-			if (predicate.test(second, this.second())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setSecondIfNew(char second, LCharPredicate predicate) {//1
+			if (predicate.test(second)) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setSecondIf(LBiCharPredicate predicate, char second) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setSecondIf(char second, LBiCharPredicate predicate) {//2
 			if (predicate.test(this.second(), second)) {
 				return this.second(second);
 			}

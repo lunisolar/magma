@@ -51,10 +51,6 @@ public interface LBytePair extends LTuple<Byte>, Comparable<LBytePair> {
 
 	byte second();
 
-	default byte value() {
-		return second();
-	}
-
 	@Override
 	default Byte get(int index) {
 		switch (index) {
@@ -82,10 +78,6 @@ public interface LBytePair extends LTuple<Byte>, Comparable<LBytePair> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
-	}
-
-	default byte getValue() {
-		return second();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LBytePair and calculates hash from it. */
@@ -219,58 +211,47 @@ public interface LBytePair extends LTuple<Byte>, Comparable<LBytePair> {
 		SELF second(byte second);
 
 		/** Sets value if predicate(current) is true */
-		default SELF setFirstIf(byte first, LBytePredicate predicate) {
+		default SELF setFirstIfCurrent(byte first, LBytePredicate predicate) {//1
 			if (predicate.test(this.first())) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setFirstIf(byte first, LBiBytePredicate predicate) {
-			if (predicate.test(first, this.first())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setFirstIfNew(byte first, LBytePredicate predicate) {//1
+			if (predicate.test(first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setFirstIf(LBiBytePredicate predicate, byte first) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setFirstIf(byte first, LBiBytePredicate predicate) {//2
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		default LBytePair value(byte value) {
-			second(value);
-			return this;
-		}
-
-		default byte setValue(byte value) {
-			var old = second();
-			second(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setSecondIf(byte second, LBytePredicate predicate) {
+		default SELF setSecondIfCurrent(byte second, LBytePredicate predicate) {//1
 			if (predicate.test(this.second())) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setSecondIf(byte second, LBiBytePredicate predicate) {
-			if (predicate.test(second, this.second())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setSecondIfNew(byte second, LBytePredicate predicate) {//1
+			if (predicate.test(second)) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setSecondIf(LBiBytePredicate predicate, byte second) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setSecondIf(byte second, LBiBytePredicate predicate) {//2
 			if (predicate.test(this.second(), second)) {
 				return this.second(second);
 			}

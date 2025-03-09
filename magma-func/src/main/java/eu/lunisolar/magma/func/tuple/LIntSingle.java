@@ -76,10 +76,6 @@ public interface LIntSingle extends LTuple<Integer>, Comparable<LIntSingle> {
 		return SIZE;
 	}
 
-	default int getValue() {
-		return value();
-	}
-
 	/** Static hashCode() implementation method that takes same arguments as fields of the LIntSingle and calculates hash from it. */
 	static int argHashCode(int a) {
 		final int prime = 31;
@@ -232,30 +228,24 @@ public interface LIntSingle extends LTuple<Integer>, Comparable<LIntSingle> {
 
 		SELF value(int value);
 
-		default int setValue(int value) {
-			var old = value();
-			value(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setValueIf(int value, LIntPredicate predicate) {
+		default SELF setValueIfCurrent(int value, LIntPredicate predicate) {//1
 			if (predicate.test(this.value())) {
 				return this.value(value);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setValueIf(int value, LBiIntPredicate predicate) {
-			if (predicate.test(value, this.value())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setValueIfNew(int value, LIntPredicate predicate) {//1
+			if (predicate.test(value)) {
 				return this.value(value);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setValueIf(LBiIntPredicate predicate, int value) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setValueIf(int value, LBiIntPredicate predicate) {//2
 			if (predicate.test(this.value(), value)) {
 				return this.value(value);
 			}

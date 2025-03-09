@@ -51,10 +51,6 @@ public interface LFltPair extends LTuple<Float>, Comparable<LFltPair> {
 
 	float second();
 
-	default float value() {
-		return second();
-	}
-
 	@Override
 	default Float get(int index) {
 		switch (index) {
@@ -82,10 +78,6 @@ public interface LFltPair extends LTuple<Float>, Comparable<LFltPair> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
-	}
-
-	default float getValue() {
-		return second();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LFltPair and calculates hash from it. */
@@ -219,58 +211,47 @@ public interface LFltPair extends LTuple<Float>, Comparable<LFltPair> {
 		SELF second(float second);
 
 		/** Sets value if predicate(current) is true */
-		default SELF setFirstIf(float first, LFltPredicate predicate) {
+		default SELF setFirstIfCurrent(float first, LFltPredicate predicate) {//1
 			if (predicate.test(this.first())) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setFirstIf(float first, LBiFltPredicate predicate) {
-			if (predicate.test(first, this.first())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setFirstIfNew(float first, LFltPredicate predicate) {//1
+			if (predicate.test(first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setFirstIf(LBiFltPredicate predicate, float first) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setFirstIf(float first, LBiFltPredicate predicate) {//2
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		default LFltPair value(float value) {
-			second(value);
-			return this;
-		}
-
-		default float setValue(float value) {
-			var old = second();
-			second(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setSecondIf(float second, LFltPredicate predicate) {
+		default SELF setSecondIfCurrent(float second, LFltPredicate predicate) {//1
 			if (predicate.test(this.second())) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setSecondIf(float second, LBiFltPredicate predicate) {
-			if (predicate.test(second, this.second())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setSecondIfNew(float second, LFltPredicate predicate) {//1
+			if (predicate.test(second)) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setSecondIf(LBiFltPredicate predicate, float second) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setSecondIf(float second, LBiFltPredicate predicate) {//2
 			if (predicate.test(this.second(), second)) {
 				return this.second(second);
 			}

@@ -67,10 +67,6 @@ public interface LSingle<T> extends LTuple<T> {
 		return SIZE;
 	}
 
-	default T getValue() {
-		return value();
-	}
-
 	/** Static hashCode() implementation method that takes same arguments as fields of the LSingle and calculates hash from it. */
 	static <T> int argHashCode(T a) {
 		final int prime = 31;
@@ -179,30 +175,24 @@ public interface LSingle<T> extends LTuple<T> {
 
 		SELF value(T value);
 
-		default T setValue(T value) {
-			var old = value();
-			value(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setValueIf(T value, LPredicate<T> predicate) {
+		default SELF setValueIfCurrent(T value, LPredicate<T> predicate) {//1
 			if (predicate.test(this.value())) {
 				return this.value(value);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setValueIf(T value, LBiPredicate<T, T> predicate) {
-			if (predicate.test(value, this.value())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setValueIfNew(T value, LPredicate<T> predicate) {//1
+			if (predicate.test(value)) {
 				return this.value(value);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setValueIf(LBiPredicate<T, T> predicate, T value) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setValueIf(T value, LBiPredicate<T, T> predicate) {//2
 			if (predicate.test(this.value(), value)) {
 				return this.value(value);
 			}

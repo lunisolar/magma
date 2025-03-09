@@ -51,10 +51,6 @@ public interface LDblPair extends LTuple<Double>, Comparable<LDblPair> {
 
 	double second();
 
-	default double value() {
-		return second();
-	}
-
 	@Override
 	default Double get(int index) {
 		switch (index) {
@@ -82,10 +78,6 @@ public interface LDblPair extends LTuple<Double>, Comparable<LDblPair> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
-	}
-
-	default double getValue() {
-		return second();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LDblPair and calculates hash from it. */
@@ -219,58 +211,47 @@ public interface LDblPair extends LTuple<Double>, Comparable<LDblPair> {
 		SELF second(double second);
 
 		/** Sets value if predicate(current) is true */
-		default SELF setFirstIf(double first, LDblPredicate predicate) {
+		default SELF setFirstIfCurrent(double first, LDblPredicate predicate) {//1
 			if (predicate.test(this.first())) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setFirstIf(double first, LBiDblPredicate predicate) {
-			if (predicate.test(first, this.first())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setFirstIfNew(double first, LDblPredicate predicate) {//1
+			if (predicate.test(first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setFirstIf(LBiDblPredicate predicate, double first) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setFirstIf(double first, LBiDblPredicate predicate) {//2
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		default LDblPair value(double value) {
-			second(value);
-			return this;
-		}
-
-		default double setValue(double value) {
-			var old = second();
-			second(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setSecondIf(double second, LDblPredicate predicate) {
+		default SELF setSecondIfCurrent(double second, LDblPredicate predicate) {//1
 			if (predicate.test(this.second())) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setSecondIf(double second, LBiDblPredicate predicate) {
-			if (predicate.test(second, this.second())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setSecondIfNew(double second, LDblPredicate predicate) {//1
+			if (predicate.test(second)) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setSecondIf(LBiDblPredicate predicate, double second) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setSecondIf(double second, LBiDblPredicate predicate) {//2
 			if (predicate.test(this.second(), second)) {
 				return this.second(second);
 			}

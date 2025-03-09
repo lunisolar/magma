@@ -76,10 +76,6 @@ public interface LBoolSingle extends LTuple<Boolean>, Comparable<LBoolSingle> {
 		return SIZE;
 	}
 
-	default boolean getValue() {
-		return value();
-	}
-
 	/** Static hashCode() implementation method that takes same arguments as fields of the LBoolSingle and calculates hash from it. */
 	static int argHashCode(boolean a) {
 		final int prime = 31;
@@ -185,30 +181,24 @@ public interface LBoolSingle extends LTuple<Boolean>, Comparable<LBoolSingle> {
 
 		SELF value(boolean value);
 
-		default boolean setValue(boolean value) {
-			var old = value();
-			value(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setValueIf(boolean value, LLogicalOperator predicate) {
+		default SELF setValueIfCurrent(boolean value, LLogicalOperator predicate) {//1
 			if (predicate.apply(this.value())) {
 				return this.value(value);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setValueIf(boolean value, LLogicalBinaryOperator predicate) {
-			if (predicate.apply(value, this.value())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setValueIfNew(boolean value, LLogicalOperator predicate) {//1
+			if (predicate.apply(value)) {
 				return this.value(value);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setValueIf(LLogicalBinaryOperator predicate, boolean value) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setValueIf(boolean value, LLogicalBinaryOperator predicate) {//2
 			if (predicate.apply(this.value(), value)) {
 				return this.value(value);
 			}

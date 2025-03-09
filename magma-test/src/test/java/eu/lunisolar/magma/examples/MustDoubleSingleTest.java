@@ -29,7 +29,7 @@ public class MustDoubleSingleTest {
     void setValueIf_match() {
         var a = LDblSingle.of(0);
         attest(a.value()).mustBeEqual(0);
-        a.setValueIf(2, v -> v == 0);
+        a.setValueIfCurrent(2, v -> v == 0);
         attest(a.value()).mustBeEqual(2);
     }
 
@@ -37,7 +37,7 @@ public class MustDoubleSingleTest {
     void setValueIf_noMatch() {
         var a = LDblSingle.of(0);
         attest(a.value()).mustBeEqual(0);
-        a.setValueIf(2, v -> v == 2);
+        a.setValueIfCurrent(2, v -> v == 2);
         attest(a.value()).mustBeEqual(0);
     }
 
@@ -45,7 +45,7 @@ public class MustDoubleSingleTest {
     void setValueIf2_match() {
         var a = LDblSingle.of(0);
         attest(a.value()).mustBeEqual(0);
-        a.setValueIf(2, (x, v) -> v == 0);
+        a.setValueIf(2, (v, x) -> v == 0);
         attest(a.value()).mustBeEqual(2);
     }
 
@@ -53,7 +53,7 @@ public class MustDoubleSingleTest {
     void setValueIf2_noMatch() {
         var a = LDblSingle.of(0);
         attest(a.value()).mustBeEqual(0);
-        a.setValueIf(2, (x, v) -> v == 2);
+        a.setValueIf(2, (v, x) -> v == 2);
         attest(a.value()).mustBeEqual(0);
     }
 

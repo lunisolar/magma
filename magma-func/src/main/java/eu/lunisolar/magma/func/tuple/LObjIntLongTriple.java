@@ -53,10 +53,6 @@ public interface LObjIntLongTriple<T> extends LTuple<Object> {
 
 	long third();
 
-	default long value() {
-		return third();
-	}
-
 	@Override
 	default Object get(int index) {
 		switch (index) {
@@ -75,10 +71,6 @@ public interface LObjIntLongTriple<T> extends LTuple<Object> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
-	}
-
-	default long getValue() {
-		return third();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LObjIntLongTriple and calculates hash from it. */
@@ -204,23 +196,23 @@ public interface LObjIntLongTriple<T> extends LTuple<Object> {
 		SELF third(long third);
 
 		/** Sets value if predicate(current) is true */
-		default SELF setFirstIf(T first, LPredicate<T> predicate) {
+		default SELF setFirstIfCurrent(T first, LPredicate<T> predicate) {//1
 			if (predicate.test(this.first())) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setFirstIf(T first, LBiPredicate<T, T> predicate) {
-			if (predicate.test(first, this.first())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setFirstIfNew(T first, LPredicate<T> predicate) {//1
+			if (predicate.test(first)) {
 				return this.first(first);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setFirstIf(LBiPredicate<T, T> predicate, T first) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setFirstIf(T first, LBiPredicate<T, T> predicate) {//2
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
@@ -228,58 +220,47 @@ public interface LObjIntLongTriple<T> extends LTuple<Object> {
 		}
 
 		/** Sets value if predicate(current) is true */
-		default SELF setSecondIf(int second, LIntPredicate predicate) {
+		default SELF setSecondIfCurrent(int second, LIntPredicate predicate) {//1
 			if (predicate.test(this.second())) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setSecondIf(int second, LBiIntPredicate predicate) {
-			if (predicate.test(second, this.second())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setSecondIfNew(int second, LIntPredicate predicate) {//1
+			if (predicate.test(second)) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setSecondIf(LBiIntPredicate predicate, int second) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setSecondIf(int second, LBiIntPredicate predicate) {//2
 			if (predicate.test(this.second(), second)) {
 				return this.second(second);
 			}
 			return (SELF) this;
 		}
 
-		default LObjIntLongTriple<T> value(long value) {
-			third(value);
-			return this;
-		}
-
-		default long setValue(long value) {
-			var old = third();
-			third(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setThirdIf(long third, LLongPredicate predicate) {
+		default SELF setThirdIfCurrent(long third, LLongPredicate predicate) {//1
 			if (predicate.test(this.third())) {
 				return this.third(third);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setThirdIf(long third, LBiLongPredicate predicate) {
-			if (predicate.test(third, this.third())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setThirdIfNew(long third, LLongPredicate predicate) {//1
+			if (predicate.test(third)) {
 				return this.third(third);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setThirdIf(LBiLongPredicate predicate, long third) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setThirdIf(long third, LBiLongPredicate predicate) {//2
 			if (predicate.test(this.third(), third)) {
 				return this.third(third);
 			}

@@ -76,10 +76,6 @@ public interface LCharSingle extends LTuple<Character>, Comparable<LCharSingle> 
 		return SIZE;
 	}
 
-	default char getValue() {
-		return value();
-	}
-
 	/** Static hashCode() implementation method that takes same arguments as fields of the LCharSingle and calculates hash from it. */
 	static int argHashCode(char a) {
 		final int prime = 31;
@@ -203,30 +199,24 @@ public interface LCharSingle extends LTuple<Character>, Comparable<LCharSingle> 
 
 		SELF value(char value);
 
-		default char setValue(char value) {
-			var old = value();
-			value(value);
-			return old;
-		}
-
 		/** Sets value if predicate(current) is true */
-		default SELF setValueIf(char value, LCharPredicate predicate) {
+		default SELF setValueIfCurrent(char value, LCharPredicate predicate) {//1
 			if (predicate.test(this.value())) {
 				return this.value(value);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		default SELF setValueIf(char value, LBiCharPredicate predicate) {
-			if (predicate.test(value, this.value())) {
+		/** Sets value if predicate(new) is true */
+		default SELF setValueIfNew(char value, LCharPredicate predicate) {//1
+			if (predicate.test(value)) {
 				return this.value(value);
 			}
 			return (SELF) this;
 		}
 
-		/** Sets new value if predicate predicate(current, newValue) is true. */
-		default SELF setValueIf(LBiCharPredicate predicate, char value) {
+		/** Sets new value if predicate predicate(newValue, current) is true. */
+		default SELF setValueIf(char value, LBiCharPredicate predicate) {//2
 			if (predicate.test(this.value(), value)) {
 				return this.value(value);
 			}
@@ -484,7 +474,7 @@ public interface LCharSingle extends LTuple<Character>, Comparable<LCharSingle> 
 		}
 
 		/** Sets value if predicate(current) is true */
-		public @Override AtomicCharSingle setValueIf(char value, LCharPredicate predicate) {
+		public @Override AtomicCharSingle setValueIfCurrent(char value, LCharPredicate predicate) {
 			getAndAccumulate(value, (current, newValue) -> {
 				if (predicate.test(current)) {
 					return newValue;
@@ -495,20 +485,8 @@ public interface LCharSingle extends LTuple<Character>, Comparable<LCharSingle> 
 			return this;
 		}
 
-		/** Sets new value if predicate predicate(newValue, current) is true. */
-		public @Override AtomicCharSingle setValueIf(char value, LBiCharPredicate predicate) {
-			getAndAccumulate(value, (current, newValue) -> {
-				if (predicate.test(newValue, current)) {
-					return newValue;
-				} else {
-					return current;
-				}
-			});
-			return this;
-		}
-
 		/** Sets new value if predicate predicate(current, newValue) is true. */
-		public @Override AtomicCharSingle setValueIf(LBiCharPredicate predicate, char value) {
+		public @Override AtomicCharSingle setValueIf(char value, LBiCharPredicate predicate) {
 			getAndAccumulate(value, (current, newValue) -> {
 				if (predicate.test(current, newValue)) {
 					return newValue;
