@@ -49,11 +49,11 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 
 	T first();
 
-	default T value() {
-		return first();
-	}
-
 	boolean second();
+
+	default boolean value() {
+		return second();
+	}
 
 	@Override
 	default Object get(int index) {
@@ -71,6 +71,10 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default boolean getValue() {
+		return second();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LObjBoolPair and calculates hash from it. */
@@ -188,11 +192,6 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 
 		SELF second(boolean second);
 
-		default SELF setFirst(T first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(T first, LPredicate<T> predicate) {
 			if (predicate.test(this.first())) {
@@ -217,9 +216,15 @@ public interface LObjBoolPair<T> extends LTuple<Object> {
 			return (SELF) this;
 		}
 
-		default SELF setSecond(boolean second) {
-			this.second(second);
-			return (SELF) this;
+		default LObjBoolPair<T> value(boolean value) {
+			second(value);
+			return this;
+		}
+
+		default boolean setValue(boolean value) {
+			var old = second();
+			second(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

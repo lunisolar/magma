@@ -51,10 +51,6 @@ public interface LDblSingle extends LTuple<Double>, Comparable<LDblSingle> {
 
 	double value();
 
-	default double first() {
-		return value();
-	}
-
 	@Override
 	default Double get(int index) {
 		switch (index) {
@@ -78,6 +74,10 @@ public interface LDblSingle extends LTuple<Double>, Comparable<LDblSingle> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default double getValue() {
+		return value();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LDblSingle and calculates hash from it. */
@@ -232,9 +232,10 @@ public interface LDblSingle extends LTuple<Double>, Comparable<LDblSingle> {
 
 		SELF value(double value);
 
-		default SELF setValue(double value) {
-			this.value(value);
-			return (SELF) this;
+		default double setValue(double value) {
+			var old = value();
+			value(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

@@ -49,13 +49,13 @@ public interface LFltTriple extends LTuple<Float>, Comparable<LFltTriple> {
 
 	float first();
 
-	default float value() {
-		return first();
-	}
-
 	float second();
 
 	float third();
+
+	default float value() {
+		return third();
+	}
 
 	@Override
 	default Float get(int index) {
@@ -88,6 +88,10 @@ public interface LFltTriple extends LTuple<Float>, Comparable<LFltTriple> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default float getValue() {
+		return third();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LFltTriple and calculates hash from it. */
@@ -227,11 +231,6 @@ public interface LFltTriple extends LTuple<Float>, Comparable<LFltTriple> {
 
 		SELF third(float third);
 
-		default SELF setFirst(float first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(float first, LFltPredicate predicate) {
 			if (predicate.test(this.first())) {
@@ -253,11 +252,6 @@ public interface LFltTriple extends LTuple<Float>, Comparable<LFltTriple> {
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
-			return (SELF) this;
-		}
-
-		default SELF setSecond(float second) {
-			this.second(second);
 			return (SELF) this;
 		}
 
@@ -285,9 +279,15 @@ public interface LFltTriple extends LTuple<Float>, Comparable<LFltTriple> {
 			return (SELF) this;
 		}
 
-		default SELF setThird(float third) {
-			this.third(third);
-			return (SELF) this;
+		default LFltTriple value(float value) {
+			third(value);
+			return this;
+		}
+
+		default float setValue(float value) {
+			var old = third();
+			third(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

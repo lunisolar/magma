@@ -51,10 +51,6 @@ public interface LFltSingle extends LTuple<Float>, Comparable<LFltSingle> {
 
 	float value();
 
-	default float first() {
-		return value();
-	}
-
 	@Override
 	default Float get(int index) {
 		switch (index) {
@@ -78,6 +74,10 @@ public interface LFltSingle extends LTuple<Float>, Comparable<LFltSingle> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default float getValue() {
+		return value();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LFltSingle and calculates hash from it. */
@@ -232,9 +232,10 @@ public interface LFltSingle extends LTuple<Float>, Comparable<LFltSingle> {
 
 		SELF value(float value);
 
-		default SELF setValue(float value) {
-			this.value(value);
-			return (SELF) this;
+		default float setValue(float value) {
+			var old = value();
+			value(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

@@ -49,13 +49,13 @@ public interface LSrtTriple extends LTuple<Short>, Comparable<LSrtTriple> {
 
 	short first();
 
-	default short value() {
-		return first();
-	}
-
 	short second();
 
 	short third();
+
+	default short value() {
+		return third();
+	}
 
 	@Override
 	default Short get(int index) {
@@ -88,6 +88,10 @@ public interface LSrtTriple extends LTuple<Short>, Comparable<LSrtTriple> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default short getValue() {
+		return third();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LSrtTriple and calculates hash from it. */
@@ -227,11 +231,6 @@ public interface LSrtTriple extends LTuple<Short>, Comparable<LSrtTriple> {
 
 		SELF third(short third);
 
-		default SELF setFirst(short first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(short first, LSrtPredicate predicate) {
 			if (predicate.test(this.first())) {
@@ -253,11 +252,6 @@ public interface LSrtTriple extends LTuple<Short>, Comparable<LSrtTriple> {
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
-			return (SELF) this;
-		}
-
-		default SELF setSecond(short second) {
-			this.second(second);
 			return (SELF) this;
 		}
 
@@ -285,9 +279,15 @@ public interface LSrtTriple extends LTuple<Short>, Comparable<LSrtTriple> {
 			return (SELF) this;
 		}
 
-		default SELF setThird(short third) {
-			this.third(third);
-			return (SELF) this;
+		default LSrtTriple value(short value) {
+			third(value);
+			return this;
+		}
+
+		default short setValue(short value) {
+			var old = third();
+			third(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

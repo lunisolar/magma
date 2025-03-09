@@ -43,21 +43,21 @@ import java.util.stream.*;
  * Exact equivalent of input parameters used in LQuadConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, Map.Entry<T1, T2> {
+public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, Map.Entry<T3, T4> {
 
 	int SIZE = 4;
 
 	T1 first();
-
-	default T1 value() {
-		return first();
-	}
 
 	T2 second();
 
 	T3 third();
 
 	T4 fourth();
+
+	default T4 value() {
+		return fourth();
+	}
 
 	@Override
 	default Object get(int index) {
@@ -81,22 +81,22 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, Map.Entry<T1, T2>
 		return SIZE;
 	}
 
+	/** Returns value as Entry.getValue(). */
+	@Override
+	default T4 getValue() {
+		return fourth();
+	}
+
 	//<editor-fold desc="Map.Entry">
 
-	/** Returns key as Entry.key() */
+	/** Returns key as Entry.getKey() */
 	@Override
-	default T1 getKey() {
-		return first();
-	}
-
-	/** Returns value as Entry.value(). 'Value' is assigned to first tuple element. */
-	@Override
-	default T2 getValue() {
-		return second();
+	default T3 getKey() {
+		return third();
 	}
 
 	@Override
-	default T2 setValue(T2 value) {
+	default T4 setValue(T4 value) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -231,11 +231,6 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, Map.Entry<T1, T2>
 
 		SELF fourth(T4 fourth);
 
-		default SELF setFirst(T1 first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(T1 first, LPredicate<T1> predicate) {
 			if (predicate.test(this.first())) {
@@ -257,11 +252,6 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, Map.Entry<T1, T2>
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
-			return (SELF) this;
-		}
-
-		default SELF setSecond(T2 second) {
-			this.second(second);
 			return (SELF) this;
 		}
 
@@ -289,11 +279,6 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, Map.Entry<T1, T2>
 			return (SELF) this;
 		}
 
-		default SELF setThird(T3 third) {
-			this.third(third);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setThirdIf(T3 third, LPredicate<T3> predicate) {
 			if (predicate.test(this.third())) {
@@ -318,9 +303,15 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, Map.Entry<T1, T2>
 			return (SELF) this;
 		}
 
-		default SELF setFourth(T4 fourth) {
-			this.fourth(fourth);
-			return (SELF) this;
+		default LQuad<T1, T2, T3, T4> value(T4 value) {
+			fourth(value);
+			return this;
+		}
+
+		default T4 setValue(T4 value) {
+			var old = fourth();
+			fourth(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */
@@ -419,13 +410,6 @@ public interface LQuad<T1, T2, T3, T4> extends LTuple<Object>, Map.Entry<T1, T2>
 		public @Override MutQuad<T1, T2, T3, T4> fourth(T4 fourth) {
 			this.fourth = fourth;
 			return this;
-		}
-
-		@Override
-		public T2 setValue(T2 value) {
-			var old = second();
-			second(value);
-			return old;
 		}
 
 	}

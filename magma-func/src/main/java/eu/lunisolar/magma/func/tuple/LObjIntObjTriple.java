@@ -49,13 +49,13 @@ public interface LObjIntObjTriple<T1, T2> extends LTuple<Object> {
 
 	T1 first();
 
-	default T1 value() {
-		return first();
-	}
-
 	int second();
 
 	T2 third();
+
+	default T2 value() {
+		return third();
+	}
 
 	@Override
 	default Object get(int index) {
@@ -75,6 +75,10 @@ public interface LObjIntObjTriple<T1, T2> extends LTuple<Object> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default T2 getValue() {
+		return third();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LObjIntObjTriple and calculates hash from it. */
@@ -199,11 +203,6 @@ public interface LObjIntObjTriple<T1, T2> extends LTuple<Object> {
 
 		SELF third(T2 third);
 
-		default SELF setFirst(T1 first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(T1 first, LPredicate<T1> predicate) {
 			if (predicate.test(this.first())) {
@@ -225,11 +224,6 @@ public interface LObjIntObjTriple<T1, T2> extends LTuple<Object> {
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
-			return (SELF) this;
-		}
-
-		default SELF setSecond(int second) {
-			this.second(second);
 			return (SELF) this;
 		}
 
@@ -257,9 +251,15 @@ public interface LObjIntObjTriple<T1, T2> extends LTuple<Object> {
 			return (SELF) this;
 		}
 
-		default SELF setThird(T2 third) {
-			this.third(third);
-			return (SELF) this;
+		default LObjIntObjTriple<T1, T2> value(T2 value) {
+			third(value);
+			return this;
+		}
+
+		default T2 setValue(T2 value) {
+			var old = third();
+			third(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

@@ -51,10 +51,6 @@ public interface LCharSingle extends LTuple<Character>, Comparable<LCharSingle> 
 
 	char value();
 
-	default char first() {
-		return value();
-	}
-
 	@Override
 	default Character get(int index) {
 		switch (index) {
@@ -78,6 +74,10 @@ public interface LCharSingle extends LTuple<Character>, Comparable<LCharSingle> 
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default char getValue() {
+		return value();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LCharSingle and calculates hash from it. */
@@ -203,9 +203,10 @@ public interface LCharSingle extends LTuple<Character>, Comparable<LCharSingle> 
 
 		SELF value(char value);
 
-		default SELF setValue(char value) {
-			this.value(value);
-			return (SELF) this;
+		default char setValue(char value) {
+			var old = value();
+			value(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

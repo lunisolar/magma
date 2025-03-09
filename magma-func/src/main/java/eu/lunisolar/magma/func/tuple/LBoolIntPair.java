@@ -49,11 +49,11 @@ public interface LBoolIntPair extends LTuple<Object> {
 
 	boolean first();
 
-	default boolean value() {
-		return first();
-	}
-
 	int second();
+
+	default int value() {
+		return second();
+	}
 
 	@Override
 	default Object get(int index) {
@@ -71,6 +71,10 @@ public interface LBoolIntPair extends LTuple<Object> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default int getValue() {
+		return second();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LBoolIntPair and calculates hash from it. */
@@ -188,11 +192,6 @@ public interface LBoolIntPair extends LTuple<Object> {
 
 		SELF second(int second);
 
-		default SELF setFirst(boolean first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(boolean first, LLogicalOperator predicate) {
 			if (predicate.apply(this.first())) {
@@ -217,9 +216,15 @@ public interface LBoolIntPair extends LTuple<Object> {
 			return (SELF) this;
 		}
 
-		default SELF setSecond(int second) {
-			this.second(second);
-			return (SELF) this;
+		default LBoolIntPair value(int value) {
+			second(value);
+			return this;
+		}
+
+		default int setValue(int value) {
+			var old = second();
+			second(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

@@ -51,10 +51,6 @@ public interface LByteSingle extends LTuple<Byte>, Comparable<LByteSingle> {
 
 	byte value();
 
-	default byte first() {
-		return value();
-	}
-
 	@Override
 	default Byte get(int index) {
 		switch (index) {
@@ -78,6 +74,10 @@ public interface LByteSingle extends LTuple<Byte>, Comparable<LByteSingle> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default byte getValue() {
+		return value();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LByteSingle and calculates hash from it. */
@@ -232,9 +232,10 @@ public interface LByteSingle extends LTuple<Byte>, Comparable<LByteSingle> {
 
 		SELF value(byte value);
 
-		default SELF setValue(byte value) {
-			this.value(value);
-			return (SELF) this;
+		default byte setValue(byte value) {
+			var old = value();
+			value(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

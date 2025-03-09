@@ -49,11 +49,11 @@ public interface LObjCharPair<T> extends LTuple<Object> {
 
 	T first();
 
-	default T value() {
-		return first();
-	}
-
 	char second();
+
+	default char value() {
+		return second();
+	}
 
 	@Override
 	default Object get(int index) {
@@ -71,6 +71,10 @@ public interface LObjCharPair<T> extends LTuple<Object> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default char getValue() {
+		return second();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LObjCharPair and calculates hash from it. */
@@ -188,11 +192,6 @@ public interface LObjCharPair<T> extends LTuple<Object> {
 
 		SELF second(char second);
 
-		default SELF setFirst(T first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(T first, LPredicate<T> predicate) {
 			if (predicate.test(this.first())) {
@@ -217,9 +216,15 @@ public interface LObjCharPair<T> extends LTuple<Object> {
 			return (SELF) this;
 		}
 
-		default SELF setSecond(char second) {
-			this.second(second);
-			return (SELF) this;
+		default LObjCharPair<T> value(char value) {
+			second(value);
+			return this;
+		}
+
+		default char setValue(char value) {
+			var old = second();
+			second(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

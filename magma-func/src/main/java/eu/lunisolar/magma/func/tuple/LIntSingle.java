@@ -51,10 +51,6 @@ public interface LIntSingle extends LTuple<Integer>, Comparable<LIntSingle> {
 
 	int value();
 
-	default int first() {
-		return value();
-	}
-
 	@Override
 	default Integer get(int index) {
 		switch (index) {
@@ -78,6 +74,10 @@ public interface LIntSingle extends LTuple<Integer>, Comparable<LIntSingle> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default int getValue() {
+		return value();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LIntSingle and calculates hash from it. */
@@ -232,9 +232,10 @@ public interface LIntSingle extends LTuple<Integer>, Comparable<LIntSingle> {
 
 		SELF value(int value);
 
-		default SELF setValue(int value) {
-			this.value(value);
-			return (SELF) this;
+		default int setValue(int value) {
+			var old = value();
+			value(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

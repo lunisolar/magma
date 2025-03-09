@@ -49,11 +49,11 @@ public interface LObjSrtPair<T> extends LTuple<Object> {
 
 	T first();
 
-	default T value() {
-		return first();
-	}
-
 	short second();
+
+	default short value() {
+		return second();
+	}
 
 	@Override
 	default Object get(int index) {
@@ -71,6 +71,10 @@ public interface LObjSrtPair<T> extends LTuple<Object> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default short getValue() {
+		return second();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LObjSrtPair and calculates hash from it. */
@@ -188,11 +192,6 @@ public interface LObjSrtPair<T> extends LTuple<Object> {
 
 		SELF second(short second);
 
-		default SELF setFirst(T first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(T first, LPredicate<T> predicate) {
 			if (predicate.test(this.first())) {
@@ -217,9 +216,15 @@ public interface LObjSrtPair<T> extends LTuple<Object> {
 			return (SELF) this;
 		}
 
-		default SELF setSecond(short second) {
-			this.second(second);
-			return (SELF) this;
+		default LObjSrtPair<T> value(short value) {
+			second(value);
+			return this;
+		}
+
+		default short setValue(short value) {
+			var old = second();
+			second(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

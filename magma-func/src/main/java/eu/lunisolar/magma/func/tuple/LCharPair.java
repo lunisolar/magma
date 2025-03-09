@@ -49,11 +49,11 @@ public interface LCharPair extends LTuple<Character>, Comparable<LCharPair> {
 
 	char first();
 
-	default char value() {
-		return first();
-	}
-
 	char second();
+
+	default char value() {
+		return second();
+	}
 
 	@Override
 	default Character get(int index) {
@@ -82,6 +82,10 @@ public interface LCharPair extends LTuple<Character>, Comparable<LCharPair> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default char getValue() {
+		return second();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LCharPair and calculates hash from it. */
@@ -214,11 +218,6 @@ public interface LCharPair extends LTuple<Character>, Comparable<LCharPair> {
 
 		SELF second(char second);
 
-		default SELF setFirst(char first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(char first, LCharPredicate predicate) {
 			if (predicate.test(this.first())) {
@@ -243,9 +242,15 @@ public interface LCharPair extends LTuple<Character>, Comparable<LCharPair> {
 			return (SELF) this;
 		}
 
-		default SELF setSecond(char second) {
-			this.second(second);
-			return (SELF) this;
+		default LCharPair value(char value) {
+			second(value);
+			return this;
+		}
+
+		default char setValue(char value) {
+			var old = second();
+			second(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

@@ -49,11 +49,11 @@ public interface LDblPair extends LTuple<Double>, Comparable<LDblPair> {
 
 	double first();
 
-	default double value() {
-		return first();
-	}
-
 	double second();
+
+	default double value() {
+		return second();
+	}
 
 	@Override
 	default Double get(int index) {
@@ -82,6 +82,10 @@ public interface LDblPair extends LTuple<Double>, Comparable<LDblPair> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default double getValue() {
+		return second();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LDblPair and calculates hash from it. */
@@ -214,11 +218,6 @@ public interface LDblPair extends LTuple<Double>, Comparable<LDblPair> {
 
 		SELF second(double second);
 
-		default SELF setFirst(double first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(double first, LDblPredicate predicate) {
 			if (predicate.test(this.first())) {
@@ -243,9 +242,15 @@ public interface LDblPair extends LTuple<Double>, Comparable<LDblPair> {
 			return (SELF) this;
 		}
 
-		default SELF setSecond(double second) {
-			this.second(second);
-			return (SELF) this;
+		default LDblPair value(double value) {
+			second(value);
+			return this;
+		}
+
+		default double setValue(double value) {
+			var old = second();
+			second(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

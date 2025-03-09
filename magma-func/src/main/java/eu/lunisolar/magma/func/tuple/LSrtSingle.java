@@ -51,10 +51,6 @@ public interface LSrtSingle extends LTuple<Short>, Comparable<LSrtSingle> {
 
 	short value();
 
-	default short first() {
-		return value();
-	}
-
 	@Override
 	default Short get(int index) {
 		switch (index) {
@@ -78,6 +74,10 @@ public interface LSrtSingle extends LTuple<Short>, Comparable<LSrtSingle> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default short getValue() {
+		return value();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LSrtSingle and calculates hash from it. */
@@ -232,9 +232,10 @@ public interface LSrtSingle extends LTuple<Short>, Comparable<LSrtSingle> {
 
 		SELF value(short value);
 
-		default SELF setValue(short value) {
-			this.value(value);
-			return (SELF) this;
+		default short setValue(short value) {
+			var old = value();
+			value(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

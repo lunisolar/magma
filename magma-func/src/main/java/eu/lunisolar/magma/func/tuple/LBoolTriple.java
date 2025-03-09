@@ -49,13 +49,13 @@ public interface LBoolTriple extends LTuple<Boolean>, Comparable<LBoolTriple> {
 
 	boolean first();
 
-	default boolean value() {
-		return first();
-	}
-
 	boolean second();
 
 	boolean third();
+
+	default boolean value() {
+		return third();
+	}
 
 	@Override
 	default Boolean get(int index) {
@@ -88,6 +88,10 @@ public interface LBoolTriple extends LTuple<Boolean>, Comparable<LBoolTriple> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default boolean getValue() {
+		return third();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LBoolTriple and calculates hash from it. */
@@ -209,11 +213,6 @@ public interface LBoolTriple extends LTuple<Boolean>, Comparable<LBoolTriple> {
 
 		SELF third(boolean third);
 
-		default SELF setFirst(boolean first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(boolean first, LLogicalOperator predicate) {
 			if (predicate.apply(this.first())) {
@@ -235,11 +234,6 @@ public interface LBoolTriple extends LTuple<Boolean>, Comparable<LBoolTriple> {
 			if (predicate.apply(this.first(), first)) {
 				return this.first(first);
 			}
-			return (SELF) this;
-		}
-
-		default SELF setSecond(boolean second) {
-			this.second(second);
 			return (SELF) this;
 		}
 
@@ -267,9 +261,15 @@ public interface LBoolTriple extends LTuple<Boolean>, Comparable<LBoolTriple> {
 			return (SELF) this;
 		}
 
-		default SELF setThird(boolean third) {
-			this.third(third);
-			return (SELF) this;
+		default LBoolTriple value(boolean value) {
+			third(value);
+			return this;
+		}
+
+		default boolean setValue(boolean value) {
+			var old = third();
+			third(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

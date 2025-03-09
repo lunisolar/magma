@@ -51,10 +51,6 @@ public interface LLongSingle extends LTuple<Long>, Comparable<LLongSingle> {
 
 	long value();
 
-	default long first() {
-		return value();
-	}
-
 	@Override
 	default Long get(int index) {
 		switch (index) {
@@ -78,6 +74,10 @@ public interface LLongSingle extends LTuple<Long>, Comparable<LLongSingle> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default long getValue() {
+		return value();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LLongSingle and calculates hash from it. */
@@ -232,9 +232,10 @@ public interface LLongSingle extends LTuple<Long>, Comparable<LLongSingle> {
 
 		SELF value(long value);
 
-		default SELF setValue(long value) {
-			this.value(value);
-			return (SELF) this;
+		default long setValue(long value) {
+			var old = value();
+			value(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

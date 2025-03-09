@@ -49,11 +49,11 @@ public interface LIntPair extends LTuple<Integer>, Comparable<LIntPair> {
 
 	int first();
 
-	default int value() {
-		return first();
-	}
-
 	int second();
+
+	default int value() {
+		return second();
+	}
 
 	@Override
 	default Integer get(int index) {
@@ -82,6 +82,10 @@ public interface LIntPair extends LTuple<Integer>, Comparable<LIntPair> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default int getValue() {
+		return second();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LIntPair and calculates hash from it. */
@@ -214,11 +218,6 @@ public interface LIntPair extends LTuple<Integer>, Comparable<LIntPair> {
 
 		SELF second(int second);
 
-		default SELF setFirst(int first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(int first, LIntPredicate predicate) {
 			if (predicate.test(this.first())) {
@@ -243,9 +242,15 @@ public interface LIntPair extends LTuple<Integer>, Comparable<LIntPair> {
 			return (SELF) this;
 		}
 
-		default SELF setSecond(int second) {
-			this.second(second);
-			return (SELF) this;
+		default LIntPair value(int value) {
+			second(value);
+			return this;
+		}
+
+		default int setValue(int value) {
+			var old = second();
+			second(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

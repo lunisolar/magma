@@ -49,11 +49,11 @@ public interface LLongPair extends LTuple<Long>, Comparable<LLongPair> {
 
 	long first();
 
-	default long value() {
-		return first();
-	}
-
 	long second();
+
+	default long value() {
+		return second();
+	}
 
 	@Override
 	default Long get(int index) {
@@ -82,6 +82,10 @@ public interface LLongPair extends LTuple<Long>, Comparable<LLongPair> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default long getValue() {
+		return second();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LLongPair and calculates hash from it. */
@@ -214,11 +218,6 @@ public interface LLongPair extends LTuple<Long>, Comparable<LLongPair> {
 
 		SELF second(long second);
 
-		default SELF setFirst(long first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(long first, LLongPredicate predicate) {
 			if (predicate.test(this.first())) {
@@ -243,9 +242,15 @@ public interface LLongPair extends LTuple<Long>, Comparable<LLongPair> {
 			return (SELF) this;
 		}
 
-		default SELF setSecond(long second) {
-			this.second(second);
-			return (SELF) this;
+		default LLongPair value(long value) {
+			second(value);
+			return this;
+		}
+
+		default long setValue(long value) {
+			var old = second();
+			second(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

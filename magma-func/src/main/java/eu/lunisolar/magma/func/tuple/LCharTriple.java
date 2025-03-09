@@ -49,13 +49,13 @@ public interface LCharTriple extends LTuple<Character>, Comparable<LCharTriple> 
 
 	char first();
 
-	default char value() {
-		return first();
-	}
-
 	char second();
 
 	char third();
+
+	default char value() {
+		return third();
+	}
 
 	@Override
 	default Character get(int index) {
@@ -88,6 +88,10 @@ public interface LCharTriple extends LTuple<Character>, Comparable<LCharTriple> 
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default char getValue() {
+		return third();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LCharTriple and calculates hash from it. */
@@ -227,11 +231,6 @@ public interface LCharTriple extends LTuple<Character>, Comparable<LCharTriple> 
 
 		SELF third(char third);
 
-		default SELF setFirst(char first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(char first, LCharPredicate predicate) {
 			if (predicate.test(this.first())) {
@@ -253,11 +252,6 @@ public interface LCharTriple extends LTuple<Character>, Comparable<LCharTriple> 
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
-			return (SELF) this;
-		}
-
-		default SELF setSecond(char second) {
-			this.second(second);
 			return (SELF) this;
 		}
 
@@ -285,9 +279,15 @@ public interface LCharTriple extends LTuple<Character>, Comparable<LCharTriple> 
 			return (SELF) this;
 		}
 
-		default SELF setThird(char third) {
-			this.third(third);
-			return (SELF) this;
+		default LCharTriple value(char value) {
+			third(value);
+			return this;
+		}
+
+		default char setValue(char value) {
+			var old = third();
+			third(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

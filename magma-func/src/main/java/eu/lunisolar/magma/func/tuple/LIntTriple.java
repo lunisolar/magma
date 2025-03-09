@@ -49,13 +49,13 @@ public interface LIntTriple extends LTuple<Integer>, Comparable<LIntTriple> {
 
 	int first();
 
-	default int value() {
-		return first();
-	}
-
 	int second();
 
 	int third();
+
+	default int value() {
+		return third();
+	}
 
 	@Override
 	default Integer get(int index) {
@@ -88,6 +88,10 @@ public interface LIntTriple extends LTuple<Integer>, Comparable<LIntTriple> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default int getValue() {
+		return third();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LIntTriple and calculates hash from it. */
@@ -227,11 +231,6 @@ public interface LIntTriple extends LTuple<Integer>, Comparable<LIntTriple> {
 
 		SELF third(int third);
 
-		default SELF setFirst(int first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(int first, LIntPredicate predicate) {
 			if (predicate.test(this.first())) {
@@ -253,11 +252,6 @@ public interface LIntTriple extends LTuple<Integer>, Comparable<LIntTriple> {
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
-			return (SELF) this;
-		}
-
-		default SELF setSecond(int second) {
-			this.second(second);
 			return (SELF) this;
 		}
 
@@ -285,9 +279,15 @@ public interface LIntTriple extends LTuple<Integer>, Comparable<LIntTriple> {
 			return (SELF) this;
 		}
 
-		default SELF setThird(int third) {
-			this.third(third);
-			return (SELF) this;
+		default LIntTriple value(int value) {
+			third(value);
+			return this;
+		}
+
+		default int setValue(int value) {
+			var old = third();
+			third(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

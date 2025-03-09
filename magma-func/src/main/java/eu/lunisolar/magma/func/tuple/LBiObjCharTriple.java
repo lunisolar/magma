@@ -49,13 +49,13 @@ public interface LBiObjCharTriple<T1, T2> extends LTuple<Object> {
 
 	T1 first();
 
-	default T1 value() {
-		return first();
-	}
-
 	T2 second();
 
 	char third();
+
+	default char value() {
+		return third();
+	}
 
 	@Override
 	default Object get(int index) {
@@ -75,6 +75,10 @@ public interface LBiObjCharTriple<T1, T2> extends LTuple<Object> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default char getValue() {
+		return third();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LBiObjCharTriple and calculates hash from it. */
@@ -199,11 +203,6 @@ public interface LBiObjCharTriple<T1, T2> extends LTuple<Object> {
 
 		SELF third(char third);
 
-		default SELF setFirst(T1 first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(T1 first, LPredicate<T1> predicate) {
 			if (predicate.test(this.first())) {
@@ -225,11 +224,6 @@ public interface LBiObjCharTriple<T1, T2> extends LTuple<Object> {
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
-			return (SELF) this;
-		}
-
-		default SELF setSecond(T2 second) {
-			this.second(second);
 			return (SELF) this;
 		}
 
@@ -257,9 +251,15 @@ public interface LBiObjCharTriple<T1, T2> extends LTuple<Object> {
 			return (SELF) this;
 		}
 
-		default SELF setThird(char third) {
-			this.third(third);
-			return (SELF) this;
+		default LBiObjCharTriple<T1, T2> value(char value) {
+			third(value);
+			return this;
+		}
+
+		default char setValue(char value) {
+			var old = third();
+			third(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

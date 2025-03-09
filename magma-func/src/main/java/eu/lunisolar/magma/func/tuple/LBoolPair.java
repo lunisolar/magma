@@ -49,11 +49,11 @@ public interface LBoolPair extends LTuple<Boolean>, Comparable<LBoolPair> {
 
 	boolean first();
 
-	default boolean value() {
-		return first();
-	}
-
 	boolean second();
+
+	default boolean value() {
+		return second();
+	}
 
 	@Override
 	default Boolean get(int index) {
@@ -82,6 +82,10 @@ public interface LBoolPair extends LTuple<Boolean>, Comparable<LBoolPair> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default boolean getValue() {
+		return second();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LBoolPair and calculates hash from it. */
@@ -196,11 +200,6 @@ public interface LBoolPair extends LTuple<Boolean>, Comparable<LBoolPair> {
 
 		SELF second(boolean second);
 
-		default SELF setFirst(boolean first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(boolean first, LLogicalOperator predicate) {
 			if (predicate.apply(this.first())) {
@@ -225,9 +224,15 @@ public interface LBoolPair extends LTuple<Boolean>, Comparable<LBoolPair> {
 			return (SELF) this;
 		}
 
-		default SELF setSecond(boolean second) {
-			this.second(second);
-			return (SELF) this;
+		default LBoolPair value(boolean value) {
+			second(value);
+			return this;
+		}
+
+		default boolean setValue(boolean value) {
+			var old = second();
+			second(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

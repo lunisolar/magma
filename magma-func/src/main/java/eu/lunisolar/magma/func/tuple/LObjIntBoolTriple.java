@@ -49,13 +49,13 @@ public interface LObjIntBoolTriple<T> extends LTuple<Object> {
 
 	T first();
 
-	default T value() {
-		return first();
-	}
-
 	int second();
 
 	boolean third();
+
+	default boolean value() {
+		return third();
+	}
 
 	@Override
 	default Object get(int index) {
@@ -75,6 +75,10 @@ public interface LObjIntBoolTriple<T> extends LTuple<Object> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default boolean getValue() {
+		return third();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LObjIntBoolTriple and calculates hash from it. */
@@ -199,11 +203,6 @@ public interface LObjIntBoolTriple<T> extends LTuple<Object> {
 
 		SELF third(boolean third);
 
-		default SELF setFirst(T first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(T first, LPredicate<T> predicate) {
 			if (predicate.test(this.first())) {
@@ -225,11 +224,6 @@ public interface LObjIntBoolTriple<T> extends LTuple<Object> {
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
-			return (SELF) this;
-		}
-
-		default SELF setSecond(int second) {
-			this.second(second);
 			return (SELF) this;
 		}
 
@@ -257,9 +251,15 @@ public interface LObjIntBoolTriple<T> extends LTuple<Object> {
 			return (SELF) this;
 		}
 
-		default SELF setThird(boolean third) {
-			this.third(third);
-			return (SELF) this;
+		default LObjIntBoolTriple<T> value(boolean value) {
+			third(value);
+			return this;
+		}
+
+		default boolean setValue(boolean value) {
+			var old = third();
+			third(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

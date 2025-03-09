@@ -49,13 +49,13 @@ public interface LLongTriple extends LTuple<Long>, Comparable<LLongTriple> {
 
 	long first();
 
-	default long value() {
-		return first();
-	}
-
 	long second();
 
 	long third();
+
+	default long value() {
+		return third();
+	}
 
 	@Override
 	default Long get(int index) {
@@ -88,6 +88,10 @@ public interface LLongTriple extends LTuple<Long>, Comparable<LLongTriple> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default long getValue() {
+		return third();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LLongTriple and calculates hash from it. */
@@ -227,11 +231,6 @@ public interface LLongTriple extends LTuple<Long>, Comparable<LLongTriple> {
 
 		SELF third(long third);
 
-		default SELF setFirst(long first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(long first, LLongPredicate predicate) {
 			if (predicate.test(this.first())) {
@@ -253,11 +252,6 @@ public interface LLongTriple extends LTuple<Long>, Comparable<LLongTriple> {
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
-			return (SELF) this;
-		}
-
-		default SELF setSecond(long second) {
-			this.second(second);
 			return (SELF) this;
 		}
 
@@ -285,9 +279,15 @@ public interface LLongTriple extends LTuple<Long>, Comparable<LLongTriple> {
 			return (SELF) this;
 		}
 
-		default SELF setThird(long third) {
-			this.third(third);
-			return (SELF) this;
+		default LLongTriple value(long value) {
+			third(value);
+			return this;
+		}
+
+		default long setValue(long value) {
+			var old = third();
+			third(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

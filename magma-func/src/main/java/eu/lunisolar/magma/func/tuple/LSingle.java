@@ -51,10 +51,6 @@ public interface LSingle<T> extends LTuple<T> {
 
 	T value();
 
-	default T first() {
-		return value();
-	}
-
 	@Override
 	default T get(int index) {
 		switch (index) {
@@ -69,6 +65,10 @@ public interface LSingle<T> extends LTuple<T> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default T getValue() {
+		return value();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LSingle and calculates hash from it. */
@@ -179,9 +179,10 @@ public interface LSingle<T> extends LTuple<T> {
 
 		SELF value(T value);
 
-		default SELF setValue(T value) {
-			this.value(value);
-			return (SELF) this;
+		default T setValue(T value) {
+			var old = value();
+			value(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

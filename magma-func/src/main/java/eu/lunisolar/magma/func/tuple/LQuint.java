@@ -43,15 +43,11 @@ import java.util.stream.*;
  * Exact equivalent of input parameters used in LQuintConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, Map.Entry<T1, T2> {
+public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, Map.Entry<T4, T5> {
 
 	int SIZE = 5;
 
 	T1 first();
-
-	default T1 value() {
-		return first();
-	}
 
 	T2 second();
 
@@ -60,6 +56,10 @@ public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, Map.Entry<T1
 	T4 fourth();
 
 	T5 fifth();
+
+	default T5 value() {
+		return fifth();
+	}
 
 	@Override
 	default Object get(int index) {
@@ -85,22 +85,22 @@ public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, Map.Entry<T1
 		return SIZE;
 	}
 
+	/** Returns value as Entry.getValue(). */
+	@Override
+	default T5 getValue() {
+		return fifth();
+	}
+
 	//<editor-fold desc="Map.Entry">
 
-	/** Returns key as Entry.key() */
+	/** Returns key as Entry.getKey() */
 	@Override
-	default T1 getKey() {
-		return first();
-	}
-
-	/** Returns value as Entry.value(). 'Value' is assigned to first tuple element. */
-	@Override
-	default T2 getValue() {
-		return second();
+	default T4 getKey() {
+		return fourth();
 	}
 
 	@Override
-	default T2 setValue(T2 value) {
+	default T5 setValue(T5 value) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -245,11 +245,6 @@ public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, Map.Entry<T1
 
 		SELF fifth(T5 fifth);
 
-		default SELF setFirst(T1 first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(T1 first, LPredicate<T1> predicate) {
 			if (predicate.test(this.first())) {
@@ -271,11 +266,6 @@ public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, Map.Entry<T1
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
-			return (SELF) this;
-		}
-
-		default SELF setSecond(T2 second) {
-			this.second(second);
 			return (SELF) this;
 		}
 
@@ -303,11 +293,6 @@ public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, Map.Entry<T1
 			return (SELF) this;
 		}
 
-		default SELF setThird(T3 third) {
-			this.third(third);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setThirdIf(T3 third, LPredicate<T3> predicate) {
 			if (predicate.test(this.third())) {
@@ -329,11 +314,6 @@ public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, Map.Entry<T1
 			if (predicate.test(this.third(), third)) {
 				return this.third(third);
 			}
-			return (SELF) this;
-		}
-
-		default SELF setFourth(T4 fourth) {
-			this.fourth(fourth);
 			return (SELF) this;
 		}
 
@@ -361,9 +341,15 @@ public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, Map.Entry<T1
 			return (SELF) this;
 		}
 
-		default SELF setFifth(T5 fifth) {
-			this.fifth(fifth);
-			return (SELF) this;
+		default LQuint<T1, T2, T3, T4, T5> value(T5 value) {
+			fifth(value);
+			return this;
+		}
+
+		default T5 setValue(T5 value) {
+			var old = fifth();
+			fifth(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */
@@ -474,13 +460,6 @@ public interface LQuint<T1, T2, T3, T4, T5> extends LTuple<Object>, Map.Entry<T1
 		public @Override MutQuint<T1, T2, T3, T4, T5> fifth(T5 fifth) {
 			this.fifth = fifth;
 			return this;
-		}
-
-		@Override
-		public T2 setValue(T2 value) {
-			var old = second();
-			second(value);
-			return old;
 		}
 
 	}

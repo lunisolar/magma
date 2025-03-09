@@ -49,13 +49,13 @@ public interface LByteTriple extends LTuple<Byte>, Comparable<LByteTriple> {
 
 	byte first();
 
-	default byte value() {
-		return first();
-	}
-
 	byte second();
 
 	byte third();
+
+	default byte value() {
+		return third();
+	}
 
 	@Override
 	default Byte get(int index) {
@@ -88,6 +88,10 @@ public interface LByteTriple extends LTuple<Byte>, Comparable<LByteTriple> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default byte getValue() {
+		return third();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LByteTriple and calculates hash from it. */
@@ -227,11 +231,6 @@ public interface LByteTriple extends LTuple<Byte>, Comparable<LByteTriple> {
 
 		SELF third(byte third);
 
-		default SELF setFirst(byte first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(byte first, LBytePredicate predicate) {
 			if (predicate.test(this.first())) {
@@ -253,11 +252,6 @@ public interface LByteTriple extends LTuple<Byte>, Comparable<LByteTriple> {
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
-			return (SELF) this;
-		}
-
-		default SELF setSecond(byte second) {
-			this.second(second);
 			return (SELF) this;
 		}
 
@@ -285,9 +279,15 @@ public interface LByteTriple extends LTuple<Byte>, Comparable<LByteTriple> {
 			return (SELF) this;
 		}
 
-		default SELF setThird(byte third) {
-			this.third(third);
-			return (SELF) this;
+		default LByteTriple value(byte value) {
+			third(value);
+			return this;
+		}
+
+		default byte setValue(byte value) {
+			var old = third();
+			third(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

@@ -49,11 +49,11 @@ public interface LBytePair extends LTuple<Byte>, Comparable<LBytePair> {
 
 	byte first();
 
-	default byte value() {
-		return first();
-	}
-
 	byte second();
+
+	default byte value() {
+		return second();
+	}
 
 	@Override
 	default Byte get(int index) {
@@ -82,6 +82,10 @@ public interface LBytePair extends LTuple<Byte>, Comparable<LBytePair> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default byte getValue() {
+		return second();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LBytePair and calculates hash from it. */
@@ -214,11 +218,6 @@ public interface LBytePair extends LTuple<Byte>, Comparable<LBytePair> {
 
 		SELF second(byte second);
 
-		default SELF setFirst(byte first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(byte first, LBytePredicate predicate) {
 			if (predicate.test(this.first())) {
@@ -243,9 +242,15 @@ public interface LBytePair extends LTuple<Byte>, Comparable<LBytePair> {
 			return (SELF) this;
 		}
 
-		default SELF setSecond(byte second) {
-			this.second(second);
-			return (SELF) this;
+		default LBytePair value(byte value) {
+			second(value);
+			return this;
+		}
+
+		default byte setValue(byte value) {
+			var old = second();
+			second(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

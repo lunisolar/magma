@@ -49,11 +49,11 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 
 	T1 first();
 
-	default T1 value() {
-		return first();
-	}
-
 	T2 second();
+
+	default T2 value() {
+		return second();
+	}
 
 	@Override
 	default Object get(int index) {
@@ -73,18 +73,18 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 		return SIZE;
 	}
 
-	//<editor-fold desc="Map.Entry">
-
-	/** Returns key as Entry.key() */
-	@Override
-	default T1 getKey() {
-		return first();
-	}
-
-	/** Returns value as Entry.value(). 'Value' is assigned to first tuple element. */
+	/** Returns value as Entry.getValue(). */
 	@Override
 	default T2 getValue() {
 		return second();
+	}
+
+	//<editor-fold desc="Map.Entry">
+
+	/** Returns key as Entry.getKey() */
+	@Override
+	default T1 getKey() {
+		return first();
 	}
 
 	@Override
@@ -209,11 +209,6 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 
 		SELF second(T2 second);
 
-		default SELF setFirst(T1 first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(T1 first, LPredicate<T1> predicate) {
 			if (predicate.test(this.first())) {
@@ -238,9 +233,15 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 			return (SELF) this;
 		}
 
-		default SELF setSecond(T2 second) {
-			this.second(second);
-			return (SELF) this;
+		default LPair<T1, T2> value(T2 value) {
+			second(value);
+			return this;
+		}
+
+		default T2 setValue(T2 value) {
+			var old = second();
+			second(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */
@@ -315,13 +316,6 @@ public interface LPair<T1, T2> extends LTuple<Object>, Map.Entry<T1, T2> {
 		public @Override MutPair<T1, T2> second(T2 second) {
 			this.second = second;
 			return this;
-		}
-
-		@Override
-		public T2 setValue(T2 value) {
-			var old = second();
-			second(value);
-			return old;
 		}
 
 	}

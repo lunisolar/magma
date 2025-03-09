@@ -43,19 +43,19 @@ import java.util.stream.*;
  * Exact equivalent of input parameters used in LTriConsumer.
  */
 @SuppressWarnings("UnusedDeclaration")
-public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
+public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T2, T3> {
 
 	int SIZE = 3;
 
 	T1 first();
 
-	default T1 value() {
-		return first();
-	}
-
 	T2 second();
 
 	T3 third();
+
+	default T3 value() {
+		return third();
+	}
 
 	@Override
 	default Object get(int index) {
@@ -77,22 +77,22 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		return SIZE;
 	}
 
-	//<editor-fold desc="Map.Entry">
-
-	/** Returns key as Entry.key() */
+	/** Returns value as Entry.getValue(). */
 	@Override
-	default T1 getKey() {
-		return first();
+	default T3 getValue() {
+		return third();
 	}
 
-	/** Returns value as Entry.value(). 'Value' is assigned to first tuple element. */
+	//<editor-fold desc="Map.Entry">
+
+	/** Returns key as Entry.getKey() */
 	@Override
-	default T2 getValue() {
+	default T2 getKey() {
 		return second();
 	}
 
 	@Override
-	default T2 setValue(T2 value) {
+	default T3 setValue(T3 value) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -220,11 +220,6 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 
 		SELF third(T3 third);
 
-		default SELF setFirst(T1 first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(T1 first, LPredicate<T1> predicate) {
 			if (predicate.test(this.first())) {
@@ -246,11 +241,6 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 			if (predicate.test(this.first(), first)) {
 				return this.first(first);
 			}
-			return (SELF) this;
-		}
-
-		default SELF setSecond(T2 second) {
-			this.second(second);
 			return (SELF) this;
 		}
 
@@ -278,9 +268,15 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 			return (SELF) this;
 		}
 
-		default SELF setThird(T3 third) {
-			this.third(third);
-			return (SELF) this;
+		default LTriple<T1, T2, T3> value(T3 value) {
+			third(value);
+			return this;
+		}
+
+		default T3 setValue(T3 value) {
+			var old = third();
+			third(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */
@@ -367,13 +363,6 @@ public interface LTriple<T1, T2, T3> extends LTuple<Object>, Map.Entry<T1, T2> {
 		public @Override MutTriple<T1, T2, T3> third(T3 third) {
 			this.third = third;
 			return this;
-		}
-
-		@Override
-		public T2 setValue(T2 value) {
-			var old = second();
-			second(value);
-			return old;
 		}
 
 	}

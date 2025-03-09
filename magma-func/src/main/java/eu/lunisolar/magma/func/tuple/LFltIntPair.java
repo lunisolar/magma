@@ -49,11 +49,11 @@ public interface LFltIntPair extends LTuple<Number> {
 
 	float first();
 
-	default float value() {
-		return first();
-	}
-
 	int second();
+
+	default int value() {
+		return second();
+	}
 
 	@Override
 	default Number get(int index) {
@@ -71,6 +71,10 @@ public interface LFltIntPair extends LTuple<Number> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default int getValue() {
+		return second();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LFltIntPair and calculates hash from it. */
@@ -188,11 +192,6 @@ public interface LFltIntPair extends LTuple<Number> {
 
 		SELF second(int second);
 
-		default SELF setFirst(float first) {
-			this.first(first);
-			return (SELF) this;
-		}
-
 		/** Sets value if predicate(current) is true */
 		default SELF setFirstIf(float first, LFltPredicate predicate) {
 			if (predicate.test(this.first())) {
@@ -217,9 +216,15 @@ public interface LFltIntPair extends LTuple<Number> {
 			return (SELF) this;
 		}
 
-		default SELF setSecond(int second) {
-			this.second(second);
-			return (SELF) this;
+		default LFltIntPair value(int value) {
+			second(value);
+			return this;
+		}
+
+		default int setValue(int value) {
+			var old = second();
+			second(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */

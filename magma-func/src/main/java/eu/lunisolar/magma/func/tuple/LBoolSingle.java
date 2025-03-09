@@ -51,10 +51,6 @@ public interface LBoolSingle extends LTuple<Boolean>, Comparable<LBoolSingle> {
 
 	boolean value();
 
-	default boolean first() {
-		return value();
-	}
-
 	@Override
 	default Boolean get(int index) {
 		switch (index) {
@@ -78,6 +74,10 @@ public interface LBoolSingle extends LTuple<Boolean>, Comparable<LBoolSingle> {
 	@Override
 	default int tupleSize() {
 		return SIZE;
+	}
+
+	default boolean getValue() {
+		return value();
 	}
 
 	/** Static hashCode() implementation method that takes same arguments as fields of the LBoolSingle and calculates hash from it. */
@@ -185,9 +185,10 @@ public interface LBoolSingle extends LTuple<Boolean>, Comparable<LBoolSingle> {
 
 		SELF value(boolean value);
 
-		default SELF setValue(boolean value) {
-			this.value(value);
-			return (SELF) this;
+		default boolean setValue(boolean value) {
+			var old = value();
+			value(value);
+			return old;
 		}
 
 		/** Sets value if predicate(current) is true */
