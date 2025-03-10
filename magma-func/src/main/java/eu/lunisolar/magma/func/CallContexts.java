@@ -32,18 +32,20 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.Lock;
 
 import static eu.lunisolar.magma.basics.Null.nonNullArg;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static org.apache.logging.log4j.Level.TRACE;
 
 public final class CallContexts {
 
 	private final static Logger log = LogManager.getLogger(CallContexts.class.getName());
-	public static final Level LEVEL = TRACE;
+	private static final Level LEVEL = TRACE;
 
 	// <editor-fold desc="no-instance">
 	private CallContexts() {
@@ -604,12 +606,14 @@ public final class CallContexts {
 	public static CallContext logThrowable(Logger logger, Level level) {
 		nonNullArg(logger, "logger");
 		nonNullArg(level, "level");
-		return CallContexts.ctx(() -> null, (__, e) -> logger.log(level, e.getMessage(), e));
+		return CallContexts.ctx(() -> null, (__, e) -> logger.log(level, "{} - call end, with exception {}: {}", e.getClass().getName(), e.getMessage()));
 	}
 
 	public static CallContext logBoundary(Level level, String name) {
 		return logBoundary(log, level, name);
 	}
+
+	private static final DecimalFormat NANOS_FORMAT = new DecimalFormat("#,##0");
 
 	public static CallContext logBoundary(Logger logger, Level level, String name) {
 		nonNullArg(logger, "logger");
@@ -617,12 +621,18 @@ public final class CallContexts {
 		nonNullArg(name, "name");
 		return CallContexts.ctx(() -> {
 			logger.log(level, "{} - call start", name);
-			return null;
-		}, (__, e) -> {
-			if (e != null) {
-				logger.log(level, () -> "%s - call end, with exception %s: %s".formatted(name, e.getClass().getName(), e.getMessage()), e);
-			} else {
-				logger.log(level, "{} - call end", name);
+			return System.nanoTime();
+		}, (start, e) -> {
+			if (logger.isEnabled(level)) {
+				var ns = System.nanoTime() - start;
+				var useMs = ns > 1000000;
+				var elapsed = useMs ? NANOS_FORMAT.format(NANOSECONDS.toMillis(ns)) : NANOS_FORMAT.format(ns);
+				var unit = useMs ? "ms" : "ns";
+				if (e != null) {
+					logger.log(level, "{} - call end (after {} {}), with exception {}: {}", name, elapsed, unit, e.getClass().getName(), e.getMessage());
+				} else {
+					logger.log(level, "{} - call end (after {} {})", name, elapsed, unit);
+				}
 			}
 		});
 	}
@@ -639,12 +649,20 @@ public final class CallContexts {
 		});
 	}
 
-	public static CallContext debug(Level level, String name) {
-		return debug(log, level, name);
+	public static CallContext trace(Level level, String name) {
+		return trace(true, log, level, name);
 	}
 
-	public static CallContext debug(Logger logger, Level level, String name) {
-		return CallContexts.merge(renameThread(name), logBoundary(logger, level, name));
+	public static CallContext trace(boolean doLog, Level level, String name) {
+		return trace(doLog, log, level, name);
+	}
+
+	public static CallContext trace(Logger logger, Level level, String name) {
+		return trace(true, logger, level, name);
+	}
+
+	public static CallContext trace(boolean doLog, Logger logger, Level level, String name) {
+		return doLog ? merge(renameThread(name), logBoundary(logger, level, name)) : renameThread(name);
 	}
 
 }
