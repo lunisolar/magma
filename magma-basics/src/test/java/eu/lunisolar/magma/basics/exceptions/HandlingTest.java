@@ -18,6 +18,7 @@
 
 package eu.lunisolar.magma.basics.exceptions;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import javax.annotation.Nonnull;
@@ -243,41 +244,63 @@ public class HandlingTest {
         Handling.shoveIt(CHECKED);
     }
 
-    @Test
-    public void aggregateMessage() throws Exception {
+    @DataProvider(name = "aggregateMessageData")
+    public Object[][] aggregateMessageData() {
+        return new Object[][]{
+                {
+                        // new Exception("Something happened: " + e.getMessage(), e)
+                        exception("Message1:Message2:Message3", "Message2:Message3", "Message3"),
+                        "Message1:Message2:Message3; Message2:Message3; Message3",
+                        "IllegalArgumentException{Message1:Message2:Message3}; IllegalStateException{Message2:Message3}; IllegalArgumentException{Message3}",
+                        "Message1:Message2:Message3",
+                        "IllegalArgumentException{Message1}; IllegalStateException{Message2}; IllegalArgumentException{Message3}"
+                }, {
+                        // new Exception(e.getMessage(), e)
+                        exception("Message1", "Message1", "Message1"),
+                        "Message1; Message1; Message1",
+                        "IllegalArgumentException{Message1}; IllegalStateException{Message1}; IllegalArgumentException{Message1}",
+                        "Message1",
+                        "IllegalArgumentException{}; IllegalStateException{}; IllegalArgumentException{Message1}"
+                }, {
+                        // new Exception("Issue!", e)
+                        exception("Message1", "Message2", "Message3"),
+                        "Message1; Message2; Message3",
+                        "IllegalArgumentException{Message1}; IllegalStateException{Message2}; IllegalArgumentException{Message3}",
+                        "Message1; Message2; Message3",
+                        "IllegalArgumentException{Message1}; IllegalStateException{Message2}; IllegalArgumentException{Message3}"
+                }, {
+                        new Exception(),
+                        "Exception",
+                        "Exception{}",
+                        "Exception",
+                        "Exception{}"
+                }, {
+                        // new Exception(new Exception())
+                        new Exception(new Exception()),
+                        "java.lang.Exception; Exception",
+                        "Exception{}; Exception{}",
+                        "java.lang.Exception",
+                        "Exception{}; Exception{}"
+                }, {
+                        // new Exception(new Exception())
+                        new Exception(new Exception("Message1")), // new Exception(e) creates message: java.lang.Exception: Message1
+                        "java.lang.Exception: Message1; Message1",
+                        "Exception{java.lang.Exception: Message1}; Exception{Message1}",
+                        "java.lang.Exception: Message1",
+                        "Exception{java.lang.Exception}; Exception{Message1}"
+                }
+        };
+    }
 
-        // new Exception("Something happened: " + e.getMessage(), e)
-        IllegalArgumentException e1 = exception("Message1:Message2:Message3", "Message2:Message3", "Message3");
-        assertEquals(Handling.aggregateMessage("; ", e1), "Message1:Message2:Message3; Message2:Message3; Message3");
-        assertEquals(Handling.aggregateMessage("; ", e1, true), "Message1:Message2:Message3");
-
-        // new Exception(e.getMessage(), e)
-        IllegalArgumentException e2 = exception("Message1", "Message1", "Message1");
-        assertEquals(Handling.aggregateMessage("; ", e2), "Message1; Message1; Message1");
-        assertEquals(Handling.aggregateMessage("; ", e2, true), "Message1");
-
-        // new Exception("Issue!", e)
-        IllegalArgumentException e3 = exception("Message1", "Message2", "Message3");
-        assertEquals(Handling.aggregateMessage("; ", e3), "Message1; Message2; Message3");
-        assertEquals(Handling.aggregateMessage("; ", e3, true), "Message1; Message2; Message3");
-
-        // new Exception()
-        Exception e4 = new Exception();
-        assertEquals(Handling.aggregateMessage("; ", e4), "Exception");
-        assertEquals(Handling.aggregateMessage("; ", e4, true), "Exception");
-
-        // new Exception(new Exception())
-        Exception e5 = new Exception(new Exception());
-        assertEquals(Handling.aggregateMessage("; ", e5), "java.lang.Exception; Exception");
-        assertEquals(Handling.aggregateMessage("; ", e5, true), "java.lang.Exception");
-
-        // new Exception(new Exception())
-        Exception e6 = new Exception(new Exception("Message1")); // new Exception(e) creates message: java.lang.Exception: Message1
-        assertEquals(Handling.aggregateMessage("; ", e6), "java.lang.Exception: Message1; Message1");
-        assertEquals(Handling.aggregateMessage("; ", e6, true), "java.lang.Exception: Message1");
+    @Test(dataProvider = "aggregateMessageData")
+    public void aggregateMessage(Throwable e, String normal, String normalWithName, String reduced, String reducedWithName) throws Exception {
+        assertEquals(Handling.aggregateMessage("; ", e), normal);
+        assertEquals(Handling.aggregateMessage("; ", e, false, true), normalWithName);
+        assertEquals(Handling.aggregateMessage("; ", e, true), reduced);
+        assertEquals(Handling.aggregateMessage("; ", e, true, true), reducedWithName);
     }
 
     @Nonnull private IllegalArgumentException exception(String message1, String message2, String message3) {
-        return new IllegalArgumentException(message1, new IllegalArgumentException(message2, new IllegalArgumentException(message3)));
+        return new IllegalArgumentException(message1, new IllegalStateException(message2, new IllegalArgumentException(message3)));
     }
 }

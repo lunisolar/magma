@@ -84,10 +84,10 @@ public final class Handling implements Serializable {
         if (combine && newMessage != null) {
             String message      = constructMessage(e, newMessage, messageParams);
             String causeMessage = e != null ? e.getMessage() : null;
-            String finalMessage = causeMessage == null || causeMessage.isBlank() ?
-                    message
-                    :
-                    constructMessage(null, "%s %s", message, causeMessage);
+            String finalMessage = isUselessMessage(causeMessage) ?
+                                  message
+                                                                 :
+                                  constructMessage(null, "%s %s", message, causeMessage);
 
             return finalMessage;
         } else {
@@ -100,10 +100,10 @@ public final class Handling implements Serializable {
         if (combine && newMessage != null) {
             String message      = constructMessage(e, newMessage);
             String causeMessage = e != null ? e.getMessage() : null;
-            String finalMessage = causeMessage == null || causeMessage.isBlank() ?
-                    message
-                    :
-                    constructMessage(null, "%s %s", message, causeMessage);
+            String finalMessage = isUselessMessage(causeMessage) ?
+                                  message
+                                                                 :
+                                  constructMessage(null, "%s %s", message, causeMessage);
 
             return finalMessage;
         } else {
@@ -279,10 +279,10 @@ public final class Handling implements Serializable {
         handleErrors(e);
         String message      = constructMessage(null, newMessage, messageParams);
         String causeMessage = e.getMessage();
-        String finalMessage = causeMessage == null || causeMessage.isBlank() ?
-                message
-                :
-                constructMessage(null, "%s %s", message, causeMessage);
+        String finalMessage = isUselessMessage(causeMessage) ?
+                              message
+                                                             :
+                              constructMessage(null, "%s %s", message, causeMessage);
 
         return exceptionFactory.produce(finalMessage, e);
     }
@@ -294,10 +294,10 @@ public final class Handling implements Serializable {
         handleErrors(e);
         String message      = constructMessage(null, newMessage);
         String causeMessage = e.getMessage();
-        String finalMessage = causeMessage == null || causeMessage.isBlank() ?
-                message
-                :
-                constructMessage(null, "%s %s", message, causeMessage);
+        String finalMessage = isUselessMessage(causeMessage) ?
+                              message
+                                                             :
+                              constructMessage(null, "%s %s", message, causeMessage);
 
         return exceptionFactory.produce(finalMessage, e);
     }
@@ -546,21 +546,70 @@ public final class Handling implements Serializable {
         return aggregateMessage(" ", main, reduce);
     }
 
+    public static String aggregateMessage(@Nonnull Throwable main, boolean reduce, boolean addSimpleName) {
+        return aggregateMessage(" ", main, reduce, addSimpleName);
+    }
+
     public static String aggregateMessage(@Nonnull String separator, @Nonnull Throwable main, boolean reduce) {
+        return aggregateMessage(separator, main, reduce, false);
+    }
+
+    private record Contribution(Throwable ex, String simpleName, String message) {}
+
+    public static String aggregateMessage(@Nonnull String separator, @Nonnull Throwable main, boolean reduce, boolean addSimpleName) {
         nonNullArg(separator, "separator");
         nonNullArg(main, "main");
 
-        Stream<String> stream = causeChain(main).stream().map(e -> isUselessMessage(e) ? e.getClass().getSimpleName() : e.getMessage());
+        Stream<String> stream = causeChain(main).stream().map(e -> {
+            String message = e.getMessage();
 
-        if (reduce) {
+            if (addSimpleName && (message == null || isUsingOneOfNames(e, message))) {
+                message = "";
+            } else {
+                message = messageContribution(e, message);
+            }
+
+            if (addSimpleName && reduce) {
+                var nextMessage = e.getCause() != null ? messageContribution(e.getCause(), e.getCause().getMessage()) : null;
+                if (nextMessage != null && message.endsWith(nextMessage)) {
+                    message = message.substring(0, message.length() - nextMessage.length());
+
+                    var suffixes = List.of(":", " : ", ": ", "-", " - ");
+
+                    for (String suffix : suffixes) {
+                        if (message.endsWith(suffix)) {
+                            message = message.substring(0, message.length() - suffix.length());
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return addSimpleName ? e.getClass().getSimpleName() + "{" + message + "}" : message;
+        });
+
+        if (reduce && !addSimpleName) {
             return stream.reduce((s1, s2) -> s1.endsWith(s2) ? s1 : s1 + separator + s2).orElse("");
         }
 
         return stream.collect(joining(separator));
     }
 
+    private static boolean isUsingOneOfNames(Throwable e, String message) {
+        return Objects.equals(message, e.getClass().getName()) || Objects.equals(message, e.getClass().getSimpleName());
+    }
+
+    private static String messageContribution(Throwable e, String message) {
+        return isUselessMessage(message) ? e.getClass().getSimpleName() : message;
+    }
+
     public static boolean isUselessMessage(Throwable e) {
-        return e.getMessage() == null || e.getMessage().isBlank();
+        String message = e.getMessage();
+        return isUselessMessage(message);
+    }
+
+    public static boolean isUselessMessage(String message) {
+        return message == null || message.isBlank();
     }
 
     private static List<Throwable> causeChain(@Nonnull Throwable main) {
