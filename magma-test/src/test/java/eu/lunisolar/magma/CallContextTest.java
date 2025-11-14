@@ -21,6 +21,8 @@ package eu.lunisolar.magma;
 import eu.lunisolar.magma.basics.exceptions.NestedException;
 import eu.lunisolar.magma.basics.exceptions.X;
 import eu.lunisolar.magma.func.AsyncCallContext;
+import eu.lunisolar.magma.func.CallContext;
+import eu.lunisolar.magma.func.CallContext.ReasonToNotInvoke;
 import eu.lunisolar.magma.func.CallContexts;
 import eu.lunisolar.magma.func.consumer.LBiConsumer;
 import eu.lunisolar.magma.func.consumer.LConsumer;
@@ -47,10 +49,12 @@ import static eu.lunisolar.magma.func.supp.check.Checks.attestThrownBy;
 public class CallContextTest {
 
     @DataProvider(name = "simpleTest")
-    public static Object[][] test1() {return new Object[][]{{"3", "4"}, {"2", "3"}};}
+    public static Object[][] test1() {
+            return CallContextShared.simpleTest_data();
+    }
 
     @Test(dataProvider = "simpleTest")
-    public void simpleTest(String a1, String a2) {
+    public void simpleTest(String a1, String a2, ReasonToNotInvoke ignored) {
 
         // given
         l().clear();
@@ -65,7 +69,37 @@ public class CallContextTest {
     }
 
     @Test(dataProvider = "simpleTest")
-    public void simpleTest_consumer(String a1, String a2) {
+    public void simpleTest_notInvoked(String a1, String a2, ReasonToNotInvoke reason) {
+
+        // given
+        l().clear();
+        var ctx = CallContexts.ctx(i1.toSup(ignored -> reason), f1);
+
+        // when
+        var result = LBiFunction.nestingApply(ctx, a1, a2, FUNC);
+
+        // then
+        attest(result).mustBeNull();
+        attest(l()).mustAEx(P::containExactlyEx, i1Log);
+    }
+
+    @Test(dataProvider = "simpleTest")
+    public void resultOfTheFunctionIsNotInterpretedInSpecialWay(String a1, String a2, ReasonToNotInvoke reason) {
+
+        // given
+        l().clear();
+        var ctx = CallContexts.ctx(i1, f1);
+
+        // when
+        var result = LBiFunction.nestingApply(ctx, a1, a2, FUNC.then(ignored -> reason));
+
+        // then
+        attest(result).mustEx(Be::sameEx, reason);
+        attest(l()).mustAEx(P::containExactlyEx, i1Log, a1, a2, f1Log);
+    }
+
+    @Test(dataProvider = "simpleTest")
+    public void simpleTest_consumer(String a1, String a2, ReasonToNotInvoke ignored) {
 
         // given
         l().clear();
@@ -79,7 +113,21 @@ public class CallContextTest {
     }
 
     @Test(dataProvider = "simpleTest")
-    public void combine_executesStartsAndEndsInOrder(String a1, String a2) {
+    public void simpleTest_consumer_notInvoked(String a1, String a2, ReasonToNotInvoke reason) {
+
+        // given
+        l().clear();
+        var ctx = CallContexts.ctx(i1.toSup(ignored-> reason), f1);
+
+        // when
+        LConsumer.nestingAccept(ctx, a1, str -> l().add(str));
+
+        // then
+        attest(l()).mustAEx(P::containExactlyEx, i1Log);
+    }
+
+    @Test(dataProvider = "simpleTest")
+    public void combine_executesStartsAndEndsInOrder(String a1, String a2, ReasonToNotInvoke ignored) {
 
         // given
         l().clear();
@@ -93,6 +141,36 @@ public class CallContextTest {
         attest(l()).mustAEx(P::containExactlyEx, i1Log, i2Log, a1, a2, f2Log, f1Log);
     }
 
+    @Test(dataProvider = "simpleTest")
+    public void combine_executesStartsAndEndsInOrder_notInvoked1(String a1, String a2, ReasonToNotInvoke reason) {
+
+        // given
+        l().clear();
+        var ctx1 = CallContexts.ctx(i1.toSup(ignored -> reason), f1);
+        var ctx2 = CallContexts.ctx(i2, f2);
+
+        // when
+        var result = LBiFunction.nestingApply(ctx1, ctx2, a1, a2, FUNC);
+
+        // then
+        attest(l()).mustAEx(P::containExactlyEx, i1Log);
+    }
+
+    @Test(dataProvider = "simpleTest")
+    public void combine_executesStartsAndEndsInOrder_notInvoked2(String a1, String a2, ReasonToNotInvoke reason) {
+
+        // given
+        l().clear();
+        var ctx1 = CallContexts.ctx(i1, f1);
+        var ctx2 = CallContexts.ctx(i2.toSup(ignored -> reason), f2);
+
+        // when
+        var result = LBiFunction.nestingApply(ctx1, ctx2, a1, a2, FUNC);
+
+        // then
+        attest(l()).mustAEx(P::containExactlyEx, i1Log, i2Log, f1Log);
+    }
+
     @DataProvider(name = "exceptionHandling")
     public static Object[][] exceptionHandling() {
         return exceptionHandlingCases();
@@ -100,8 +178,8 @@ public class CallContextTest {
 
     @Test(dataProvider = "exceptionHandling")
     public void combine_exceptionHandling_shoving(
-            LSupplier<Object> init1, LBiConsumer<Object, Throwable> finish1,
-            LSupplier<Object> init2, LBiConsumer<Object, Throwable> finish2,
+            LSupplier<Object> init1, LBiConsumer<Object, Object> finish1,
+            LSupplier<Object> init2, LBiConsumer<Object, Object> finish2,
             LBiFunction<String, String, String> function,
             Consumer<Checks.Check<Throwable>> exChecker,
             String... expectedLog
@@ -123,8 +201,8 @@ public class CallContextTest {
 
     @Test(dataProvider = "exceptionHandling")
     public void combine_exceptionHandling_nesting(
-            LSupplier<Object> init1, LBiConsumer<Object, Throwable> finish1,
-            LSupplier<Object> init2, LBiConsumer<Object, Throwable> finish2,
+            LSupplier<Object> init1, LBiConsumer<Object, Object> finish1,
+            LSupplier<Object> init2, LBiConsumer<Object, Object> finish2,
             LBiFunction<String, String, String> function,
             Consumer<Checks.Check<Throwable>> exChecker,
             String... expectedLog
@@ -249,7 +327,7 @@ public class CallContextTest {
     }
 
     @Test(dataProvider = "simpleTest")
-    public void asyncBinaryOperator(String a1, String a2) {
+    public void asyncBinaryOperator(String a1, String a2, ReasonToNotInvoke ignored) {
         // given
         LBinaryOperator<String> function = (_1, _2) -> {
             l().add("F");

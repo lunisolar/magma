@@ -23,7 +23,7 @@ import eu.lunisolar.magma.func.action.LAction;
 import javax.annotation.Nullable;
 
 /**
- * Instance of CallContext is called before ({@link CallContext#start()}) and after ({@link CallContext#end(Object, Throwable)}) the call to the function.
+ * Instance of CallContext is called before ({@link CallContext#start()}) and after ({@link CallContext#end(Object, Object)}) the call to the function.
  * Instance(s) of the CallContext are on the call sites (e.g. calls to {@link LAction#nestingExecute(CallContext, LAction)}.
  * {@link CallContext} implementation might provide, for example, logging, transactions, time measurements.
  *
@@ -34,10 +34,19 @@ import javax.annotation.Nullable;
 public interface CallContext {
 
 	/**
+	* If this specific instance is returned by {@link CallContext#start()} then the call to function will be quietly skipped.
+	* In terms of how other {@link CallContext} instances will be handled - it would work just similar to situation where {@link CallContext#start()} failed.
+	* (since all started {@link CallContext} istances do expect call to {@link CallContext#end(Object, Object)}).
+	* If nothing else happen (e.g., outer {@link CallContext#end(Object, Object)} fails) no exception will be thrown,
+	* and if the function has codomain (expected result), then null will be returned.
+	*/
+	public static final ReasonToNotInvoke CONDITION_NOT_MET = new ReasonToNotInvoke("Condition was not met.");
+
+	/**
 	 * Starting boundary of the context for the call. Returned object is hold for the duration of the call and then passed to the
-	 * {@link CallContext#end(Object, Throwable)}.
-	 * If {@link CallContext#start()} will throw OR return exception the context is considered as not started and no call to the
-	 * {@link CallContext#end(Object, Throwable)} is made.
+	 * {@link CallContext#end(Object, Object)}.
+	 * If {@link CallContext#start()} will throw OR return exception (Or instance of {@link ReasonToNotInvoke), the context is considered as not started and no call to the
+	 * {@link CallContext#end(Object, Object)} is made.
 	 */
 	@Nullable
 	Object start() throws Throwable;
@@ -45,16 +54,24 @@ public interface CallContext {
 	/**
 	 * End boundary of the context for the call.
 	 *
-	 * @param obj     Object returned by {@link CallContext#start()}
-	 * @param primary Exception created either during the call or initialization of another (next in line) CallContext. Rethrow of this exception is
+	 * @param state   Object returned by {@link CallContext#start()}
+	 * @param primary Exception (or ReasonToNotInvoke) created either during the invocation of function or initialization of another (next in line) CallContext.
+	 *                Rethrow of this exception is
 	 *                carried elsewhere. It should be used only for information, e.g. things like: TX commit/rollback decision.
-	 *                {@link CallContext#end(Object, Throwable)} is allowed to throw its own exception.
+	 *                {@link CallContext#end(Object, Object)} is allowed to throw its own exception.
 	 *                Propagation and suppression of exceptions is also carried outside of the {@link CallContext}
-	 *                (see {@link CallContexts#tryInit(Object, CallContext)} and {@link CallContexts#tryFinish(Throwable, CallContext, Object)}})
-	 * @return Instance of exception, if the primary exception is to be overridden. It is the responsibility of the CallContext to keep the new exception
-	 *         connected with the cause (or simply use {@link Exception#addSuppressed(Throwable)}.
+	 *                (see {@link CallContexts#tryInit(Object, CallContext)} and {@link CallContexts#tryFinish(Object, CallContext, Object)}})
+	 * @return Instance of exception, if the primary exception is to be overridden. For this specific instance,
+	 *         it is the responsibility of the CallContext to keep the new exception connected with the cause
+	 *         (or simply use {@link Exception#addSuppressed(Throwable)}.
 	 */
 	@Nullable
-	Throwable end(@Nullable Object obj, @Nullable Throwable primary) throws Throwable;
+	Throwable end(@Nullable Object state, @Nullable Object primary) throws Throwable;
+
+	/**
+	 * User is free to use {@link CallContext#CONDITION_NOT_MET} as a reason to not invoke the function or to create own instances.
+	 */
+	public record ReasonToNotInvoke(String reason) {
+	}
 
 }

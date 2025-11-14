@@ -823,7 +823,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		Object last = null;
 		final Object s1 = last = CallContexts.tryInit(last, c1); // try { c1?.start() ...
 
-		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object primary = (last instanceof CallContext.ReasonToNotInvoke || last instanceof Throwable) ? last : null;
 		Object retval = null;
 		if (primary == null) {
 			try {
@@ -835,8 +835,8 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 
 		primary = CallContexts.tryFinish(primary, c1, s1); // } finally { c1?.end(...) }
 
-		if (primary != null) {
-			throw Handling.throwIt(primary);
+		if (primary instanceof Throwable thr) {
+			throw Handling.throwIt(thr);
 		}
 		return (boolean) retval;
 	}
@@ -877,7 +877,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		final Object s1 = last = CallContexts.tryInit(last, c1); // try { c1?.start() ...
 		final Object s2 = last = CallContexts.tryInit(last, c2); // try { c2?.start() ...
 
-		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object primary = (last instanceof CallContext.ReasonToNotInvoke || last instanceof Throwable) ? last : null;
 		Object retval = null;
 		if (primary == null) {
 			try {
@@ -890,8 +890,8 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		primary = CallContexts.tryFinish(primary, c2, s2); // } finally { c2?.end(...) }
 		primary = CallContexts.tryFinish(primary, c1, s1); // } finally { c1?.end(...) }
 
-		if (primary != null) {
-			throw Handling.throwIt(primary);
+		if (primary instanceof Throwable thr) {
+			throw Handling.throwIt(thr);
 		}
 		return (boolean) retval;
 	}
@@ -933,7 +933,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		final Object s2 = last = CallContexts.tryInit(last, c2); // try { c2?.start() ...
 		final Object s3 = last = CallContexts.tryInit(last, c3); // try { c3?.start() ...
 
-		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object primary = (last instanceof CallContext.ReasonToNotInvoke || last instanceof Throwable) ? last : null;
 		Object retval = null;
 		if (primary == null) {
 			try {
@@ -947,8 +947,8 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		primary = CallContexts.tryFinish(primary, c2, s2); // } finally { c2?.end(...) }
 		primary = CallContexts.tryFinish(primary, c1, s1); // } finally { c1?.end(...) }
 
-		if (primary != null) {
-			throw Handling.throwIt(primary);
+		if (primary instanceof Throwable thr) {
+			throw Handling.throwIt(thr);
 		}
 		return (boolean) retval;
 	}
@@ -991,7 +991,7 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		final Object s3 = last = CallContexts.tryInit(last, c3); // try { c3?.start() ...
 		final Object s4 = last = CallContexts.tryInit(last, c4); // try { c4?.start() ...
 
-		Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+		Object primary = (last instanceof CallContext.ReasonToNotInvoke || last instanceof Throwable) ? last : null;
 		Object retval = null;
 		if (primary == null) {
 			try {
@@ -1006,8 +1006,8 @@ public interface LTriPredicate<T1, T2, T3> extends MetaPredicate, MetaInterface.
 		primary = CallContexts.tryFinish(primary, c2, s2); // } finally { c2?.end(...) }
 		primary = CallContexts.tryFinish(primary, c1, s1); // } finally { c1?.end(...) }
 
-		if (primary != null) {
-			throw Handling.throwIt(primary);
+		if (primary instanceof Throwable thr) {
+			throw Handling.throwIt(thr);
 		}
 		return (boolean) retval;
 	}

@@ -18,6 +18,7 @@
 
 package eu.lunisolar.magma;
 
+import eu.lunisolar.magma.func.CallContext;
 import eu.lunisolar.magma.func.consumer.LBiConsumer;
 import eu.lunisolar.magma.func.function.LBiFunction;
 import eu.lunisolar.magma.func.supp.Be;
@@ -38,8 +39,8 @@ class CallContextShared {
     protected static List<String> l() {return L.get();}
 
     protected static Object[] p(
-            LSupplier<?> init1, LBiConsumer<?, Throwable> finish1,
-            LSupplier<?> init2, LBiConsumer<?, Throwable> finish2,
+            LSupplier<?> init1, LBiConsumer<?, Object> finish1,
+            LSupplier<?> init2, LBiConsumer<?, Object> finish2,
             LBiFunction<String, String, String> function,
             Consumer<Checks.Check<Throwable>> exChecker,
             String... expectedLog
@@ -73,22 +74,26 @@ class CallContextShared {
         l().add(i2Log);
         return i2Log;
     };
-    protected static final LBiConsumer<Object, Throwable>      f1       = (state, e) -> {
+    protected static final LSupplier<Object>                   i2NoCall = () -> {
+        l().add(i2Log);
+        return new CallContext.ReasonToNotInvoke("custom");
+    };
+    protected static final LBiConsumer<Object, Object>         f1       = (state, e) -> {
         l().add(f1Log);
         attest(state).mustBeSame(i1Log);
     };
-    protected static final LBiConsumer<Object, Throwable>      f2       = (state1, e1) -> {
+    protected static final LBiConsumer<Object, Object>         f2       = (state1, e1) -> {
         l().add(f2Log);
         attest(state1).mustBeSame(i2Log);
     };
     protected static final LSupplier<?>                        EX_I1    = () -> {throw new Exception("I1");};
-    protected static final LBiConsumer<?, Throwable>           EX_F1    = (state, e) -> {throw new Exception("F1");};
+    protected static final LBiConsumer<?, Object>              EX_F1    = (state, e) -> {throw new Exception("F1");};
     protected static final LSupplier<?>                        EX_I2    = () -> {throw new Exception("I2");};
-    protected static final LBiConsumer<?, Throwable>           EX_F2    = (state, e) -> {throw new Exception("F2");};
+    protected static final LBiConsumer<?, Object>              EX_F2    = (state, e) -> {throw new Exception("F2");};
     protected static final LSupplier<?>                        ERR_I1   = () -> {throw new MyError("I1");};
-    protected static final LBiConsumer<?, Throwable>           ERR_F1   = (state, e) -> {throw new MyError("F1");};
+    protected static final LBiConsumer<?, Object>              ERR_F1   = (state, e) -> {throw new MyError("F1");};
     protected static final LSupplier<?>                        ERR_I2   = () -> {throw new MyError("I2");};
-    protected static final LBiConsumer<?, Throwable>           ERR_F2   = (state, e) -> {throw new MyError("F2");};
+    protected static final LBiConsumer<?, Object>              ERR_F2   = (state, e) -> {throw new MyError("F2");};
 
     protected static Object[][] exceptionHandlingCases() {
         return new Object[][]{
@@ -113,6 +118,13 @@ class CallContextShared {
                                   .mustEx(Have::noCauseEx)
                                   .mustEx(Have::noSuppressedEx),
                   i1Log, i2Log, ARG1, ARG2, f2Log
+                ),
+                p(i1, EX_F1, i2NoCall, f2, FUNC,
+                  attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
+                          .mustEx(Have::msgEqualEx, "F1")
+                          .mustEx(Have::noCauseEx)
+                          .mustEx(Have::noSuppressedEx),
+                  i1Log, i2Log
                 ),
                 p(i1, f1, EX_I2, f2, FUNC,
                   attest -> attest.mustEx(Be::exactlyInstanceOfEx, Exception.class)
@@ -294,5 +306,10 @@ class CallContextShared {
                 {null, null}
         };
     }
+
+    public static Object[][] simpleTest_data() {return new Object[][]{
+            {"3", "4", CallContext.CONDITION_NOT_MET},
+            {"2", "3", new CallContext.ReasonToNotInvoke("custom")}
+    };}
 
 }

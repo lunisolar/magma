@@ -20,6 +20,7 @@ package eu.lunisolar.magma.func;
 
 import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.basics.exceptions.Handling;
+import eu.lunisolar.magma.func.CallContext.ReasonToNotInvoke;
 import eu.lunisolar.magma.func.action.LAction;
 import eu.lunisolar.magma.func.consumer.LBiConsumer;
 import eu.lunisolar.magma.func.consumer.LConsumer;
@@ -63,7 +64,7 @@ public final class CallContexts {
 		C doStart() throws Throwable;
 
 		@Nullable
-		Throwable doEnd(@Nullable C obj, @Nullable Throwable e) throws Throwable;
+		Throwable doEnd(@Nullable C state, @Nullable Object primary) throws Throwable;
 
 		@Override
 		default @Nullable Object start() throws Throwable {
@@ -71,13 +72,13 @@ public final class CallContexts {
 		}
 
 		@Override
-		default @Nullable Throwable end(@Nullable Object obj, @Nullable Throwable e) throws Throwable {
-			return doEnd((C) obj, e);
+		default @Nullable Throwable end(@Nullable Object state, @Nullable Object primary) throws Throwable {
+			return doEnd((C) state, primary);
 		}
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	public static <C> @Nonnull CallContext ctxHandling(@Nonnull LSupplier</* ? extends */C> starter, @Nonnull LBiFunction</* ? super */C, Throwable, Throwable> finisher) {
+	public static <C> @Nonnull CallContext ctxHandling(@Nonnull LSupplier</* ? extends */C> starter, @Nonnull LBiFunction</* ? super */C, Object, Throwable> finisher) {
 		nonNullArg(starter, "[starter] cannot be null.");
 		nonNullArg(finisher, "[finisher] cannot be null.");
 		return new CallContexts.Easy<C>() {
@@ -87,14 +88,14 @@ public final class CallContexts {
 			}
 
 			@Override
-			public @Nullable Throwable doEnd(@Nullable C obj, @Nullable Throwable e) {
-				return finisher.shovingApply(obj, e);
+			public @Nullable Throwable doEnd(@Nullable C state, @Nullable Object primary) {
+				return finisher.shovingApply(state, primary);
 			}
 		};
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	public static <C> @Nonnull CallContext ctx(@Nonnull LSupplier</* ? extends */C> starter, @Nonnull LBiConsumer</* ? super */C, Throwable> finisher) {
+	public static <C> @Nonnull CallContext ctx(@Nonnull LSupplier</* ? extends */C> starter, @Nonnull LBiConsumer</* ? super */C, Object> finisher) {
 		nonNullArg(starter, "[starter] cannot be null.");
 		nonNullArg(finisher, "[finisher] cannot be null.");
 		return new CallContexts.Easy<C>() {
@@ -104,8 +105,8 @@ public final class CallContexts {
 			}
 
 			@Override
-			public @Nullable Throwable doEnd(@Nullable C obj, @Nullable Throwable e) {
-				finisher.shovingAccept(obj, e);
+			public @Nullable Throwable doEnd(@Nullable C state, @Nullable Object primary) {
+				finisher.shovingAccept(state, primary);
 				return null;
 			}
 		};
@@ -122,8 +123,8 @@ public final class CallContexts {
 			}
 
 			@Override
-			public @Nullable Throwable doEnd(@Nullable C obj, @Nullable Throwable e) {
-				finisher.shovingAccept(obj);
+			public @Nullable Throwable doEnd(@Nullable C state, @Nullable Object primary) {
+				finisher.shovingAccept(state);
 				return null;
 			}
 		};
@@ -141,7 +142,7 @@ public final class CallContexts {
 			}
 
 			@Override
-			public @Nullable Throwable doEnd(@Nullable Void obj, @Nullable Throwable e) {
+			public @Nullable Throwable doEnd(@Nullable Void state, @Nullable Object primary) {
 				finisher.shovingExecute();
 				return null;
 			}
@@ -150,12 +151,12 @@ public final class CallContexts {
 
 	/**
 	 * Subsequent calls to this method are working like start of  <code>try {} finally { }</code> block.
-	 * Works with {@link CallContexts#tryFinish(Throwable, CallContext, Object)} as counterpart.
+	 * Works with {@link CallContexts#tryFinish(Object, CallContext, Object)} as counterpart.
 	 * Requires to obey special contract considerations when calling (e.g. {@link LAction#executeX(CallContext, LAction)} X()}),
 	 * especially in regard to exception handling and propagation that is distributed between those two methods and a calling site.
 	 */
 	public static @Nullable Object tryInit(Object potentialPrimaryException, CallContext notInitialized) {
-		if (potentialPrimaryException instanceof Throwable) {
+		if (potentialPrimaryException instanceof Throwable || potentialPrimaryException instanceof ReasonToNotInvoke) {
 			return potentialPrimaryException;
 		}
 
@@ -176,8 +177,8 @@ public final class CallContexts {
 	 * Requires to obey special contract considerations when calling (e.g. {@link LAction#executeX(CallContext, LAction)} X()}),
 	 * especially in regard to exception handling and propagation that is distributed between those two methods and a calling site.
 	 */
-	public static @Nullable Throwable tryFinish(Throwable primary, CallContext alreadyInitialized, Object state) {
-		if (state != null && state == primary) {
+	public static @Nullable Object tryFinish(Object primary, CallContext alreadyInitialized, Object state) {
+		if ((state != null && state == primary) || state instanceof ReasonToNotInvoke) {
 			return primary; // Context failed to initialize.
 		}
 
@@ -188,14 +189,17 @@ public final class CallContexts {
 					primary = newPrimary;
 				}
 			} catch (Throwable e) {
-				// 'primary' is expected to be thrown by a call site.
 				if (primary != null) {
-					if (e instanceof Error && !(primary instanceof Error)) {
+					if (!(primary instanceof Throwable)) {
+						return e; // call was ignored for a 'primary' reason (ReasonToNotInvoke) - it was not a Throwable.
+					}
+					final var primaryThrowable = (Throwable) primary;
+					if (e instanceof Error && !(primaryThrowable instanceof Error)) {
 						// Error has precedence.
-						e.addSuppressed(primary);
+						e.addSuppressed(primaryThrowable);
 						return e;
 					}
-					primary.addSuppressed(e);
+					primaryThrowable.addSuppressed(e);
 				} else {
 					return e;
 				}
@@ -216,7 +220,7 @@ public final class CallContexts {
 
 	/**
 	 * Reproduces logic (call sequence and exception handling) normally carried by call site (e.g. {@link LAction#nestingExecute(CallContext, LAction)},
-	 * {@link CallContexts#tryInit(Object, CallContext)} and {@link CallContexts#tryFinish(Throwable, CallContext, Object)}),
+	 * {@link CallContexts#tryInit(Object, CallContext)} and {@link CallContexts#tryFinish(Object, CallContext, Object)}),
 	 * to merge two or more CallContext instances. Compared to using call site variant with two or more arguments for CallContext is
 	 * that keeping the state together (between start and end) requires additional object allocation (array storing state objects for each context).
 	 */
@@ -251,7 +255,7 @@ public final class CallContexts {
 					state[i] = last;
 				}
 
-				Throwable primary = (last instanceof Throwable) ? (Throwable) last : null;
+				Object primary = (last instanceof CallContext.ReasonToNotInvoke || last instanceof Throwable) ? last : null;
 
 				if (primary != null) {
 					return tryFinish(i, primary, state);
@@ -262,7 +266,7 @@ public final class CallContexts {
 		}
 
 		@Nullable
-		private Throwable tryFinish(int i, Throwable primary, Object[] state) {
+		private Object tryFinish(int i, Object primary, Object[] state) {
 			if (i > 0) {
 				// The outside logic does not know we have here multiple contexts that might be already initialized.
 				if (state != null) {
@@ -279,13 +283,13 @@ public final class CallContexts {
 		}
 
 		@Override
-		public @Nullable Throwable end(@Nullable Object obj, @Nullable Throwable argPrimary) throws Throwable {
+		public @Nullable Throwable end(@Nullable Object obj, @Nullable Object argPrimary) throws Throwable {
 			Object[] state = (Object[]) obj;
 
 			var primary = tryFinish(contexts.length, argPrimary, state);
 
-			if (primary != null && primary != argPrimary) {
-				throw primary;
+			if (primary != argPrimary && primary instanceof Throwable thr) {
+				throw thr;
 			} // else - "primary" must be already being handled.
 			return null;
 		}
@@ -309,7 +313,7 @@ public final class CallContexts {
 		}
 
 		@Override
-		public @Nullable Throwable end(@Nullable Object obj, @Nullable Throwable primary) throws Throwable {
+		public @Nullable Throwable end(@Nullable Object obj, @Nullable Object primary) throws Throwable {
 			// NO-OP
 			return null;
 		}
@@ -363,7 +367,7 @@ public final class CallContexts {
 		}
 
 		@Override
-		public @Nullable Throwable end(@Nullable Object obj, @Nullable Throwable primary) {
+		public @Nullable Throwable end(@Nullable Object obj, @Nullable Object primary) {
 			lock.unlock();
 			return null;
 		}
@@ -419,7 +423,7 @@ public final class CallContexts {
 		}
 
 		@Override
-		public @Nullable Throwable end(@Nullable Object obj, @Nullable Throwable primary) {
+		public @Nullable Throwable end(@Nullable Object obj, @Nullable Object primary) {
 			semaphore.release(1);
 			return null;
 		}
@@ -606,7 +610,11 @@ public final class CallContexts {
 	public static CallContext logThrowable(Logger logger, Level level) {
 		nonNullArg(logger, "logger");
 		nonNullArg(level, "level");
-		return CallContexts.ctx(() -> null, (__, e) -> logger.log(level, "{} - call end, with exception {}: {}", e.getClass().getName(), e.getMessage()));
+		return CallContexts.ctx(() -> null, (__, primary) -> {
+			if (primary instanceof Throwable e) {
+				logger.log(level, "{} - call end, with exception {}: {}", e.getClass().getName(), e.getMessage());
+			}
+		});
 	}
 
 	public static CallContext logBoundary(Level level, String name) {
@@ -622,14 +630,16 @@ public final class CallContexts {
 		return CallContexts.ctx(() -> {
 			logger.log(level, "{} - call start", name);
 			return System.nanoTime();
-		}, (start, e) -> {
+		}, (start, primary) -> {
 			if (logger.isEnabled(level)) {
 				var ns = System.nanoTime() - start;
 				var useMs = ns > 1000000;
 				var elapsed = useMs ? NANOS_FORMAT.format(NANOSECONDS.toMillis(ns)) : NANOS_FORMAT.format(ns);
 				var unit = useMs ? "ms" : "ns";
-				if (e != null) {
+				if (primary instanceof Throwable e) {
 					logger.log(level, "{} - call end (after {} {}), with exception {}: {}", name, elapsed, unit, e.getClass().getName(), e.getMessage());
+				} else if (primary != null) {
+					logger.log(level, "{} - call end (after {} {}), invocation was skipped!, with reason: {}", name, elapsed, unit, primary);
 				} else {
 					logger.log(level, "{} - call end (after {} {})", name, elapsed, unit);
 				}

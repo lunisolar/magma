@@ -140,10 +140,10 @@ public class CallContextsTest {
     }
 
     @DataProvider(name = "simpleTest")
-    public static Object[][] test1() {return new Object[][]{{"3", "4"}, {"2", "3"}};}
+    public static Object[][] test1() {return CallContextShared.simpleTest_data();}
 
     @Test(dataProvider = "simpleTest")
-    public void merge_executesStartsAndEndsInOrder(String a1, String a2) {
+    public void merge_executesStartsAndEndsInOrder(String a1, String a2, CallContext.ReasonToNotInvoke ignored) {
 
         // given
         l().clear();
@@ -153,7 +153,38 @@ public class CallContextsTest {
         var result = LBiFunction.nestingApply(ctx, a1, a2, FUNC);
 
         // then
+        attest(result).mustEx(Be::equalEx, a1 + a2);
         attest(l()).mustAEx(P::containExactlyEx, i1Log, i2Log, a1, a2, f2Log, f1Log);
+    }
+
+    @Test(dataProvider = "simpleTest")
+    public void merge_executesStartsAndEndsInOrder_notInvoked1(String a1, String a2, CallContext.ReasonToNotInvoke reason) {
+
+        // given
+        l().clear();
+        var ctx = CallContexts.merge(CallContexts.ctx(i1.toSup(ignored -> reason), f1), CallContexts.ctx(i2, f2));
+
+        // when
+        var result = LBiFunction.nestingApply(ctx, a1, a2, FUNC);
+
+        // then
+        attest(result).mustBeNull();
+        attest(l()).mustAEx(P::containExactlyEx, i1Log);
+    }
+
+    @Test(dataProvider = "simpleTest")
+    public void merge_executesStartsAndEndsInOrder_notInvoked2(String a1, String a2, CallContext.ReasonToNotInvoke reason) {
+
+        // given
+        l().clear();
+        var ctx = CallContexts.merge(CallContexts.ctx(i1, f1), CallContexts.ctx(i2.toSup(ignored -> reason), f2));
+
+        // when
+        var result = LBiFunction.nestingApply(ctx, a1, a2, FUNC);
+
+        // then
+        attest(result).mustBeNull();
+        attest(l()).mustAEx(P::containExactlyEx, i1Log, i2Log, f1Log);
     }
 
     @DataProvider(name = "exceptionHandling")
@@ -163,8 +194,8 @@ public class CallContextsTest {
 
     @Test(dataProvider = "exceptionHandling")
     public void merge_exceptionHandling_shoving(
-            LSupplier<Object> init1, LBiConsumer<Object, Throwable> finish1,
-            LSupplier<Object> init2, LBiConsumer<Object, Throwable> finish2,
+            LSupplier<Object> init1, LBiConsumer<Object, Object> finish1,
+            LSupplier<Object> init2, LBiConsumer<Object, Object> finish2,
             LBiFunction<String, String, String> function,
             Consumer<Checks.Check<Throwable>> exChecker,
             String... expectedLog
@@ -185,8 +216,8 @@ public class CallContextsTest {
 
     @Test(dataProvider = "exceptionHandling")
     public void merge_exceptionHandling_nesting(
-            LSupplier<Object> init1, LBiConsumer<Object, Throwable> finish1,
-            LSupplier<Object> init2, LBiConsumer<Object, Throwable> finish2,
+            LSupplier<Object> init1, LBiConsumer<Object, Object> finish1,
+            LSupplier<Object> init2, LBiConsumer<Object, Object> finish2,
             LBiFunction<String, String, String> function,
             Consumer<Checks.Check<Throwable>> exChecker,
             String... expectedLog
