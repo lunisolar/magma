@@ -5,7 +5,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write  # Required to commit and push version changes back to the repo.
+  contents: write   # Required to commit and push version changes back to the repo.
+  packages: write   # Required to publish to GitHub Packages within the organization.
 
 concurrency:
   # Only one release at a time; never cancel an in-progress release.
@@ -80,9 +81,8 @@ jobs:
 
       # ── build-release ─────────────────────────────────────────────────────────
       - name: Configure Maven settings for private GitHub Packages
-        # Inject server credentials so Maven can authenticate against the private registry.
-        # PRIVATE_PACKAGES_TOKEN must be a PAT (or fine-grained token) with write:packages
-        # scope for the target organisation.
+        # Use the built-in GITHUB_TOKEN — no extra secrets needed as long as all
+        # repositories belong to the same organization and packages: write is granted above.
         run: |
           mkdir -p ~/.m2
           cat > ~/.m2/settings.xml <<'EOF'
@@ -91,7 +91,7 @@ jobs:
               <server>
                 <id>github-private</id>
                 <username>${{ github.actor }}</username>
-                <password>${{ secrets.PRIVATE_PACKAGES_TOKEN }}</password>
+                <password>${{ secrets.GITHUB_TOKEN }}</password>
               </server>
             </servers>
           </settings>
@@ -100,7 +100,7 @@ jobs:
       - name: Build, test and deploy to private GitHub Packages
         # Full build (compile → test → package → deploy).
         # Artifacts land in the GitHub Packages registry of lunisolar-github-private-repo
-        # inside the same organisation that owns this repository.
+        # inside the same organization that owns this repository.
         run: |
           mvn --batch-mode --no-transfer-progress clean deploy \
             -DaltDeploymentRepository=github-private::https://maven.pkg.github.com/${{ github.repository_owner }}/lunisolar-github-private-repo
