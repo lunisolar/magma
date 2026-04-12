@@ -52,9 +52,12 @@
   </scm>
 
     <distributionManagement>
+        <!-- Release artifacts go to the private GitHub Packages registry.
+             ${env.GITHUB_REPOSITORY_OWNER} is provided automatically by GitHub Actions;
+             override it locally if needed: -Denv.GITHUB_REPOSITORY_OWNER=lunisolar -->
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>github-private</id>
+            <url>https://maven.pkg.github.com/${env.GITHUB_REPOSITORY_OWNER}/lunisolar-github-private-repo</url>
         </repository>
         <snapshotRepository>
             <id>ossrh</id>
@@ -78,22 +81,6 @@
     </modules>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <!-- Pin to 2.8.2 across all modules.  maven-deploy-plugin 3.x (the Maven
-                     3.9+ default) changed deployAtEnd to true at Maven-core level, which
-                     causes "Could not find artifact eu.lunisolar:magma:pom" errors because
-                     the root POM has not yet been pushed to the remote registry when child
-                     modules are validated during the end-of-build batch deploy.
-                     2.8.2 deploys each module immediately (deployAtEnd defaults to false)
-                     and does not perform a post-upload remote verification. -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-deploy-plugin</artifactId>
-                    <version>2.8.2</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
