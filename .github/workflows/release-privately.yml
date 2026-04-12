@@ -8,6 +8,10 @@ on:
         description: 'Delete existing package versions before deploying (requires delete:packages scope on GH_PACKAGES_TOKEN)'
         type: boolean
         default: true
+      extra_tag:
+        description: 'Optional extra tag to push on the release commit (e.g. "stable", "latest", "v4-lts"). Leave empty to skip.'
+        type: string
+        default: ''
 
 permissions:
   contents: write   # Required to commit and push version changes back to the repo.
@@ -101,6 +105,22 @@ jobs:
           else
             echo "Skipping tag for $RELEASE (not a 3-segment version)"
           fi
+
+      - name: Apply extra tag
+        # If an extra_tag was provided at trigger time, push it to the current commit.
+        # The tag is force-pushed so it can be reused across releases (e.g. "stable", "latest").
+        # Blank / whitespace-only values are ignored.
+        if: inputs.extra_tag != ''
+        run: |
+          EXTRA_TAG="${{ inputs.extra_tag }}"
+          EXTRA_TAG="${EXTRA_TAG// /}"   # strip all spaces
+          if [[ -z "$EXTRA_TAG" ]]; then
+            echo "extra_tag is blank/whitespace — skipping"
+            exit 0
+          fi
+          git tag --force "$EXTRA_TAG"
+          git push --force origin "$EXTRA_TAG"
+          echo "Applied extra tag: $EXTRA_TAG"
 
       # ── build-release ─────────────────────────────────────────────────────────
       - name: Configure Maven settings for private GitHub Packages
