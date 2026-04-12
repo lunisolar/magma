@@ -3,6 +3,11 @@ name: Release-Privately
 on:
   # Triggered manually — no automated release runs.
   workflow_dispatch:
+    inputs:
+      force_redeploy:
+        description: 'Delete existing package versions before deploying (requires delete:packages scope on GH_PACKAGES_TOKEN)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write   # Required to commit and push version changes back to the repo.
@@ -112,6 +117,27 @@ jobs:
             echo "::error::Cannot access GitHub Packages registry (HTTP $STATUS). Ensure GH_PACKAGES_TOKEN secret exists and has write:packages scope."
             exit 1
           fi
+
+      - name: Delete existing package versions (force redeploy)
+        # Requires delete:packages scope on GH_PACKAGES_TOKEN.
+        # Lists all Maven packages in the org, finds versions matching the release version, and deletes them.
+        if: inputs.force_redeploy == true
+        env:
+          GH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+        run: |
+          RELEASE="${{ steps.release_version.outputs.release }}"
+          echo "Deleting existing package versions for $RELEASE ..."
+          PACKAGES=$(gh api "/orgs/${{ github.repository_owner }}/packages?package_type=maven" \
+            --paginate -q '.[].name')
+          for PKG in $PACKAGES; do
+            VERSION_ID=$(gh api "/orgs/${{ github.repository_owner }}/packages/maven/$PKG/versions" \
+              -q ".[] | select(.name == \"$RELEASE\") | .id" 2>/dev/null || true)
+            if [[ -n "$VERSION_ID" ]]; then
+              echo "  Deleting $PKG @ $RELEASE (id: $VERSION_ID)"
+              gh api --method DELETE \
+                "/orgs/${{ github.repository_owner }}/packages/maven/$PKG/versions/$VERSION_ID"
+            fi
+          done
 
       - name: Build, test and deploy to private GitHub Packages
         # Full build (compile → test → package → deploy).
