@@ -83,8 +83,9 @@ jobs:
 
       # ── build-release ─────────────────────────────────────────────────────────
       - name: Configure Maven settings for private GitHub Packages
-        # Use the built-in GITHUB_TOKEN — no extra secrets needed as long as all
-        # repositories belong to the same organization and packages: write is granted above.
+        # Publishing to a different repository's package registry requires a PAT
+        # with write:packages + read:packages scopes, stored as GH_PACKAGES_TOKEN.
+        # GITHUB_TOKEN is scoped to this repository only and cannot publish elsewhere.
         run: |
           mkdir -p ~/.m2
           cat > ~/.m2/settings.xml <<'EOF'
@@ -93,11 +94,24 @@ jobs:
               <server>
                 <id>github-private</id>
                 <username>${{ github.actor }}</username>
-                <password>${{ secrets.GITHUB_TOKEN }}</password>
+                <password>${{ secrets.GH_PACKAGES_TOKEN }}</password>
               </server>
             </servers>
           </settings>
           EOF
+
+      - name: Verify write access to private GitHub Packages registry
+        # Fast pre-check: HEAD the versions URL — a 404 is fine (package doesn't exist yet),
+        # a 401/403 means the token lacks write:packages and the deploy will fail.
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "Authorization: Bearer ${{ secrets.GH_PACKAGES_TOKEN }}" \
+            "https://maven.pkg.github.com/${{ github.repository_owner }}/lunisolar-github-private-repo/")
+          echo "Registry probe status: $STATUS"
+          if [[ "$STATUS" == "401" || "$STATUS" == "403" ]]; then
+            echo "::error::Cannot access GitHub Packages registry (HTTP $STATUS). Ensure GH_PACKAGES_TOKEN secret exists and has write:packages scope."
+            exit 1
+          fi
 
       - name: Build, test and deploy to private GitHub Packages
         # Full build (compile → test → package → deploy).
