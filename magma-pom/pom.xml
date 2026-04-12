@@ -140,19 +140,6 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <configuration>
-                    <!-- Deploy each module immediately (in reactor order) rather than
-                         batching all deployments at the end of the build.  The default
-                         deployAtEnd=true in 3.1.x causes GitHub Packages to report
-                         "Could not find artifact" because a parent POM is looked up
-                         from the remote before it has been uploaded. -->
-                    <deployAtEnd>false</deployAtEnd>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.9</version>
             </plugin>

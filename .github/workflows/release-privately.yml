@@ -102,9 +102,11 @@ jobs:
         # Full build (compile → test → package → deploy).
         # Artifacts land in the GitHub Packages registry of lunisolar-github-private-repo
         # inside the same organization that owns this repository.
+        # Note: maven-deploy-plugin 2.8.2 (pinned in root pom) requires the ::default::
+        # layout token in altDeploymentRepository.
         run: |
           mvn --batch-mode --no-transfer-progress clean deploy \
-            -DaltDeploymentRepository=github-private::https://maven.pkg.github.com/${{ github.repository_owner }}/lunisolar-github-private-repo
+            -DaltDeploymentRepository=github-private::default::https://maven.pkg.github.com/${{ github.repository_owner }}/lunisolar-github-private-repo
 
       - name: Upload build artifacts
         # Preserve JARs as workflow artifacts for auditing / manual inspection.
