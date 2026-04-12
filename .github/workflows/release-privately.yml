@@ -70,7 +70,8 @@ jobs:
         run: |
           mvn --batch-mode versions:set \
             -DnewVersion=${{ steps.release_version.outputs.release }} \
-            -DgenerateBackupPoms=false
+            -DgenerateBackupPoms=false \
+            -DprocessAllModules=true
 
       - name: Commit and push release version
         run: |
@@ -101,10 +102,12 @@ jobs:
       - name: Build, test and deploy to private GitHub Packages
         # Full build (compile → test → package → deploy).
         # Artifacts land in the GitHub Packages registry of lunisolar-github-private-repo.
-        # The deployment URL is configured in distributionManagement in pom.xml using
-        # ${env.GITHUB_REPOSITORY_OWNER}, which GitHub Actions sets automatically.
+        # The release repository comes from distributionManagement in magma-pom/pom.xml.
+        # The snapshot repository is overridden here so ossrh (kept in pom.xml for OSS
+        # releases) is never contacted by this private-release workflow.
         run: |
-          mvn --batch-mode --no-transfer-progress clean deploy
+          mvn --batch-mode --no-transfer-progress clean deploy \
+            -DaltSnapshotDeploymentRepository=github-private::https://maven.pkg.github.com/${{ github.repository_owner }}/lunisolar-github-private-repo
 
       - name: Upload build artifacts
         # Preserve JARs as workflow artifacts for auditing / manual inspection.
@@ -145,7 +148,8 @@ jobs:
         run: |
           mvn --batch-mode versions:set \
             -DnewVersion=${{ steps.next_snapshot.outputs.next }} \
-            -DgenerateBackupPoms=false
+            -DgenerateBackupPoms=false \
+            -DprocessAllModules=true
 
       - name: Commit and push next snapshot version
         run: |
