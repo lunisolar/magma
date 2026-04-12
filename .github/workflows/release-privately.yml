@@ -99,9 +99,9 @@ jobs:
         run: |
           RELEASE="${{ steps.release_version.outputs.release }}"
           if [[ "$RELEASE" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            git tag "v${RELEASE}"
-            git push origin "v${RELEASE}"
-            echo "Tagged v${RELEASE}"
+            git tag "${RELEASE}"
+            git push origin "${RELEASE}"
+            echo "Tagged ${RELEASE}"
           else
             echo "Skipping tag for $RELEASE (not a 3-segment version)"
           fi
