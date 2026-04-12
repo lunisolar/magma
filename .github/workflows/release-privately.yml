@@ -56,6 +56,7 @@ jobs:
       # ── pre-build ─────────────────────────────────────────────────────────────
       - name: Pre-build — compile and test
         # Verify the full build is green *before* touching versions or pushing anything.
+        # Tests run exactly once here; the deploy step below skips them via -DskipTests.
         run: mvn --batch-mode --no-transfer-progress clean verify
 
       # ── prepare-version ───────────────────────────────────────────────────────
@@ -154,14 +155,16 @@ jobs:
             fi
           done
 
-      - name: Build, test and deploy to private GitHub Packages
-        # Full build (compile → test → package → deploy).
+      - name: Build and deploy to private GitHub Packages
+        # Compile and deploy with the release version.
+        # Tests are skipped — they already passed in the "Compile and test" step above.
         # Artifacts land in the GitHub Packages registry of lunisolar-github-private-repo.
         # The release repository comes from distributionManagement in magma-pom/pom.xml.
         # The snapshot repository is overridden here so ossrh (kept in pom.xml for OSS
         # releases) is never contacted by this private-release workflow.
         run: |
           mvn --batch-mode --no-transfer-progress clean deploy \
+            -DskipTests \
             -DaltSnapshotDeploymentRepository=github-private::https://maven.pkg.github.com/${{ github.repository_owner }}/lunisolar-github-private-repo
 
       - name: Upload build artifacts
