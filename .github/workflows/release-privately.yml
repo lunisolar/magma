@@ -16,6 +16,7 @@ concurrency:
 jobs:
   release:
     name: Release-Privately
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     steps:

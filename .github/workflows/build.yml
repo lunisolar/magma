@@ -1,10 +1,8 @@
 name: Build and verify
 
 on:
-  push:
-    branches: [ "**" ]
-  pull_request:
-    branches: [ "**" ]
+  # Triggered manually — no automated release runs.
+  workflow_dispatch:
 
 jobs:
   build:
