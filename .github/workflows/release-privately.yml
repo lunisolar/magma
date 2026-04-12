@@ -7,7 +7,7 @@ on:
       force_redeploy:
         description: 'Delete existing package versions before deploying (requires delete:packages scope on GH_PACKAGES_TOKEN)'
         type: boolean
-        default: false
+        default: true
 
 permissions:
   contents: write   # Required to commit and push version changes back to the repo.
