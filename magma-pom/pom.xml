@@ -21,17 +21,49 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>eu.lunisolar</groupId>
-        <artifactId>magma</artifactId>
-        <version>4.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
-
     <groupId>eu.lunisolar.magma</groupId>
     <artifactId>magma-pom</artifactId>
     <version>4.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+    <name>Lunisolar Magma — BOM / Parent</name>
+    <description>Bill of Materials and shared build configuration for lunisolar-magma modules.</description>
+    <url>http://lunisolar.eu/magma</url>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Jakub Wach</name>
+            <email>jakub.wach@</email>
+            <organization>Lunisolar</organization>
+            <organizationUrl>http://lunisolar.eu</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/lunisolar/magma</url>
+        <connection>scm:git:ssh://git@github.com/lunisolar/magma.git</connection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <!-- Release artifacts go to the private GitHub Packages registry.
+             ${env.GITHUB_REPOSITORY_OWNER} is provided automatically by GitHub Actions. -->
+        <repository>
+            <id>github-private</id>
+            <url>https://maven.pkg.github.com/${env.GITHUB_REPOSITORY_OWNER}/lunisolar-github-private-repo</url>
+        </repository>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <properties>
 

@@ -29,41 +29,10 @@
     <description>Library of throwing and non-throwing functional interfaces (lambda interfaces) for Java 8</description>
     <url>http://lunisolar.eu/magma</url>
 
-    <licenses>
-        <license>
-            <name>The Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
-
-    <developers>
-        <developer>
-            <name>Jakub Wach</name>
-            <email>jakub.wach@</email>
-            <organization>Lunisolar</organization>
-            <organizationUrl>http://lunisolar.eu</organizationUrl>
-        </developer>
-    </developers>
-
-    <scm>
-        <url>https://github.com/lunisolar/magma</url>
-        <connection>scm:git:ssh://git@github.com/lunisolar/magma.git</connection>
-      <tag>HEAD</tag>
-  </scm>
-
-    <distributionManagement>
-        <!-- Release artifacts go to the private GitHub Packages registry.
-             ${env.GITHUB_REPOSITORY_OWNER} is provided automatically by GitHub Actions;
-             override it locally if needed: -Denv.GITHUB_REPOSITORY_OWNER=lunisolar -->
-        <repository>
-            <id>github-private</id>
-            <url>https://maven.pkg.github.com/${env.GITHUB_REPOSITORY_OWNER}/lunisolar-github-private-repo</url>
-        </repository>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
+    <properties>
+        <!-- Reactor-only root POM — never deployed to any registry. -->
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
 
     <modules>
         <module>magma-pom</module>
