@@ -1,0 +1,153 @@
+name: Release-Privately
+
+on:
+  # Triggered manually — no automated release runs.
+  workflow_dispatch:
+
+permissions:
+  contents: write  # Required to commit and push version changes back to the repo.
+
+concurrency:
+  # Only one release at a time; never cancel an in-progress release.
+  group: release-privately
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Release-Privately
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── checkout & toolchain ──────────────────────────────────────────────────
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          # Full history is needed so we can push commits back.
+          fetch-depth: 0
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      # ── pre-check ─────────────────────────────────────────────────────────────
+      - name: Read current version
+        id: version
+        run: |
+          CURRENT=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)
+          echo "current=$CURRENT" >> "$GITHUB_OUTPUT"
+          echo "Current version: $CURRENT"
+
+      - name: Verify SNAPSHOT version
+        # Guard rail: releasing from a non-SNAPSHOT would indicate the version was
+        # already released or bumped incorrectly.
+        run: |
+          if [[ ! "${{ steps.version.outputs.current }}" == *-SNAPSHOT ]]; then
+            echo "::error::Current version '${{ steps.version.outputs.current }}' is not a SNAPSHOT. Release aborted."
+            exit 1
+          fi
+
+      # ── pre-build ─────────────────────────────────────────────────────────────
+      - name: Pre-build — compile and test
+        # Verify the full build is green *before* touching versions or pushing anything.
+        run: mvn --batch-mode --no-transfer-progress clean verify
+
+      # ── prepare-version ───────────────────────────────────────────────────────
+      - name: Compute release version
+        id: release_version
+        run: |
+          # The release version is the current SNAPSHOT version with the -SNAPSHOT suffix stripped.
+          RELEASE="${{ steps.version.outputs.current }}"
+          RELEASE="${RELEASE%-SNAPSHOT}"
+          echo "release=$RELEASE" >> "$GITHUB_OUTPUT"
+          echo "Release version: $RELEASE"
+
+      - name: Set release version in pom files
+        run: |
+          mvn --batch-mode versions:set \
+            -DnewVersion=${{ steps.release_version.outputs.release }} \
+            -DgenerateBackupPoms=false
+
+      - name: Commit and push release version
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: release version ${{ steps.release_version.outputs.release }}"
+          git push
+
+      # ── build-release ─────────────────────────────────────────────────────────
+      - name: Configure Maven settings for private GitHub Packages
+        # Inject server credentials so Maven can authenticate against the private registry.
+        # PRIVATE_PACKAGES_TOKEN must be a PAT (or fine-grained token) with write:packages
+        # scope for the target organisation.
+        run: |
+          mkdir -p ~/.m2
+          cat > ~/.m2/settings.xml <<'EOF'
+          <settings>
+            <servers>
+              <server>
+                <id>github-private</id>
+                <username>${{ github.actor }}</username>
+                <password>${{ secrets.PRIVATE_PACKAGES_TOKEN }}</password>
+              </server>
+            </servers>
+          </settings>
+          EOF
+
+      - name: Build, test and deploy to private GitHub Packages
+        # Full build (compile → test → package → deploy).
+        # Artifacts land in the GitHub Packages registry of lunisolar-github-private-repo
+        # inside the same organisation that owns this repository.
+        run: |
+          mvn --batch-mode --no-transfer-progress clean deploy \
+            -DaltDeploymentRepository=github-private::https://maven.pkg.github.com/${{ github.repository_owner }}/lunisolar-github-private-repo
+
+      - name: Upload build artifacts
+        # Preserve JARs as workflow artifacts for auditing / manual inspection.
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artifacts-${{ steps.release_version.outputs.release }}
+          path: '**/target/*.jar'
+          if-no-files-found: ignore
+
+      # ── prepare-snapshot-version ──────────────────────────────────────────────
+      - name: Compute next snapshot version
+        id: next_snapshot
+        # Version bumping rules:
+        #   4.0.0   → 4.0.0.1-SNAPSHOT  (add 4th segment, starting at 1)
+        #   4.0.0.1 → 4.0.0.2-SNAPSHOT  (increment existing 4th segment)
+        run: |
+          set -euo pipefail
+          RELEASE="${{ steps.release_version.outputs.release }}"
+
+          if [[ "$RELEASE" =~ ^([0-9]+\.[0-9]+\.[0-9]+)\.([0-9]+)$ ]]; then
+            # 4-segment version — increment the last segment.
+            BASE="${BASH_REMATCH[1]}"
+            FOURTH="${BASH_REMATCH[2]}"
+            NEXT="${BASE}.$((FOURTH + 1))-SNAPSHOT"
+          elif [[ "$RELEASE" =~ ^([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            # 3-segment version — append the initial 4th segment.
+            NEXT="${RELEASE}.1-SNAPSHOT"
+          else
+            echo "::error::Unrecognised release version format: $RELEASE"
+            exit 1
+          fi
+
+          echo "next=$NEXT" >> "$GITHUB_OUTPUT"
+          echo "Next snapshot version: $NEXT"
+
+      - name: Set next snapshot version in pom files
+        run: |
+          mvn --batch-mode versions:set \
+            -DnewVersion=${{ steps.next_snapshot.outputs.next }} \
+            -DgenerateBackupPoms=false
+
+      - name: Commit and push next snapshot version
+        run: |
+          git add .
+          git commit -m "chore: prepare next development version ${{ steps.next_snapshot.outputs.next }}"
+          git push
