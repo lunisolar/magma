@@ -45,16 +45,13 @@ jobs:
         run: |
           CURRENT=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)
           echo "current=$CURRENT" >> "$GITHUB_OUTPUT"
-          echo "Current version: $CURRENT"
-
-      - name: Verify SNAPSHOT version
-        # Guard rail: releasing from a non-SNAPSHOT would indicate the version was
-        # already released or bumped incorrectly.
-        run: |
-          if [[ ! "${{ steps.version.outputs.current }}" == *-SNAPSHOT ]]; then
-            echo "::error::Current version '${{ steps.version.outputs.current }}' is not a SNAPSHOT. Release aborted."
-            exit 1
+          # Expose whether this is a SNAPSHOT so later steps can skip version-bump work.
+          if [[ "$CURRENT" == *-SNAPSHOT ]]; then
+            echo "is_snapshot=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_snapshot=false" >> "$GITHUB_OUTPUT"
           fi
+          echo "Current version: $CURRENT"
 
       # ── pre-build ─────────────────────────────────────────────────────────────
       - name: Pre-build — compile and test
@@ -65,13 +62,16 @@ jobs:
       - name: Compute release version
         id: release_version
         run: |
-          # The release version is the current SNAPSHOT version with the -SNAPSHOT suffix stripped.
           RELEASE="${{ steps.version.outputs.current }}"
+          # If this is a SNAPSHOT, strip the suffix to get the release version.
+          # If it is already a release version, use it as-is and skip version commits.
           RELEASE="${RELEASE%-SNAPSHOT}"
           echo "release=$RELEASE" >> "$GITHUB_OUTPUT"
           echo "Release version: $RELEASE"
 
       - name: Set release version in pom files
+        # Only needed when starting from a SNAPSHOT — already a release version, nothing to change.
+        if: steps.version.outputs.is_snapshot == 'true'
         run: |
           mvn --batch-mode versions:set \
             -DnewVersion=${{ steps.release_version.outputs.release }} \
@@ -79,6 +79,8 @@ jobs:
             -DprocessAllModules=true
 
       - name: Commit and push release version
+        # Only needed when starting from a SNAPSHOT — already a release version, nothing to commit.
+        if: steps.version.outputs.is_snapshot == 'true'
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -174,9 +176,12 @@ jobs:
       # ── prepare-snapshot-version ──────────────────────────────────────────────
       - name: Compute next snapshot version
         id: next_snapshot
+        # Only needed when we started from a SNAPSHOT — if the user triggered the workflow
+        # on an already-released version there is no SNAPSHOT to advance to.
         # Version bumping rules:
         #   4.0.0   → 4.0.0.1-SNAPSHOT  (add 4th segment, starting at 1)
         #   4.0.0.1 → 4.0.0.2-SNAPSHOT  (increment existing 4th segment)
+        if: steps.version.outputs.is_snapshot == 'true'
         run: |
           set -euo pipefail
           RELEASE="${{ steps.release_version.outputs.release }}"
@@ -198,6 +203,7 @@ jobs:
           echo "Next snapshot version: $NEXT"
 
       - name: Set next snapshot version in pom files
+        if: steps.version.outputs.is_snapshot == 'true'
         run: |
           mvn --batch-mode versions:set \
             -DnewVersion=${{ steps.next_snapshot.outputs.next }} \
@@ -205,6 +211,7 @@ jobs:
             -DprocessAllModules=true
 
       - name: Commit and push next snapshot version
+        if: steps.version.outputs.is_snapshot == 'true'
         run: |
           git add .
           git commit -m "chore: prepare next development version ${{ steps.next_snapshot.outputs.next }}"
