@@ -130,12 +130,25 @@ jobs:
           PACKAGES=$(gh api "/orgs/${{ github.repository_owner }}/packages?package_type=maven" \
             --paginate -q '.[].name')
           for PKG in $PACKAGES; do
-            VERSION_ID=$(gh api "/orgs/${{ github.repository_owner }}/packages/maven/$PKG/versions" \
-              -q ".[] | select(.name == \"$RELEASE\") | .id" 2>/dev/null || true)
+            # Fetch all versions once so we can both find the target and count remaining versions.
+            VERSIONS=$(gh api "/orgs/${{ github.repository_owner }}/packages/maven/$PKG/versions" \
+              2>/dev/null || true)
+            VERSION_ID=$(echo "$VERSIONS" | jq -r ".[] | select(.name == \"$RELEASE\") | .id")
+
             if [[ -n "$VERSION_ID" ]]; then
-              echo "  Deleting $PKG @ $RELEASE (id: $VERSION_ID)"
-              gh api --method DELETE \
-                "/orgs/${{ github.repository_owner }}/packages/maven/$PKG/versions/$VERSION_ID"
+              TOTAL=$(echo "$VERSIONS" | jq 'length')
+              if [[ "$TOTAL" -le 1 ]]; then
+                # GitHub does not allow deleting the last version of a package —
+                # the whole package must be deleted instead.
+                echo "  Deleting entire package $PKG (only version is $RELEASE)"
+                gh api --method DELETE \
+                  "/orgs/${{ github.repository_owner }}/packages/maven/$PKG"
+              else
+                # Other versions exist, so we can safely delete just this one.
+                echo "  Deleting $PKG @ $RELEASE (id: $VERSION_ID)"
+                gh api --method DELETE \
+                  "/orgs/${{ github.repository_owner }}/packages/maven/$PKG/versions/$VERSION_ID"
+              fi
             fi
           done
 
