@@ -23,7 +23,7 @@
 
     <groupId>eu.lunisolar.magma</groupId>
     <artifactId>magma-pom</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
+    <version>4.0.0</version>
     <packaging>pom</packaging>
 
     <name>Lunisolar Magma — BOM / Parent</name>
@@ -111,28 +111,28 @@
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-basics</artifactId>
-                <version>4.0.0-SNAPSHOT</version>
+                <version>4.0.0</version>
             </dependency>
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-func</artifactId>
-                <version>4.0.0-SNAPSHOT</version>
+                <version>4.0.0</version>
             </dependency>
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-asserts</artifactId>
-                <version>4.0.0-SNAPSHOT</version>
+                <version>4.0.0</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-func-builder</artifactId>
-                <version>4.0.0-SNAPSHOT</version>
+                <version>4.0.0</version>
             </dependency>
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-func-supp</artifactId>
-                <version>4.0.0-SNAPSHOT</version>
+                <version>4.0.0</version>
             </dependency>
 
             <!--External dependencies-->
