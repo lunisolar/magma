@@ -7,3 +7,4 @@ on:
 jobs:
   java-ci:
     uses: lunisolar/lunisolar-github-workflows/.github/workflows/ci-build-and-verify.maven.2026.yml@main
+    secrets: inherit
