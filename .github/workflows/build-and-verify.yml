@@ -5,10 +5,5 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build and verify
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout source
-        uses: lunisolar/lunisolar-github-workflows/.github/workflows/ci-build-and-verify.maven.2026.yml@main
+  java-ci:
+    uses: lunisolar/lunisolar-github-workflows/.github/workflows/ci-build-and-verify.maven.2026.yml@main
