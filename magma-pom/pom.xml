@@ -79,7 +79,7 @@
         <jsr305-version>3.0.0</jsr305-version>
 
         <!-- Logging -->
-        <log4j2-version>2.20.0</log4j2-version>
+        <log4j2-version>2.25.5</log4j2-version>
 
         <!-- test -->
         <testNg-version>6.14.3</testNg-version>
